@@ -37,38 +37,38 @@ export default new Vuex.Store({
       state.lookup.referencedBy = {}
       for (let i = 0; i < state.event.schedules.length; i += 1) {
         schedule = state.event.schedules[i]
-        state.lookup.schedules[schedule.id] = schedule
+        Vue.set(state.lookup.schedules, schedule.id, schedule)
         for (let j = 0; j < schedule.elements.length; j += 1) {
           element = schedule.elements[j]
-          state.lookup.elements[element.id] = element
+          Vue.set(state.lookup.elements, element.id, element)
           if (element.start.ref) {
             if (state.lookup.referencedBy[element.start.ref]) {
               state.lookup.referencedBy[element.start.ref].add(element.id)
             } else {
-              state.lookup.referencedBy[element.start.ref] = new Set([element.id])
+              Vue.set(state.lookup.referencedBy, element.start.ref, new Set([element.id]))
             }
           }
           if (element.end.ref) {
             if (state.lookup.referencedBy[element.end.ref]) {
               state.lookup.referencedBy[element.end.ref].add(element.id)
             } else {
-              state.lookup.referencedBy[element.end.ref] = new Set([element.id])
+              Vue.set(state.lookup.referencedBy, element.end.ref, new Set([element.id]))
             }
           }
         }
       }
     },
     addElementId (state, { id, target }) {
-      state.lookup.elements[id] = target
+      Vue.set(state.lookup.elements, id, target)
     },
     removeElementId (state, id) {
-      delete state.lookup.elements[id]
+      Vue.delete(state.lookup.elements, id)
     },
     addScheduleId (state, { id, target }) {
-      state.lookup.schedules[id] = target
+      Vue.set(state.lookup.schedules, id, target)
     },
     removeScheduleId (state, id) {
-      delete state.lookup.schedules[id]
+      Vue.delete(state.lookup.schedules, id)
     },
     setZoomFactor (state, pixelsPerHour) {
       state.display.pixelsPerHour = pixelsPerHour
@@ -105,7 +105,7 @@ export default new Vuex.Store({
         for (let i = 0; i < pathSplits.length - 1; i += 1) {
           iterObj = iterObj[pathSplits[i]]
         }
-        iterObj[pathSplits.slice(-1)[0]] = value
+        Vue.set(iterObj, pathSplits.slice(-1)[0], value)
       } catch (err) {}
     },
     addSchedule (state, { newSchedule, position }) {
@@ -142,23 +142,23 @@ export default new Vuex.Store({
     },
     setStartTime (state, { elementID, startTime }) {
       if (state.lookup.calculatedTimes[elementID]) {
-        state.lookup.calculatedTimes[elementID].start = startTime
+        Vue.set(state.lookup.calculatedTimes[elementID], 'start', startTime)
       } else {
-        state.lookup.calculatedTimes[elementID] = { start: startTime }
+        Vue.set(state.lookup.calculatedTimes, elementID, { start: startTime })
       }
     },
     setEndTime (state, { elementID, endTime }) {
       if (state.lookup.calculatedTimes[elementID]) {
-        state.lookup.calculatedTimes[elementID].end = endTime
+        Vue.set(state.lookup.calculatedTimes[elementID], 'end', endTime)
       } else {
-        state.lookup.calculatedTimes[elementID] = { end: endTime }
+        Vue.set(state.lookup.calculatedTimes, elementID, { end: endTime })
       }
     },
     setEventOffset (state, { elementID, eventOffset }) {
       if (state.lookup.calculatedTimes[elementID]) {
-        state.lookup.calculatedTimes[elementID].eventOffset = eventOffset
+        Vue.set(state.lookup.calculatedTimes[elementID], 'eventOffset', eventOffset)
       } else {
-        state.lookup.calculatedTimes[elementID] = { end: eventOffset }
+        Vue.set(state.lookup.calculatedTimes, elementID, { end: eventOffset })
       }
     }
   },
@@ -172,7 +172,7 @@ export default new Vuex.Store({
         temporaryChange: null
       }
       context.commit('generateLookupTable')
-      // context.dispatch('calculateTimes')
+      context.dispatch('calculateTimes')
     },
     calculateTimes (context) {
       context.state.lookup.calculatedTimes = {}
@@ -293,16 +293,20 @@ export default new Vuex.Store({
       }
       context.commit('setEndTime', { elementID, endTime })
     },
-    update (context, { actions, canUndo = false }) {
+    update (context, { actions, canUndo = false, isUndo = false }) {
       let action
       let element
+      const updatedElements = new Set()
       for (let i = 0; i < actions.length; i += 1) {
         action = actions[i]
         element = context.getters.lookupElement(action.id)
         // ToDo error handling
         if (element) {
-          if (context.getters.getNestedProperty(action.id, action.path) === action.oldValue) {
-            context.commit('setNestedElementProperty', { elementID: action.id, path: action.path, value: action.newValue })
+          if (context.getters.getNestedProperty(action.id, action.path) === (isUndo ? action.newValue : action.oldValue)) {
+            context.commit('setNestedElementProperty', { elementID: action.id, path: action.path, value: isUndo ? action.oldValue : action.newValue })
+            if (action.path.startsWith('start') || action.path.startsWith('end')) {
+              updatedElements.add(action.id)
+            }
           } else {
             return
           }
@@ -310,26 +314,11 @@ export default new Vuex.Store({
           return
         }
       }
-      if (canUndo) {
+      for (const ref of updatedElements) {
+        context.dispatch('recalculateTime', ref)
+      }
+      if (!isUndo && canUndo) {
         context.commit('pushUndo', { type: 'update', actions })
-      }
-    },
-    undoUpdate (context, actions) {
-      let action
-      let element
-      for (let i = 0; i < actions.length; i += 1) {
-        action = actions[i]
-        element = context.getters.lookupElement(action.id)
-        // ToDo error handling
-        if (element) {
-          if (context.getters.getNestedProperty(action.id, action.path) === action.newValue) {
-            context.commit('setNestedElementProperty', { elementID: action.id, path: action.path, value: action.oldValue })
-          } else {
-            return
-          }
-        } else {
-          return
-        }
       }
     },
     addSchedule (context, { newSchedule, position = null, canUndo = false }) {
@@ -377,7 +366,7 @@ export default new Vuex.Store({
       if (lastUndo) {
         switch (lastUndo.type) {
           case 'update':
-            context.dispatch('undoUpdate', lastUndo.actions)
+            context.dispatch('update', { actions: lastUndo.actions, isUndo: true })
             break
           case 'addSchedule':
             context.dispatch('removeSchedule', { scheduleID: lastUndo.newSchedule.id, canUndo: false })
@@ -431,9 +420,16 @@ export default new Vuex.Store({
     },
     clearTemporary (context) {
       if (context.state.history.temporaryChange) {
+        const updatedElements = new Set()
         for (let i = 0; i < context.state.history.temporaryChange.length; i += 1) {
           const action = context.state.history.temporaryChange[i]
           context.commit('setNestedElementProperty', { elementID: action.id, path: action.path, value: action.oldValue })
+          if (action.path.startsWith('start') || action.path.startsWith('end')) {
+            updatedElements.add(action.id)
+          }
+        }
+        for (const ref of updatedElements) {
+          context.dispatch('recalculateTime', ref)
         }
       }
       context.commit('clearTemporary')
@@ -441,24 +437,26 @@ export default new Vuex.Store({
     setTemporary (context, actions) {
       context.dispatch('clearTemporary')
       context.commit('setTemporary', actions)
+      const updatedElements = new Set()
       for (let i = 0; i < actions.length; i += 1) {
         const action = actions[i]
         action.oldValue = context.getters.getNestedProperty(action.id, action.path)
         context.commit('setNestedElementProperty', { elementID: action.id, path: action.path, value: action.newValue })
+        if (action.path.startsWith('start') || action.path.startsWith('end')) {
+          updatedElements.add(action.id)
+        }
+      }
+      for (const ref of updatedElements) {
+        context.dispatch('recalculateTime', ref)
       }
     },
-    propagateUpdate (context, sourceID) {
-      context.dispatch('calculateTimes')
-      /*
-      Doesn't work as i want it to...
-
+    recalculateTime (context, sourceID) {
       context.dispatch('calculateTime', sourceID)
       if (context.state.lookup.referencedBy[sourceID]) {
         for (let ref of context.state.lookup.referencedBy[sourceID]) {
-          context.dispatch('calculateTime', ref)
-          context.dispatch('propagateUpdate', ref)
+          context.dispatch('recalculateTime', ref)
         }
-      } */
+      }
     }
   },
   getters: {
@@ -471,68 +469,8 @@ export default new Vuex.Store({
         return undefined
       }
     },
-    getStartTime: (state, getters) => (element) => {
-      if (element.start.actualTime) {
-        return moment(element.start.actualTime)
-      }
-      let referencedElement
-      switch (element.start.type || 'absolute') {
-        case 'absolute':
-          return moment(element.start.time).add(moment.duration(element.start.offset || 0))
-        case 'startOf':
-          referencedElement = getters.lookupElement(element.start.ref)
-          if (referencedElement) {
-            return getters.getStartTime(referencedElement)
-          } else {
-            // safety valve
-            return moment(state.event.start)
-          }
-        case 'endOf':
-          referencedElement = getters.lookupElement(element.start.ref)
-          if (referencedElement) {
-            return getters.getEndTime(referencedElement)
-          } else {
-            // safety valve
-            return moment(state.event.start)
-          }
-        default:
-          // safety valve
-          return moment(state.event.start)
-      }
-    },
-    getCachedStartTime: (state, getters) => element => state.lookup.calculatedTimes[element.id] ? state.lookup.calculatedTimes[element.id].start : null,
-    getEndTime: (state, getters) => (element) => {
-      if (element.end.actualTime) {
-        return moment(element.end.actualTime)
-      }
-      let referencedElement
-      switch (element.end.type || 'absolute') {
-        case 'absolute':
-          return moment(element.end.time).add(moment.duration(element.end.offset || 0))
-        case 'duration':
-          return moment(getters.getStartTime(element)).add(getters.getDuration(element))
-        case 'startOf':
-          referencedElement = getters.lookupElement(element.start.ref)
-          if (referencedElement) {
-            return getters.getStartTime(referencedElement)
-          } else {
-            // safety valve
-            return moment(state.event.end)
-          }
-        case 'endOf':
-          referencedElement = getters.lookupElement(element.start.ref)
-          if (referencedElement) {
-            return getters.getEndTime(referencedElement)
-          } else {
-            // safety valve
-            return moment(state.event.end)
-          }
-        default:
-          // safety valve
-          return moment(state.event.end)
-      }
-    },
-    getCachedEndTime: (state, getters) => element => state.lookup.calculatedTimes[element.id] ? state.lookup.calculatedTimes[element.id].end : null,
+    getStartTime: (state, getters) => element => state.lookup.calculatedTimes[element.id] ? state.lookup.calculatedTimes[element.id].start : null,
+    getEndTime: (state, getters) => element => state.lookup.calculatedTimes[element.id] ? state.lookup.calculatedTimes[element.id].end : null,
     getDuration: (state, getters) => (element) => {
       if (!element.end.type || element.end.type === 'duration') {
         return moment.duration(element.start.setup || 0)
@@ -543,8 +481,7 @@ export default new Vuex.Store({
     },
     pixelsPerHour: state => state.display.pixelsPerHour || 100,
     snapToMinutes: state => state.display.snapToMinutes || 15,
-    getEventOffset: (state, getters) => (element) => moment.duration(moment(getters.getStartTime(element)).diff(moment(state.event.start))),
-    getCachedEventOffset: (state, getters) => element => state.lookup.calculatedTimes[element.id] ? state.lookup.calculatedTimes[element.id].eventOffset : null,
+    getEventOffset: (state, getters) => element => state.lookup.calculatedTimes[element.id] ? state.lookup.calculatedTimes[element.id].eventOffset : null,
     getStartOfSchedule: (state, getters) => scheduleID =>
       moment(state.event.start).add(moment.duration(getters.lookupSchedule(scheduleID).offset || 0)),
     getEndOfSchedule: (state, getters) => (scheduleID) => {

@@ -24,7 +24,8 @@ export default new Vuex.Store({
     },
     lookup: {
       schedules: {},
-      elements: {}
+      elements: {},
+      calculatedTimes: {}
     }
   },
   mutations: {
@@ -33,7 +34,6 @@ export default new Vuex.Store({
       let element
       state.lookup.schedules = {}
       state.lookup.elements = {}
-      state.lookup.referencedBy = {}
       for (let i = 0; i < state.event.schedules.length; i += 1) {
         schedule = state.event.schedules[i]
         Vue.set(state.lookup.schedules, schedule.id, schedule)
@@ -125,9 +125,8 @@ export default new Vuex.Store({
       state.display.hoverHighlightTarget = null
       state.display.hoverHighlightSide = null
     },
-    invalidateCache (state) {
-      Vue.set(state.lookup, 'getStartTime', _.memoize(calculateStartTime))
-      Vue.set(state.lookup, 'getEndTime', _.memoize(calculateEndTime))
+    recalculateSchedule (state) {
+      state.lookup.calculatedTimes = calculateTimes(state)
     }
   },
   actions: {
@@ -140,7 +139,7 @@ export default new Vuex.Store({
         temporaryChange: null
       }
       context.commit('generateLookupTable')
-      context.commit('invalidateCache')
+      context.commit('recalculateSchedule')
     },
     update (context, { actions, canUndo = false, isUndo = false }) {
       let action
@@ -164,7 +163,7 @@ export default new Vuex.Store({
         }
       }
       if (updatedElements) {
-        context.commit('invalidateCache')
+        context.commit('recalculateSchedule')
       }
       if (!isUndo && canUndo) {
         context.commit('pushUndo', { type: 'update', actions })
@@ -278,7 +277,7 @@ export default new Vuex.Store({
           }
         }
         if (updatedElements) {
-          context.commit('invalidateCache')
+          context.commit('recalculateSchedule')
         }
       }
       context.commit('clearTemporary')
@@ -296,7 +295,7 @@ export default new Vuex.Store({
         }
       }
       if (updatedElements) {
-        context.commit('invalidateCache')
+        context.commit('recalculateSchedule')
       }
     }
   },
@@ -310,16 +309,9 @@ export default new Vuex.Store({
         return undefined
       }
     },
-    getStartTime: (state, getters) => element => state.lookup.getStartTime(element.id, state, getters),
-    getEndTime: (state, getters) => element => state.lookup.getEndTime(element.id, state, getters),
-    getDuration: (state, getters) => (element) => {
-      if (!element.end.type || element.end.type === 'duration') {
-        return moment.duration(element.start.setup || 0)
-          .add(moment.duration(element.end.duration))
-          .add(moment.duration(element.end.teardown || 0))
-      }
-      return moment.duration(getters.getEndTime(element).diff(getters.getStartTime(element)))
-    },
+    getStartTime: state => element => state.lookup.calculatedTimes[element.id]['start'],
+    getEndTime: state => element => state.lookup.calculatedTimes[element.id]['end'],
+    getDuration: state => element => state.lookup.calculatedTimes[element.id]['duration'],
     pixelsPerHour: state => state.display.pixelsPerHour || 100,
     snapToMinutes: state => state.display.snapToMinutes || 15,
     getEventOffset: (state, getters) => element => moment.duration(moment(getters.getStartTime(element)).diff(moment(state.event.start))),
@@ -352,8 +344,27 @@ export default new Vuex.Store({
   }
 })
 
-function calculateStartTime (elementID, state, getters) {
-  const element = getters.lookupElement(elementID)
+function calculateTimes (state) {
+  console.log('recalculate')
+  const calculatedTimes = {}
+  let schedule
+  let element
+  for (let i = 0; i < state.event.schedules.length; i += 1) {
+    schedule = state.event.schedules[i]
+    for (let j = 0; j < schedule.elements.length; j += 1) {
+      element = schedule.elements[j]
+      calculateStartTime(element, state, calculatedTimes)
+      calculateEndTime(element, state, calculatedTimes)
+      calculateDuration(element, state, calculatedTimes)
+    }
+  }
+  return calculatedTimes
+}
+
+function calculateStartTime (element, state, calculatedTimes) {
+  if (element.id in calculatedTimes && 'start' in calculatedTimes[element.id]) {
+    return
+  }
 
   if (element.start.actualTime) {
     return moment(element.start.actualTime)
@@ -365,23 +376,34 @@ function calculateStartTime (elementID, state, getters) {
       startTime = moment(element.start.time).add(moment.duration(element.start.offset || 0))
       break
     case 'startOf':
-      referencedElement = getters.lookupElement(element.start.ref)
-      referencedElement ? startTime = moment(getters.getStartTime(referencedElement)) : startTime = moment(state.event.start)
+      referencedElement = state.lookup.elements[element.start.ref]
+      // calculate and then use
+      calculateStartTime(referencedElement, state, calculatedTimes)
+      startTime = moment(calculatedTimes[element.start.ref]['start'])
       break
     case 'endOf':
-      referencedElement = getters.lookupElement(element.start.ref)
-      referencedElement ? startTime = moment(getters.getEndTime(referencedElement)) : moment(state.event.start)
+      referencedElement = state.lookup.elements[element.start.ref]
+      // calculate and then use
+      calculateEndTime(referencedElement, state, calculatedTimes)
+      startTime = moment(calculatedTimes[element.start.ref]['end'])
       break
     default:
       // safety valve
       startTime = moment(state.event.start)
       break
   }
-  return startTime
+
+  if (element.id in calculatedTimes) {
+    calculatedTimes[element.id]['start'] = startTime
+  } else {
+    calculatedTimes[element.id] = { start: startTime }
+  }
 }
 
-function calculateEndTime (elementID, state, getters) {
-  const element = getters.lookupElement(elementID)
+function calculateEndTime (element, state, calculatedTimes) {
+  if (element.id in calculatedTimes && 'end' in calculatedTimes[element.id]) {
+    return
+  }
 
   if (element.end.actualTime) {
     return moment(element.end.actualTime)
@@ -393,20 +415,54 @@ function calculateEndTime (elementID, state, getters) {
       endTime = moment(element.end.time).add(moment.duration(element.end.offset || 0))
       break
     case 'duration':
-      endTime = moment(getters.getStartTime(element)).add(getters.getDuration(element))
+      calculateStartTime(element, state, calculatedTimes)
+      calculateDuration(element, state, calculatedTimes)
+      endTime = moment(calculatedTimes[element.id]['start']).add(calculatedTimes[element.id]['duration'])
       break
     case 'startOf':
-      referencedElement = getters.lookupElement(element.start.ref)
-      endTime = referencedElement ? moment(getters.getStartTime(referencedElement)) : moment(state.event.end)
+      referencedElement = state.lookup.elements[element.start.ref]
+      // calculate and then use
+      calculateStartTime(referencedElement, state, calculatedTimes)
+      endTime = moment(calculatedTimes[element.start.ref]['start'])
       break
     case 'endOf':
-      referencedElement = getters.lookupElement(element.start.ref)
-      referencedElement ? endTime = moment(getters.getEndTime(referencedElement)) : endTime = moment(state.event.end)
+      referencedElement = state.lookup.elements[element.start.ref]
+      // calculate and then use
+      calculateEndTime(referencedElement, state, calculatedTimes)
+      endTime = moment(calculatedTimes[element.start.ref]['end'])
       break
     default:
       // safety valve
       endTime = moment(state.event.end)
       break
   }
-  return endTime
+
+  if (element.id in calculatedTimes) {
+    calculatedTimes[element.id]['end'] = endTime
+  } else {
+    calculatedTimes[element.id] = { end: endTime }
+  }
+}
+
+function calculateDuration (element, state, calculatedTimes) {
+  if (element.id in calculatedTimes && 'duration' in calculatedTimes[element.id]) {
+    return
+  }
+
+  let duration
+  if (!element.end.type || element.end.type === 'duration') {
+    duration = moment.duration(element.start.setup || 0)
+      .add(moment.duration(element.end.duration))
+      .add(moment.duration(element.end.teardown || 0))
+  } else {
+    calculateStartTime(element, state, calculatedTimes)
+    calculateEndTime(element, state, calculatedTimes)
+    duration = moment.duration(calculatedTimes[element.start.ref]['end'].diff(calculatedTimes[element.start.ref]['start']))
+  }
+
+  if (element.id in calculatedTimes) {
+    calculatedTimes[element.id]['duration'] = duration
+  } else {
+    calculatedTimes[element.id] = { end: duration }
+  }
 }

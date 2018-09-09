@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import moment from 'moment'
-import _ from 'lodash'
 
 Vue.use(Vuex)
 
@@ -19,8 +18,7 @@ export default new Vuex.Store({
     event: {},
     history: {
       undo: [],
-      redo: [],
-      temporaryChange: null
+      redo: []
     },
     lookup: {
       schedules: {},
@@ -77,12 +75,6 @@ export default new Vuex.Store({
         state.history.undo.push(lastRedo)
       }
     },
-    clearTemporary (state) {
-      state.history.temporaryChange = null
-    },
-    setTemporary (state, actions) {
-      state.history.temporaryChange = actions
-    },
     setNestedElementProperty (state, { elementID, path, value }) {
       try {
         const pathSplits = path.split('.')
@@ -135,8 +127,7 @@ export default new Vuex.Store({
       state.event = event
       state.history = {
         undo: [],
-        redo: [],
-        temporaryChange: null
+        redo: []
       }
       context.commit('generateLookupTable')
       context.commit('recalculateSchedule')
@@ -209,7 +200,6 @@ export default new Vuex.Store({
       }
     },
     undo (context) {
-      context.dispatch('clearTemporary')
       const lastUndo = context.state.history.undo.slice(-1)[0]
       if (lastUndo) {
         switch (lastUndo.type) {
@@ -235,7 +225,6 @@ export default new Vuex.Store({
       }
     },
     redo (context) {
-      context.dispatch('clearTemporary')
       const lastRedo = context.state.history.redo.slice(-1)[0]
       if (lastRedo) {
         switch (lastRedo.type) {
@@ -261,41 +250,8 @@ export default new Vuex.Store({
       }
     },
     apply (context, transformation) {
-      context.dispatch('clearTemporary')
       if (transformation.type === 'update') {
         context.dispatch('update', transformation)
-      }
-    },
-    clearTemporary (context) {
-      if (context.state.history.temporaryChange) {
-        const updatedElements = new Set()
-        for (let i = 0; i < context.state.history.temporaryChange.length; i += 1) {
-          const action = context.state.history.temporaryChange[i]
-          context.commit('setNestedElementProperty', { elementID: action.id, path: action.path, value: action.oldValue })
-          if (action.path.startsWith('start') || action.path.startsWith('end')) {
-            updatedElements.add(action.id)
-          }
-        }
-        if (updatedElements) {
-          context.commit('recalculateSchedule')
-        }
-      }
-      context.commit('clearTemporary')
-    },
-    setTemporary (context, actions) {
-      context.dispatch('clearTemporary')
-      context.commit('setTemporary', actions)
-      const updatedElements = new Set()
-      for (let i = 0; i < actions.length; i += 1) {
-        const action = actions[i]
-        action.oldValue = context.getters.getNestedProperty(action.id, action.path)
-        context.commit('setNestedElementProperty', { elementID: action.id, path: action.path, value: action.newValue })
-        if (action.path.startsWith('start') || action.path.startsWith('end')) {
-          updatedElements.add(action.id)
-        }
-      }
-      if (updatedElements) {
-        context.commit('recalculateSchedule')
       }
     }
   },
@@ -345,7 +301,6 @@ export default new Vuex.Store({
 })
 
 function calculateTimes (state) {
-  console.log('recalculate')
   const calculatedTimes = {}
   let schedule
   let element
@@ -420,16 +375,16 @@ function calculateEndTime (element, state, calculatedTimes) {
       endTime = moment(calculatedTimes[element.id]['start']).add(calculatedTimes[element.id]['duration'])
       break
     case 'startOf':
-      referencedElement = state.lookup.elements[element.start.ref]
+      referencedElement = state.lookup.elements[element.end.ref]
       // calculate and then use
       calculateStartTime(referencedElement, state, calculatedTimes)
-      endTime = moment(calculatedTimes[element.start.ref]['start'])
+      endTime = moment(calculatedTimes[element.end.ref]['start'])
       break
     case 'endOf':
-      referencedElement = state.lookup.elements[element.start.ref]
+      referencedElement = state.lookup.elements[element.end.ref]
       // calculate and then use
       calculateEndTime(referencedElement, state, calculatedTimes)
-      endTime = moment(calculatedTimes[element.start.ref]['end'])
+      endTime = moment(calculatedTimes[element.end.ref]['end'])
       break
     default:
       // safety valve
@@ -457,7 +412,7 @@ function calculateDuration (element, state, calculatedTimes) {
   } else {
     calculateStartTime(element, state, calculatedTimes)
     calculateEndTime(element, state, calculatedTimes)
-    duration = moment.duration(calculatedTimes[element.start.ref]['end'].diff(calculatedTimes[element.start.ref]['start']))
+    duration = moment.duration(calculatedTimes[element.id]['end'].diff(calculatedTimes[element.id]['start']))
   }
 
   if (element.id in calculatedTimes) {

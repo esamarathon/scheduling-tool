@@ -30,6 +30,9 @@ export default {
       originalDuration: null,
       originalStart: null,
       originalEnd: null,
+      temporaryDuration: null,
+      temporaryStart: null,
+      temporaryEnd: null,
       resizer: null,
       dragging: null,
       hoverTop: false,
@@ -43,13 +46,16 @@ export default {
   },
   computed: {
     startTime () {
-      return this.$store.getters.getStartTime(this.element)
+      return this.temporaryStart ? this.temporaryStart : this.$store.getters.getStartTime(this.element)
     },
     endTime () {
-      return this.$store.getters.getEndTime(this.element)
+      return this.temporaryEnd ? this.temporaryEnd : this.$store.getters.getEndTime(this.element)
     },
     duration () {
-      return this.$store.getters.getDuration(this.element)
+      return this.temporaryDuration ? this.temporaryDuration : this.$store.getters.getDuration(this.element)
+    },
+    eventOffset () {
+      return this.temporaryStart ? moment.duration(this.temporaryStart.diff(moment(this.$store.state.event.start))) : this.$store.getters.getEventOffset(this.element)
     },
     snapToDuration () {
       return moment.duration(Number(this.$store.getters.snapToMinutes), 'm')
@@ -63,7 +69,7 @@ export default {
     dynamicStyle () {
       const style = {
         height: (this.$store.getters.pixelsPerHour * this.duration.asHours()) + 'px',
-        top: (this.$store.getters.pixelsPerHour * this.$store.getters.getEventOffset(this.element).asHours()) + 'px',
+        top: (this.$store.getters.pixelsPerHour * this.eventOffset.asHours()) + 'px',
         background: 'linear-gradient(to bottom, rgba(175, 175, 175, 0.75) ' + this.percentSetup + '%, rgb(255, 127, 80, 0.75) ' + this.percentSetup + '%, rgb(255, 127, 80, 0.75) ' + this.percentTeardown + '%, rgba(175, 175, 175, 0.75) ' + this.percentTeardown + '%)'
       }
       if (this.canDrag) {
@@ -168,8 +174,8 @@ export default {
         event.preventDefault()
         this.resizing = true
         this.originalPosition = event.clientY
-        this.originalDuration = this.element.end.duration
-        this.originalEnd = this.element.end.time
+        this.originalDuration = this.duration
+        this.originalEnd = this.endTime
         this.resizer = 'bottom'
         document.documentElement.addEventListener('mouseup', this.stopResizeBottom, true)
         document.documentElement.addEventListener('mousemove', this.moveResizeBottom, true)
@@ -182,12 +188,15 @@ export default {
       document.documentElement.removeEventListener('mousemove', this.moveResizeBottom, true)
       // we dispatch the change as it has only been temporary for now
       if (this.element.end.type === 'duration') {
-        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'end.duration', oldValue: this.originalDuration, newValue: this.element.end.duration}], canUndo: true })
+        const newDuration = this.temporaryDuration.subtract(moment.duration(this.element.start.setup || 0)).subtract(moment.duration(this.element.end.teardown || 0))
+        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'end.duration', oldValue: this.element.end.duration, newValue: newDuration.hours() + ':' + newDuration.minutes() + ':' + newDuration.seconds()}], canUndo: true })
       } else if (this.element.end.type === 'absolute') {
-        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'end.time', oldValue: this.originalEnd, newValue: this.element.end.time}], canUndo: true })
+        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'end.time', oldValue: this.element.end.time, newValue: this.temporaryEnd.format()}], canUndo: true })
       }
       this.resizing = false
       this.originalPosition = null
+      this.temporaryDuration = null
+      this.temporaryEnd = null
       this.originalDuration = null
       this.originalEnd = null
       this.resizer = null
@@ -202,10 +211,12 @@ export default {
           // round to nearest snapping point
           const newEndTime = roundTimeToNearest(moment(this.startTime).add(newDuration), this.snapToDuration)
           newDuration = moment.duration(newEndTime.diff(this.startTime))
-          this.$store.dispatch('setTemporary', [{id: this.element.id, path: 'end.duration', newValue: newDuration.hours() + ':' + newDuration.minutes() + ':' + newDuration.seconds()}])
+          this.temporaryEnd = newEndTime
+          this.temporaryDuration = newDuration
         } else if (this.element.end.type === 'absolute') {
           const newEndTime = roundTimeToNearest(moment(this.originalEnd).add(moment.duration(delta / this.$store.getters.pixelsPerHour, 'h')), this.snapToDuration)
-          this.$store.dispatch('setTemporary', [{id: this.element.id, path: 'end.time', newValue: newEndTime.format()}])
+          this.temporaryEnd = newEndTime
+          this.temporaryDuration = moment.duration(newEndTime.diff(this.startTime))
         }
       }
     },
@@ -236,8 +247,8 @@ export default {
         event.preventDefault()
         this.resizing = true
         this.originalPosition = event.clientY
-        this.originalDuration = this.element.end.duration
-        this.originalStart = this.element.start.time
+        this.originalStart = this.startTime
+        this.originalDuration = this.duration
         this.resizer = 'bottom'
         document.documentElement.addEventListener('mouseup', this.stopResizeTop, true)
         document.documentElement.addEventListener('mousemove', this.moveResizeTop, true)
@@ -247,12 +258,15 @@ export default {
       event.stopPropagation()
       event.preventDefault()
       // we dispatch the change as it has only been temporary for now
+      const newDuration = this.temporaryDuration.subtract(moment.duration(this.element.start.setup || 0)).subtract(moment.duration(this.element.end.teardown || 0))
       this.$store.dispatch('apply', { type: 'update',
-        actions: [{id: this.element.id, path: 'end.duration', oldValue: this.originalDuration, newValue: this.element.end.duration},
-          {id: this.element.id, path: 'start.time', oldValue: this.originalStart, newValue: this.element.start.time}],
+        actions: [{id: this.element.id, path: 'end.duration', oldValue: this.element.end.duration, newValue: newDuration.hours() + ':' + newDuration.minutes() + ':' + newDuration.seconds()},
+          {id: this.element.id, path: 'start.time', oldValue: this.element.start.time, newValue: this.temporaryStart.format()}],
         canUndo: true })
       this.resizing = false
       this.originalPosition = null
+      this.temporaryDuration = null
+      this.temporaryStart = null
       this.originalDuration = null
       this.originalStart = null
       this.resizer = null
@@ -266,8 +280,8 @@ export default {
         const delta = event.clientY - this.originalPosition
         const newStartTime = roundTimeToNearest(moment(this.originalStart).add(moment.duration(delta / this.$store.getters.pixelsPerHour, 'h')), this.snapToDuration)
         const newDuration = moment.duration(moment(this.originalStart).add(moment.duration(this.originalDuration)).diff(newStartTime))
-        this.$store.dispatch('setTemporary', [{id: this.element.id, path: 'end.duration', newValue: newDuration.hours() + ':' + newDuration.minutes() + ':' + newDuration.seconds()},
-          {id: this.element.id, path: 'start.time', newValue: newStartTime.format()}])
+        this.temporaryStart = newStartTime
+        this.temporaryDuration = newDuration
       }
     },
     startDrag (event) {
@@ -276,7 +290,7 @@ export default {
         event.preventDefault()
         this.dragging = true
         this.originalPosition = event.clientY
-        this.originalStart = this.element.start.time
+        this.originalStart = this.startTime
         document.documentElement.addEventListener('mouseup', this.stopDrag, true)
         document.documentElement.addEventListener('mousemove', this.moveDrag, true)
       }
@@ -285,9 +299,10 @@ export default {
       event.stopPropagation()
       event.preventDefault()
       // we dispatch the change as it has only been temporary for now
-      this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'start.time', oldValue: this.originalStart, newValue: this.element.start.time}], canUndo: true })
+      this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'start.time', oldValue: this.element.start.time, newValue: this.temporaryStart.format()}], canUndo: true })
       this.dragging = false
       this.originalPosition = null
+      this.temporaryStart = null
       this.originalStart = null
       document.documentElement.removeEventListener('mouseup', this.stopDrag, true)
       document.documentElement.removeEventListener('mousemove', this.moveDrag, true)
@@ -298,7 +313,7 @@ export default {
         event.preventDefault()
         const delta = event.clientY - this.originalPosition
         const newStartTime = roundTimeToNearest(moment(this.originalStart).add(moment.duration(delta / this.$store.getters.pixelsPerHour, 'h')), this.snapToDuration)
-        this.$store.dispatch('setTemporary', [{id: this.element.id, path: 'start.time', newValue: newStartTime.format()}])
+        this.temporaryStart = newStartTime
       }
     },
     stopAssign (event) {

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import moment from 'moment'
+import _ from 'lodash'
 
 Vue.use(Vuex)
 
@@ -23,9 +24,7 @@ export default new Vuex.Store({
     },
     lookup: {
       schedules: {},
-      elements: {},
-      referencedBy: {},
-      calculatedTimes: {}
+      elements: {}
     }
   },
   mutations: {
@@ -41,20 +40,6 @@ export default new Vuex.Store({
         for (let j = 0; j < schedule.elements.length; j += 1) {
           element = schedule.elements[j]
           Vue.set(state.lookup.elements, element.id, element)
-          if (element.start.ref) {
-            if (state.lookup.referencedBy[element.start.ref]) {
-              state.lookup.referencedBy[element.start.ref].add(element.id)
-            } else {
-              Vue.set(state.lookup.referencedBy, element.start.ref, new Set([element.id]))
-            }
-          }
-          if (element.end.ref) {
-            if (state.lookup.referencedBy[element.end.ref]) {
-              state.lookup.referencedBy[element.end.ref].add(element.id)
-            } else {
-              Vue.set(state.lookup.referencedBy, element.end.ref, new Set([element.id]))
-            }
-          }
         }
       }
     },
@@ -140,26 +125,9 @@ export default new Vuex.Store({
       state.display.hoverHighlightTarget = null
       state.display.hoverHighlightSide = null
     },
-    setStartTime (state, { elementID, startTime }) {
-      if (state.lookup.calculatedTimes[elementID]) {
-        Vue.set(state.lookup.calculatedTimes[elementID], 'start', startTime)
-      } else {
-        Vue.set(state.lookup.calculatedTimes, elementID, { start: startTime })
-      }
-    },
-    setEndTime (state, { elementID, endTime }) {
-      if (state.lookup.calculatedTimes[elementID]) {
-        Vue.set(state.lookup.calculatedTimes[elementID], 'end', endTime)
-      } else {
-        Vue.set(state.lookup.calculatedTimes, elementID, { end: endTime })
-      }
-    },
-    setEventOffset (state, { elementID, eventOffset }) {
-      if (state.lookup.calculatedTimes[elementID]) {
-        Vue.set(state.lookup.calculatedTimes[elementID], 'eventOffset', eventOffset)
-      } else {
-        Vue.set(state.lookup.calculatedTimes, elementID, { end: eventOffset })
-      }
+    invalidateCache (state) {
+      Vue.set(state.lookup, 'getStartTime', _.memoize(calculateStartTime))
+      Vue.set(state.lookup, 'getEndTime', _.memoize(calculateEndTime))
     }
   },
   actions: {
@@ -172,126 +140,7 @@ export default new Vuex.Store({
         temporaryChange: null
       }
       context.commit('generateLookupTable')
-      context.dispatch('calculateTimes')
-    },
-    calculateTimes (context) {
-      context.state.lookup.calculatedTimes = {}
-      let schedule
-      let element
-      for (let i = 0; i < context.state.event.schedules.length; i += 1) {
-        schedule = context.state.event.schedules[i]
-        for (let j = 0; j < schedule.elements.length; j += 1) {
-          element = schedule.elements[j]
-          context.dispatch('calculateTime', element.id)
-        }
-      }
-    },
-    calculateTime (context, elementID) {
-      // Start Time
-      const element = context.getters.lookupElement(elementID)
-
-      if (element.start.actualTime) {
-        return moment(element.start.actualTime)
-      }
-      let referencedTime
-      let referencedElement
-      let startTime
-      switch (element.start.type || 'absolute') {
-        case 'absolute':
-          startTime = moment(element.start.time).add(moment.duration(element.start.offset || 0))
-          break
-        case 'startOf':
-          referencedElement = context.getters.lookupElement(element.start.ref)
-          if (referencedElement) {
-            referencedTime = context.getters.getStartTime(referencedElement)
-            if (referencedTime) {
-              startTime = moment(referencedTime)
-            } else {
-              // need to resolve target times first
-              context.dispatch('calculateTime', element.start.ref)
-              startTime = moment(context.getters.getStartTime(referencedElement))
-            }
-          } else {
-            // safety valve
-            startTime = moment(context.state.event.start)
-          }
-          break
-        case 'endOf':
-          referencedElement = context.getters.lookupElement(element.start.ref)
-          if (referencedElement) {
-            referencedTime = context.getters.getEndTime(referencedElement)
-            if (referencedTime) {
-              startTime = moment(referencedTime)
-            } else {
-              // need to resolve target times first
-              context.dispatch('calculateTime', element.start.ref)
-              startTime = moment(context.getters.getEndTime(referencedElement))
-            }
-          } else {
-            // safety valve
-            startTime = moment(context.state.event.start)
-          }
-          break
-        default:
-          // safety valve
-          startTime = moment(context.state.event.start)
-          break
-      }
-      context.commit('setStartTime', { elementID, startTime })
-
-      // Event offset
-      context.commit('setEventOffset', { elementID, eventOffset: moment.duration(moment(startTime).diff(moment(context.state.event.start))) })
-
-      // End Time
-      if (element.end.actualTime) {
-        return moment(element.end.actualTime)
-      }
-      let endTime
-      switch (element.end.type || 'absolute') {
-        case 'absolute':
-          endTime = moment(element.end.time).add(moment.duration(element.end.offset || 0))
-          break
-        case 'duration':
-          endTime = moment(startTime).add(context.getters.getDuration(element))
-          break
-        case 'startOf':
-          referencedElement = context.getters.lookupElement(element.start.ref)
-          if (referencedElement) {
-            referencedTime = context.getters.getStartTime(referencedElement)
-            if (referencedTime) {
-              endTime = moment(referencedTime)
-            } else {
-              // need to resolve target times first
-              context.dispatch('calculateTime', element.end.ref)
-              endTime = moment(context.getters.getStartTime(referencedElement))
-            }
-          } else {
-            // safety valve
-            endTime = moment(context.state.event.end)
-          }
-          break
-        case 'endOf':
-          referencedElement = context.getters.lookupElement(element.start.ref)
-          if (referencedElement) {
-            referencedTime = context.getters.getEndTime(referencedElement)
-            if (referencedTime) {
-              endTime = moment(referencedTime)
-            } else {
-              // need to resolve target times first
-              context.dispatch('calculateTime', element.end.ref)
-              endTime = moment(context.getters.getEndTime(referencedElement))
-            }
-          } else {
-            // safety valve
-            endTime = moment(context.state.event.end)
-          }
-          break
-        default:
-          // safety valve
-          endTime = moment(context.state.event.end)
-          break
-      }
-      context.commit('setEndTime', { elementID, endTime })
+      context.commit('invalidateCache')
     },
     update (context, { actions, canUndo = false, isUndo = false }) {
       let action
@@ -314,8 +163,8 @@ export default new Vuex.Store({
           return
         }
       }
-      for (const ref of updatedElements) {
-        context.dispatch('recalculateTime', ref)
+      if (updatedElements) {
+        context.commit('invalidateCache')
       }
       if (!isUndo && canUndo) {
         context.commit('pushUndo', { type: 'update', actions })
@@ -428,8 +277,8 @@ export default new Vuex.Store({
             updatedElements.add(action.id)
           }
         }
-        for (const ref of updatedElements) {
-          context.dispatch('recalculateTime', ref)
+        if (updatedElements) {
+          context.commit('invalidateCache')
         }
       }
       context.commit('clearTemporary')
@@ -446,16 +295,8 @@ export default new Vuex.Store({
           updatedElements.add(action.id)
         }
       }
-      for (const ref of updatedElements) {
-        context.dispatch('recalculateTime', ref)
-      }
-    },
-    recalculateTime (context, sourceID) {
-      context.dispatch('calculateTime', sourceID)
-      if (context.state.lookup.referencedBy[sourceID]) {
-        for (let ref of context.state.lookup.referencedBy[sourceID]) {
-          context.dispatch('recalculateTime', ref)
-        }
+      if (updatedElements) {
+        context.commit('invalidateCache')
       }
     }
   },
@@ -469,8 +310,8 @@ export default new Vuex.Store({
         return undefined
       }
     },
-    getStartTime: (state, getters) => element => state.lookup.calculatedTimes[element.id] ? state.lookup.calculatedTimes[element.id].start : null,
-    getEndTime: (state, getters) => element => state.lookup.calculatedTimes[element.id] ? state.lookup.calculatedTimes[element.id].end : null,
+    getStartTime: (state, getters) => element => state.lookup.getStartTime(element.id, state, getters),
+    getEndTime: (state, getters) => element => state.lookup.getEndTime(element.id, state, getters),
     getDuration: (state, getters) => (element) => {
       if (!element.end.type || element.end.type === 'duration') {
         return moment.duration(element.start.setup || 0)
@@ -481,7 +322,7 @@ export default new Vuex.Store({
     },
     pixelsPerHour: state => state.display.pixelsPerHour || 100,
     snapToMinutes: state => state.display.snapToMinutes || 15,
-    getEventOffset: (state, getters) => element => state.lookup.calculatedTimes[element.id] ? state.lookup.calculatedTimes[element.id].eventOffset : null,
+    getEventOffset: (state, getters) => element => moment.duration(moment(getters.getStartTime(element)).diff(moment(state.event.start))),
     getStartOfSchedule: (state, getters) => scheduleID =>
       moment(state.event.start).add(moment.duration(getters.lookupSchedule(scheduleID).offset || 0)),
     getEndOfSchedule: (state, getters) => (scheduleID) => {
@@ -510,3 +351,62 @@ export default new Vuex.Store({
     hoverHighlight: state => ({ target: state.display.hoverHighlightTarget, side: state.display.hoverHighlightSide })
   }
 })
+
+function calculateStartTime (elementID, state, getters) {
+  const element = getters.lookupElement(elementID)
+
+  if (element.start.actualTime) {
+    return moment(element.start.actualTime)
+  }
+  let referencedElement
+  let startTime
+  switch (element.start.type || 'absolute') {
+    case 'absolute':
+      startTime = moment(element.start.time).add(moment.duration(element.start.offset || 0))
+      break
+    case 'startOf':
+      referencedElement = getters.lookupElement(element.start.ref)
+      referencedElement ? startTime = moment(getters.getStartTime(referencedElement)) : startTime = moment(state.event.start)
+      break
+    case 'endOf':
+      referencedElement = getters.lookupElement(element.start.ref)
+      referencedElement ? startTime = moment(getters.getEndTime(referencedElement)) : moment(state.event.start)
+      break
+    default:
+      // safety valve
+      startTime = moment(state.event.start)
+      break
+  }
+  return startTime
+}
+
+function calculateEndTime (elementID, state, getters) {
+  const element = getters.lookupElement(elementID)
+
+  if (element.end.actualTime) {
+    return moment(element.end.actualTime)
+  }
+  let referencedElement
+  let endTime
+  switch (element.end.type || 'absolute') {
+    case 'absolute':
+      endTime = moment(element.end.time).add(moment.duration(element.end.offset || 0))
+      break
+    case 'duration':
+      endTime = moment(getters.getStartTime(element)).add(getters.getDuration(element))
+      break
+    case 'startOf':
+      referencedElement = getters.lookupElement(element.start.ref)
+      endTime = referencedElement ? moment(getters.getStartTime(referencedElement)) : moment(state.event.end)
+      break
+    case 'endOf':
+      referencedElement = getters.lookupElement(element.start.ref)
+      referencedElement ? endTime = moment(getters.getEndTime(referencedElement)) : endTime = moment(state.event.end)
+      break
+    default:
+      // safety valve
+      endTime = moment(state.event.end)
+      break
+  }
+  return endTime
+}

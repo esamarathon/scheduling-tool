@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import 'vue-material/dist/vue-material.min.css'
 import VueMaterial from 'vue-material'
+import Multiselect from 'vue-multiselect'
 import 'moment'
 
 import './assets/theme.scss'
@@ -30,6 +31,7 @@ Vue.component('people', People)
 Vue.component('columnsview', ColumnsView)
 Vue.component('devview', DevView)
 Vue.component('listview', ListView)
+Vue.component('multiselect', Multiselect)
 
 Vue.config.productionTip = false
 

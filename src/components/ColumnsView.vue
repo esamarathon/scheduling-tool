@@ -4,6 +4,7 @@
       Zoom: <input type="range" min="10" max="200" v-model="zoomFactor">
       Filter: <input type="text" v-model="searchText">
       Snap To: <input type="range" min="0" max="60" step="5" v-model="snapTo"> {{ this.snapTo }} min
+      <multiselect :multiple="true" v-model="selectedSchedules" :options="schedules" label="name" trackBy="id" placeholder="Select schedules to display" :close-on-select="false" :clear-on-select="false" :hide-selected="true"></multiselect>
       <md-button class="md-icon-button icon-top-right" @click="addNewSchedule">
         <md-icon>add</md-icon>
       </md-button>
@@ -14,7 +15,7 @@
         <div class="hourmarker" :style="hourMarkerStyle" v-for="hourmarker in hourmarkers" :key="hourmarker.time">{{ hourmarker.display }}</div>
       </div>
       <schedule class="column" :style="{ width: 90 / schedules.length + '%' }"
-        v-for="schedule in schedules" :key="schedule.id" :schedule="schedule" :searchText="searchText" :timeTableHeight="timeTableHeight"></schedule>
+        v-for="schedule in selectedSchedules" :key="schedule.id" :schedule="schedule" :searchText="searchText" :timeTableHeight="timeTableHeight"></schedule>
     </div>
   </div>
 </template>
@@ -27,7 +28,7 @@ export default {
   name: 'ColumnsView',
   computed: {
     schedules () {
-      return this.$store.state.event.schedules
+      return this.$store.state.event.schedules ? this.$store.state.event.schedules : []
     },
     zoomFactor: {
       get: function () {
@@ -81,7 +82,8 @@ export default {
   },
   data () {
     return {
-      searchText: ''
+      searchText: '',
+      selectedSchedules: []
     }
   },
   methods: {
@@ -93,6 +95,15 @@ export default {
       }
       this.$store.dispatch('apply', { type: 'addSchedule', newSchedule, canUndo: true })
     }
+  },
+  watch: {
+    schedules: function (val) {
+      this.selectedSchedules = val.slice()
+    }
+  },
+  mounted: function () {
+    // ToDo keep selection cached on view change? Might be useful
+    this.selectedSchedules = this.schedules ? this.schedules.slice() : []
   }
 }
 </script>
@@ -103,7 +114,7 @@ export default {
   float: left;
 }
 .header {
-  overflow: hidden;
+  overflow: visible;
   position: relative;
 }
 .icon-top-right {

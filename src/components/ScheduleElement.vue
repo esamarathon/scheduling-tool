@@ -1,5 +1,5 @@
 <template>
-    <div class="element" @mousedown.stop="startDrag" :style="dynamicStyle">
+    <div class="element" @mousedown.stop="startDrag" :style="dynamicStyle" @dblclick="doubleClick">
       <div @mousedown.stop="clickTop" @mouseover="mouseOverTop" @mouseout="mouseOutTop" @dblclick="doubleClickTop" class="resizer top" :style="dynamicStyleResizerTop"></div>
       <md-button class="icon-top-right md-icon-button" @click="deleteMe">
         <md-icon>delete</md-icon>
@@ -298,8 +298,10 @@ export default {
     stopDrag (event) {
       event.stopPropagation()
       event.preventDefault()
-      // we dispatch the change as it has only been temporary for now
-      this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'start.time', oldValue: this.element.start.time, newValue: this.temporaryStart.format()}], canUndo: true })
+      if (this.temporaryStart) {
+        // we dispatch the change as it has only been temporary for now
+        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'start.time', oldValue: this.element.start.time, newValue: this.temporaryStart.format()}], canUndo: true })
+      }
       this.dragging = false
       this.originalPosition = null
       this.temporaryStart = null
@@ -386,6 +388,12 @@ export default {
           this.$store.commit('hoverHighlightClear')
         }
       }
+    },
+    doubleClick (event) {
+      event.stopPropagation()
+      event.preventDefault()
+      this.stopDrag(event)
+      this.$store.commit('showEditDialog', this.element.id)
     }
   }
 }

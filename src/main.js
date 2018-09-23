@@ -19,6 +19,7 @@ import People from './components/People'
 import ColumnsView from './components/ColumnsView'
 import ListView from './components/ListView'
 import DevView from './components/DevView'
+import ElementEditDialog from './components/ElementEditDialog'
 import store from './datamodel'
 
 Vue.use(VueMaterial)
@@ -32,6 +33,7 @@ Vue.component('columnsview', ColumnsView)
 Vue.component('devview', DevView)
 Vue.component('listview', ListView)
 Vue.component('multiselect', Multiselect)
+Vue.component('editdialog', ElementEditDialog)
 
 Vue.config.productionTip = false
 

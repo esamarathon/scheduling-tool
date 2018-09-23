@@ -1,8 +1,14 @@
 <template>
-    <div class="element" @dblclick="doubleClick">
-      <div class="column">Name: {{ element.name }}</div>
-      <div class="column"><people :people="element.people"></people></div>
-      <div class="column">{{ startTime.format('MMM Do HH:mm') }} - {{ endTime.format('MMM Do HH:mm') }}</div>
+    <div class="editdialog">
+      <md-dialog-title>{{ element.name }}</md-dialog-title>
+      <md-dialog-content>
+        <div class="column"><people :people="element.people"></people></div>
+        <div class="column">{{ startTime.format('MMM Do HH:mm') }} - {{ endTime.format('MMM Do HH:mm') }}</div>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="$store.commit('closeEditDialog')">Close</md-button>
+          <md-button class="md-primary" @click="saveChanges">Save</md-button>
+        </md-dialog-actions>
+      </md-dialog-content>
     </div>
 </template>
 
@@ -24,7 +30,6 @@ export default {
     }
   },
   computed: {
-    // ToDo, this doesn't quite work the way I intended
     startTime () {
       return this.$store.getters.getStartTime(this.element)
     },
@@ -36,10 +41,9 @@ export default {
     }
   },
   methods: {
-    doubleClick (event) {
-      event.stopPropagation()
-      event.preventDefault()
-      this.$store.commit('showEditDialog', this.element.id)
+    saveChanges () {
+      // ToDo
+      this.$store.commit('closeEditDialog')
     }
   }
 }
@@ -47,16 +51,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.element {
-  width: 100%;
-  background-color: #ccc;
+.editdialog {
   border-radius: 3px;
   border: 1px solid black;
-  margin-bottom: -1px;
-  margin-right: -1px;
   overflow: hidden;
-}
-.column {
-  float: left;
 }
 </style>

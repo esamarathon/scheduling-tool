@@ -24,6 +24,9 @@ export default new Vuex.Store({
       schedules: {},
       elements: {},
       calculatedTimes: {}
+    },
+    dialogs: {
+      editElement: null
     }
   },
   mutations: {
@@ -119,6 +122,12 @@ export default new Vuex.Store({
     },
     recalculateSchedule (state) {
       state.lookup.calculatedTimes = calculateTimes(state)
+    },
+    showEditDialog (state, elementID) {
+      state.dialogs.editElement = elementID
+    },
+    closeEditDialog (state) {
+      state.dialogs.editElement = null
     }
   },
   actions: {

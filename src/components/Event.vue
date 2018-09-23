@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div>
     Editing event ID {{ eventName }}.<br>
     <md-tabs v-on:md-changed="updateTab" :md-alignment='"fixed"'>
       <md-tab :id='"columnsview"' :md-label='"Columns"'></md-tab>
@@ -7,6 +7,9 @@
       <md-tab :id='"devview"' :md-label='"Dev"'></md-tab>
     </md-tabs>
     <component v-bind:is="selectedTab"></component>
+    <md-dialog :md-active.sync="editElement">
+      <editdialog :element="$store.getters.lookupElement(this.$store.state.dialogs.editElement)"></editdialog>
+    </md-dialog>
   </div>
 </template>
 
@@ -29,6 +32,14 @@ export default {
     },
     schedules () {
       return this.$store.state.event.schedules
+    },
+    editElement: {
+      get: function () {
+        return this.$store.state.dialogs.editElement !== null
+      },
+      set: function (newValue) {
+        this.$store.commit('closeEditDialog')
+      }
     }
   },
   methods: {

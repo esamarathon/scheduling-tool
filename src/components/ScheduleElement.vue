@@ -325,7 +325,7 @@ export default {
       }
     },
     deleteMe () {
-      this.$store.dispatch('removeElement', { elementID: this.element.id, canUndo: true })
+      this.$store.dispatch('apply', { type: 'removeElement', elementID: this.element.id, canUndo: true })
     },
     mouseOverBottom () {
       this.hoverBottom = true

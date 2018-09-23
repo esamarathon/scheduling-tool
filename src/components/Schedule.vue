@@ -51,10 +51,10 @@ export default {
         },
         name: 'New Run'
       }
-      this.$store.dispatch('addElement', { newElement, canUndo: true })
+      this.$store.dispatch('apply', { type: 'addElement', newElement, canUndo: true })
     },
     deleteMe () {
-      this.$store.dispatch('removeSchedule', { scheduleID: this.schedule.id, canUndo: true })
+      this.$store.dispatch('apply', { type: 'removeSchedule', scheduleID: this.schedule.id, canUndo: true })
     }
   },
   computed: {

@@ -91,7 +91,7 @@ export default {
         id: uuidv4(),
         elements: []
       }
-      this.$store.dispatch('addSchedule', { newSchedule, canUndo: true })
+      this.$store.dispatch('apply', { type: 'addSchedule', newSchedule, canUndo: true })
     }
   }
 }

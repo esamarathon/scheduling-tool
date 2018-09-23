@@ -166,6 +166,7 @@ export default new Vuex.Store({
       for (let i = 0; i < newSchedule.elements.length; i += 1) {
         context.commit('addElementId', { id: newSchedule.elements[i].id, target: newSchedule.elements[i] })
       }
+      context.commit('recalculateSchedule')
       if (canUndo) {
         context.commit('pushUndo', { type: 'addSchedule', position, newSchedule })
       }
@@ -178,6 +179,7 @@ export default new Vuex.Store({
       for (let i = 0; i < oldSchedule.elements.length; i += 1) {
         context.commit('removeElementId', oldSchedule.elements[i].id)
       }
+      context.commit('recalculateSchedule')
       if (canUndo) {
         context.commit('pushUndo', { type: 'removeSchedule', oldPosition, oldSchedule })
       }
@@ -185,6 +187,7 @@ export default new Vuex.Store({
     addElement (context, { newElement, position = null, canUndo = false }) {
       context.commit('addElement', { newElement, parent: context.getters.lookupSchedule(newElement.parent), position })
       context.commit('addElementId', { id: newElement.id, target: newElement })
+      context.commit('recalculateSchedule')
       if (canUndo) {
         context.commit('pushUndo', { type: 'addElement', position, newElement })
       }
@@ -195,6 +198,7 @@ export default new Vuex.Store({
       const oldPosition = parentSchedule.elements.indexOf(oldElement)
       context.commit('removeElement', { oldElement, parent: parentSchedule })
       context.commit('removeElementId', oldElement.id)
+      context.commit('recalculateSchedule')
       if (canUndo) {
         context.commit('pushUndo', { type: 'removeElement', oldPosition, oldElement })
       }
@@ -252,6 +256,14 @@ export default new Vuex.Store({
     apply (context, transformation) {
       if (transformation.type === 'update') {
         context.dispatch('update', transformation)
+      } else if (transformation.type === 'addSchedule') {
+        context.dispatch('addSchedule', transformation)
+      } else if (transformation.type === 'removeSchedule') {
+        context.dispatch('removeSchedule', transformation)
+      } else if (transformation.type === 'addElement') {
+        context.dispatch('addElement', transformation)
+      } else if (transformation.type === 'removeElement') {
+        context.dispatch('removeElement', transformation)
       }
     }
   },

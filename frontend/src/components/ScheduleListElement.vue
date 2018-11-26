@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   name: 'ListElement',
   data () {
@@ -26,10 +28,10 @@ export default {
   computed: {
     // ToDo, this doesn't quite work the way I intended
     startTime () {
-      return this.$store.getters.getStartTime(this.element)
+      return moment(this.$store.getters.getStartTime(this.element))
     },
     endTime () {
-      return this.$store.getters.getEndTime(this.element)
+      return moment(this.$store.getters.getEndTime(this.element))
     },
     duration () {
       return this.$store.getters.getDuration(this.element)

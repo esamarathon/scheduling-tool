@@ -15,6 +15,7 @@
 
 <script>
 import _ from 'lodash'
+import moment from 'moment'
 
 export default {
   name: 'ElementEditDialog',
@@ -30,10 +31,10 @@ export default {
   },
   computed: {
     startTime () {
-      return this.$store.getters.getStartTime(this.element)
+      return moment(this.$store.getters.getStartTime(this.element))
     },
     endTime () {
-      return this.$store.getters.getEndTime(this.element)
+      return moment(this.$store.getters.getEndTime(this.element))
     },
     duration () {
       return this.$store.getters.getDuration(this.element)

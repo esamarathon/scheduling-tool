@@ -13,8 +13,8 @@ export default function fetchEvent (eventID) {
       id: eventID,
       url: `https:\\\\tracker.esamarathon.com\\${eventID}`
     },
-    start: '2018-09-01T08:00:00Z',
-    end: '2018-09-02T08:00:00Z',
+    start: 1535785200000,
+    end: 1535871600000,
     schedules: [
       {
         name: 'Main Stream',
@@ -26,11 +26,11 @@ export default function fetchEvent (eventID) {
             people: [{ name: 'llcooldave' }],
             start: {
               type: 'absolute',
-              time: '2018-09-01T08:00:00Z'
+              time: 1535785200000
             },
             end: {
               type: 'duration',
-              duration: '02:00:00'
+              duration: 7200000
             },
             name: 'Baten Kaitos 100%'
           },
@@ -42,11 +42,11 @@ export default function fetchEvent (eventID) {
             start: {
               type: 'endOf',
               ref: '1000',
-              setup: '00:30:00'
+              setup: 1800000
             },
             end: {
               type: 'duration',
-              duration: '01:00:00'
+              duration: 3600000
             }
           },
           {
@@ -57,11 +57,11 @@ export default function fetchEvent (eventID) {
             start: {
               type: 'endOf',
               ref: '1001',
-              setup: '00:20:00'
+              setup: 1200000
             },
             end: {
               type: 'duration',
-              duration: '00:20:00'
+              duration: 1200000
             }
           }
         ]
@@ -78,11 +78,11 @@ export default function fetchEvent (eventID) {
             start: {
               type: 'startOf',
               ref: '1001',
-              setup: '00:10:00'
+              setup: 600000
             },
             end: {
               type: 'duration',
-              duration: '01:00:00'
+              duration: 3600000
             }
           },
           {
@@ -92,11 +92,11 @@ export default function fetchEvent (eventID) {
             name: 'Quick & Crash',
             start: {
               type: 'absolute',
-              time: '2018-09-01T13:00:00Z'
+              time: 1535803200000
             },
             end: {
               type: 'duration',
-              duration: '01:00:00'
+              duration: 3600000
             }
           }
         ]

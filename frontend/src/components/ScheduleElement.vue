@@ -11,11 +11,10 @@
 </template>
 
 <script>
-import moment from 'moment'
 
 function roundTimeToNearest (date, duration) {
   if (+duration) {
-    return moment(Math.round((+date) / (+duration)) * (+duration))
+    return Math.round((+date) / (+duration)) * (+duration)
   } else {
     return date
   }
@@ -55,21 +54,21 @@ export default {
       return this.temporaryDuration ? this.temporaryDuration : this.$store.getters.getDuration(this.element)
     },
     eventOffset () {
-      return this.temporaryStart ? moment.duration(this.temporaryStart.diff(moment(this.$store.state.event.start))) : this.$store.getters.getEventOffset(this.element)
+      return this.temporaryStart ? (this.temporaryStart - this.$store.state.event.start) : this.$store.getters.getEventOffset(this.element)
     },
     snapToDuration () {
-      return moment.duration(Number(this.$store.getters.snapToMinutes), 'm')
+      return this.$store.getters.snapToMinutes * 60000
     },
     percentSetup () {
-      return this.element.start.setup ? moment.duration(this.element.start.setup).asSeconds() * 100 / this.duration.asSeconds() : 0
+      return this.element.start.setup ? this.element.start.setup * 100 / this.duration : 0
     },
     percentTeardown () {
-      return this.element.end.teardown ? (1 - (moment.duration(this.element.end.teardown).asSeconds() / this.duration.asSeconds())) * 100 : 100
+      return this.element.end.teardown ? (1 - (this.element.end.teardown / this.duration)) * 100 : 100
     },
     dynamicStyle () {
       const style = {
-        height: (this.$store.getters.pixelsPerHour * this.duration.asHours()) + 'px',
-        top: (this.$store.getters.pixelsPerHour * this.eventOffset.asHours()) + 'px',
+        height: (this.$store.getters.pixelsPerHour * this.duration / 3600000) + 'px',
+        top: (this.$store.getters.pixelsPerHour * this.eventOffset / 3600000) + 'px',
         background: 'linear-gradient(to bottom, rgba(175, 175, 175, 0.75) ' + this.percentSetup + '%, rgb(255, 127, 80, 0.75) ' + this.percentSetup + '%, rgb(255, 127, 80, 0.75) ' + this.percentTeardown + '%, rgba(175, 175, 175, 0.75) ' + this.percentTeardown + '%)'
       }
       if (this.canDrag) {
@@ -176,6 +175,8 @@ export default {
         this.originalPosition = event.clientY
         this.originalDuration = this.duration
         this.originalEnd = this.endTime
+        this.temporaryDuration = this.duration
+        this.temporaryEnd = this.endTime
         this.resizer = 'bottom'
         document.documentElement.addEventListener('mouseup', this.stopResizeBottom, true)
         document.documentElement.addEventListener('mousemove', this.moveResizeBottom, true)
@@ -188,10 +189,10 @@ export default {
       document.documentElement.removeEventListener('mousemove', this.moveResizeBottom, true)
       // we dispatch the change as it has only been temporary for now
       if (this.element.end.type === 'duration') {
-        const newDuration = this.temporaryDuration.subtract(moment.duration(this.element.start.setup || 0)).subtract(moment.duration(this.element.end.teardown || 0))
-        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'end.duration', oldValue: this.element.end.duration, newValue: newDuration.hours() + ':' + newDuration.minutes() + ':' + newDuration.seconds()}], canUndo: true })
+        const newDuration = this.temporaryDuration - (this.element.start.setup || 0) - (this.element.end.teardown || 0)
+        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'end.duration', oldValue: this.element.end.duration, newValue: newDuration}], canUndo: true })
       } else if (this.element.end.type === 'absolute') {
-        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'end.time', oldValue: this.element.end.time, newValue: this.temporaryEnd.format()}], canUndo: true })
+        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'end.time', oldValue: this.element.end.time, newValue: this.temporaryEnd}], canUndo: true })
       }
       this.resizing = false
       this.originalPosition = null
@@ -207,16 +208,16 @@ export default {
         event.preventDefault()
         const delta = event.clientY - this.originalPosition
         if (this.element.end.type === 'duration') {
-          let newDuration = moment.duration(this.originalDuration).add(moment.duration(delta / this.$store.getters.pixelsPerHour, 'h'))
+          let newDuration = this.originalDuration + (delta / this.$store.getters.pixelsPerHour) * 3600000
           // round to nearest snapping point
-          const newEndTime = roundTimeToNearest(moment(this.startTime).add(newDuration), this.snapToDuration)
-          newDuration = moment.duration(newEndTime.diff(this.startTime))
+          const newEndTime = roundTimeToNearest(this.startTime + newDuration, this.snapToDuration)
+          newDuration = newEndTime - this.startTime
           this.temporaryEnd = newEndTime
           this.temporaryDuration = newDuration
         } else if (this.element.end.type === 'absolute') {
-          const newEndTime = roundTimeToNearest(moment(this.originalEnd).add(moment.duration(delta / this.$store.getters.pixelsPerHour, 'h')), this.snapToDuration)
+          const newEndTime = roundTimeToNearest(this.originalEnd + (delta / this.$store.getters.pixelsPerHour) * 3600000, this.snapToDuration)
           this.temporaryEnd = newEndTime
-          this.temporaryDuration = moment.duration(newEndTime.diff(this.startTime))
+          this.temporaryDuration = newEndTime - this.startTime
         }
       }
     },
@@ -249,6 +250,8 @@ export default {
         this.originalPosition = event.clientY
         this.originalStart = this.startTime
         this.originalDuration = this.duration
+        this.temporaryDuration = this.duration
+        this.temporaryStart = this.startTime
         this.resizer = 'bottom'
         document.documentElement.addEventListener('mouseup', this.stopResizeTop, true)
         document.documentElement.addEventListener('mousemove', this.moveResizeTop, true)
@@ -258,10 +261,10 @@ export default {
       event.stopPropagation()
       event.preventDefault()
       // we dispatch the change as it has only been temporary for now
-      const newDuration = this.temporaryDuration.subtract(moment.duration(this.element.start.setup || 0)).subtract(moment.duration(this.element.end.teardown || 0))
+      const newDuration = this.temporaryDuration - (this.element.start.setup || 0) - (this.element.end.teardown || 0)
       this.$store.dispatch('apply', { type: 'update',
-        actions: [{id: this.element.id, path: 'end.duration', oldValue: this.element.end.duration, newValue: newDuration.hours() + ':' + newDuration.minutes() + ':' + newDuration.seconds()},
-          {id: this.element.id, path: 'start.time', oldValue: this.element.start.time, newValue: this.temporaryStart.format()}],
+        actions: [{id: this.element.id, path: 'end.duration', oldValue: this.element.end.duration, newValue: newDuration},
+          {id: this.element.id, path: 'start.time', oldValue: this.element.start.time, newValue: this.temporaryStart}],
         canUndo: true })
       this.resizing = false
       this.originalPosition = null
@@ -278,8 +281,8 @@ export default {
         event.stopPropagation()
         event.preventDefault()
         const delta = event.clientY - this.originalPosition
-        const newStartTime = roundTimeToNearest(moment(this.originalStart).add(moment.duration(delta / this.$store.getters.pixelsPerHour, 'h')), this.snapToDuration)
-        const newDuration = moment.duration(moment(this.originalStart).add(moment.duration(this.originalDuration)).diff(newStartTime))
+        const newStartTime = roundTimeToNearest(this.originalStart + (delta / this.$store.getters.pixelsPerHour) * 3600000, this.snapToDuration)
+        const newDuration = this.originalStart + this.originalDuration - newStartTime
         this.temporaryStart = newStartTime
         this.temporaryDuration = newDuration
       }
@@ -300,7 +303,7 @@ export default {
       event.preventDefault()
       if (this.temporaryStart) {
         // we dispatch the change as it has only been temporary for now
-        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'start.time', oldValue: this.element.start.time, newValue: this.temporaryStart.format()}], canUndo: true })
+        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'start.time', oldValue: this.element.start.time, newValue: this.temporaryStart}], canUndo: true })
       }
       this.dragging = false
       this.originalPosition = null
@@ -314,7 +317,7 @@ export default {
         event.stopPropagation()
         event.preventDefault()
         const delta = event.clientY - this.originalPosition
-        const newStartTime = roundTimeToNearest(moment(this.originalStart).add(moment.duration(delta / this.$store.getters.pixelsPerHour, 'h')), this.snapToDuration)
+        const newStartTime = roundTimeToNearest(this.originalStart + (delta / this.$store.getters.pixelsPerHour) * 3600000, this.snapToDuration)
         this.temporaryStart = newStartTime
       }
     },

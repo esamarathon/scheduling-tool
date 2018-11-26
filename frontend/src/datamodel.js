@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import moment from 'moment'
 
 Vue.use(Vuex)
 
@@ -291,15 +290,14 @@ export default new Vuex.Store({
     getDuration: state => element => state.lookup.calculatedTimes[element.id]['duration'],
     pixelsPerHour: state => state.display.pixelsPerHour || 100,
     snapToMinutes: state => state.display.snapToMinutes || 15,
-    getEventOffset: (state, getters) => element => moment.duration(moment(getters.getStartTime(element)).diff(moment(state.event.start))),
-    getStartOfSchedule: (state, getters) => scheduleID =>
-      moment(state.event.start).add(moment.duration(getters.lookupSchedule(scheduleID).offset || 0)),
+    getEventOffset: (state, getters) => element => getters.getStartTime(element) - state.event.start,
+    getStartOfSchedule: (state, getters) => scheduleID => state.event.start + (getters.lookupSchedule(scheduleID).offset || 0),
     getEndOfSchedule: (state, getters) => (scheduleID) => {
       const schedule = getters.lookupSchedule(scheduleID)
-      let end = moment(state.event.start)
+      let end = state.event.start
       for (let i = 0; i < schedule.elements.length; i += 1) {
         const elementEnd = getters.getEndTime(schedule.elements[i])
-        if (elementEnd.isAfter(end)) {
+        if (elementEnd > end) {
           end = elementEnd
         }
       }
@@ -315,7 +313,7 @@ export default new Vuex.Store({
       const element = getters.lookupElement(elementID)
       return schedule.elements[schedule.elements.indexOf(element) + 1]
     },
-    eventDuration: state => moment.duration(moment(state.event.end).diff(moment(state.event.start))),
+    eventDuration: state => state.event.end - state.event.start,
     assignState: state => ({ ongoing: state.display.assignOngoing, source: state.display.assignSource, side: state.display.assignSourceSide }),
     hoverHighlight: state => ({ target: state.display.hoverHighlightTarget, side: state.display.hoverHighlightSide })
   }
@@ -343,29 +341,29 @@ function calculateStartTime (element, state, calculatedTimes) {
   }
 
   if (element.start.actualTime) {
-    return moment(element.start.actualTime)
+    return element.start.actualTime
   }
   let referencedElement
   let startTime
   switch (element.start.type || 'absolute') {
     case 'absolute':
-      startTime = moment(element.start.time).add(moment.duration(element.start.offset || 0))
+      startTime = element.start.time + (element.start.offset || 0)
       break
     case 'startOf':
       referencedElement = state.lookup.elements[element.start.ref]
       // calculate and then use
       calculateStartTime(referencedElement, state, calculatedTimes)
-      startTime = moment(calculatedTimes[element.start.ref]['start'])
+      startTime = calculatedTimes[element.start.ref]['start']
       break
     case 'endOf':
       referencedElement = state.lookup.elements[element.start.ref]
       // calculate and then use
       calculateEndTime(referencedElement, state, calculatedTimes)
-      startTime = moment(calculatedTimes[element.start.ref]['end'])
+      startTime = calculatedTimes[element.start.ref]['end']
       break
     default:
       // safety valve
-      startTime = moment(state.event.start)
+      startTime = state.event.start
       break
   }
 
@@ -382,34 +380,34 @@ function calculateEndTime (element, state, calculatedTimes) {
   }
 
   if (element.end.actualTime) {
-    return moment(element.end.actualTime)
+    return element.end.actualTime
   }
   let referencedElement
   let endTime
   switch (element.end.type || 'absolute') {
     case 'absolute':
-      endTime = moment(element.end.time).add(moment.duration(element.end.offset || 0))
+      endTime = element.end.time + (element.end.offset || 0)
       break
     case 'duration':
       calculateStartTime(element, state, calculatedTimes)
       calculateDuration(element, state, calculatedTimes)
-      endTime = moment(calculatedTimes[element.id]['start']).add(calculatedTimes[element.id]['duration'])
+      endTime = calculatedTimes[element.id]['start'] + calculatedTimes[element.id]['duration']
       break
     case 'startOf':
       referencedElement = state.lookup.elements[element.end.ref]
       // calculate and then use
       calculateStartTime(referencedElement, state, calculatedTimes)
-      endTime = moment(calculatedTimes[element.end.ref]['start'])
+      endTime = calculatedTimes[element.end.ref]['start']
       break
     case 'endOf':
       referencedElement = state.lookup.elements[element.end.ref]
       // calculate and then use
       calculateEndTime(referencedElement, state, calculatedTimes)
-      endTime = moment(calculatedTimes[element.end.ref]['end'])
+      endTime = calculatedTimes[element.end.ref]['end']
       break
     default:
       // safety valve
-      endTime = moment(state.event.end)
+      endTime = state.event.end
       break
   }
 
@@ -427,13 +425,11 @@ function calculateDuration (element, state, calculatedTimes) {
 
   let duration
   if (!element.end.type || element.end.type === 'duration') {
-    duration = moment.duration(element.start.setup || 0)
-      .add(moment.duration(element.end.duration))
-      .add(moment.duration(element.end.teardown || 0))
+    duration = (element.start.setup || 0) + element.end.duration + (element.end.teardown || 0)
   } else {
     calculateStartTime(element, state, calculatedTimes)
     calculateEndTime(element, state, calculatedTimes)
-    duration = moment.duration(calculatedTimes[element.id]['end'].diff(calculatedTimes[element.id]['start']))
+    duration = calculatedTimes[element.id]['end'] - calculatedTimes[element.id]['start']
   }
 
   if (element.id in calculatedTimes) {

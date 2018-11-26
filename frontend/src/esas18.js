@@ -5,8 +5,8 @@ export default {
     id: 'ESAS18',
     url: `https:\\\\tracker.esamarathon.com\\ESAS18`
   },
-  start: '2018-07-21T16:00:00+02:00',
-  end: '2018-07-29T00:00:00+02:00',
+  start: 1532185200000,
+  end: 1532818800000,
   schedules: [
     {
       name: 'Main Stream',
@@ -30,10 +30,10 @@ export default {
           'name': 'Dark Souls III',
           'start': {
             'type': 'absolute',
-            'time': '2018-07-21T16:00:00+02:00'
+            'time': 1532185200000
           },
           'end': {
-            'duration': 'PT2H',
+            'duration': 7200000,
             'type': 'duration'
           },
           'data': {
@@ -55,12 +55,12 @@ export default {
         {
           'name': 'God of War',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '07394dbd-4ec1-4c18-bf41-d6f42fb7a4df',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H30M',
+            'duration': 5400000,
             'type': 'duration'
           },
           'data': {
@@ -79,12 +79,12 @@ export default {
         {
           'name': 'Cuphead',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'bea08b3b-cae8-4098-bea7-85ac4ae499f3',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT35M',
+            'duration': 2100000,
             'type': 'duration'
           },
           'data': {
@@ -103,12 +103,12 @@ export default {
         {
           'name': 'Super Mario Land 2: 6 Golden Coins',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '287d3a01-64a1-4fa9-a096-ac1bbbf2d16e',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT30M',
+            'duration': 1800000,
             'type': 'duration'
           },
           'data': {
@@ -130,12 +130,12 @@ export default {
         {
           'name': 'Gremlins 2: The New Batch',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '62792f39-291e-496b-9dcb-32b32f410a7b',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT09M',
+            'duration': 540000,
             'type': 'duration'
           },
           'data': {
@@ -154,12 +154,12 @@ export default {
         {
           'name': 'Darkwing Duck',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '962d8b62-6520-4c2b-a431-c5e274827e64',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT15M',
+            'duration': 900000,
             'type': 'duration'
           },
           'data': {
@@ -181,12 +181,12 @@ export default {
         {
           'name': 'Castle of Illusion HD',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '2c701a26-d293-44f2-953e-1e314de8875f',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT40M',
+            'duration': 2400000,
             'type': 'duration'
           },
           'data': {
@@ -205,12 +205,12 @@ export default {
         {
           'name': 'Hollow Knight',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '64e47127-06f1-493b-b230-4ec16f41ab38',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT45M',
+            'duration': 2700000,
             'type': 'duration'
           },
           'data': {
@@ -229,12 +229,12 @@ export default {
         {
           'name': 'Fable: The Lost Chapters',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '26d2798a-4a62-407c-9e67-adfd49e5a25f',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT3H45M',
+            'duration': 13500000,
             'type': 'duration'
           },
           'data': {
@@ -253,12 +253,12 @@ export default {
         {
           'name': 'Ratchet & Clank',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '7e68ed36-e201-4755-8ffc-3e82b02440d5',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H20M',
+            'duration': 4800000,
             'type': 'duration'
           },
           'data': {
@@ -277,12 +277,12 @@ export default {
         {
           'name': 'Warhammer 40,000: Dawn of War - Dark Crusade',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'b911b75c-71fb-446c-862b-5a0e22be6651',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H30M',
+            'duration': 5400000,
             'type': 'duration'
           },
           'data': {
@@ -301,12 +301,12 @@ export default {
         {
           'name': 'Kingdom Hearts Dream Drop Distance HD',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '1a62dbc8-6e20-4c57-866b-60eea6b75e97',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT2H15M',
+            'duration': 8100000,
             'type': 'duration'
           },
           'data': {
@@ -325,12 +325,12 @@ export default {
         {
           'name': "Tony Hawk's American Wasteland",
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '3630d0b6-1e77-4e07-9e36-4b5b0295b758',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H25M',
+            'duration': 5100000,
             'type': 'duration'
           },
           'data': {
@@ -349,12 +349,12 @@ export default {
         {
           'name': 'Tomb Raider: Anniversary',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'd84d8d58-6ebd-4ad0-bb2c-dba775cfa397',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT30M',
+            'duration': 1800000,
             'type': 'duration'
           },
           'data': {
@@ -373,12 +373,12 @@ export default {
         {
           'name': 'El Matador',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'a3e2e63b-4c7c-479d-8f2e-8be8fb8b977f',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT25M',
+            'duration': 1500000,
             'type': 'duration'
           },
           'data': {
@@ -400,12 +400,12 @@ export default {
         {
           'name': 'Max Payne',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '23813030-01b0-4f69-926d-ee3d78c47997',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT25M',
+            'duration': 1500000,
             'type': 'duration'
           },
           'data': {
@@ -424,12 +424,12 @@ export default {
         {
           'name': 'Beyblade VForce: Ultimate Blader Jam',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'ff1274c0-c6f5-476e-944a-3bcac9b5af6a',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT23M',
+            'duration': 1380000,
             'type': 'duration'
           },
           'data': {
@@ -448,12 +448,12 @@ export default {
         {
           'name': 'Snake Pass',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'c732fe0e-925e-490c-979d-61b4dacaa70a',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT45M',
+            'duration': 2700000,
             'type': 'duration'
           },
           'data': {
@@ -472,12 +472,12 @@ export default {
         {
           'name': 'Pikmin 3',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'fd7e5d31-faa1-43f0-b099-5674d61fe4c9',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT40M',
+            'duration': 2400000,
             'type': 'duration'
           },
           'data': {
@@ -496,12 +496,12 @@ export default {
         {
           'name': 'ibb & obb',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '2d780ea0-6475-4bc8-9475-3d54a06b4dcb',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT30M',
+            'duration': 1800000,
             'type': 'duration'
           },
           'data': {
@@ -523,12 +523,12 @@ export default {
         {
           'name': 'Dust: An Elysian Tail',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'aa431da6-4423-4790-a806-b0fdec081729',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT23M',
+            'duration': 1380000,
             'type': 'duration'
           },
           'data': {
@@ -547,12 +547,12 @@ export default {
         {
           'name': 'Solstice: Quest for the Staff of Demnos',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'd6a70b76-7a06-4cf1-bf9d-bfd81374034f',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT10M',
+            'duration': 600000,
             'type': 'duration'
           },
           'data': {
@@ -571,12 +571,12 @@ export default {
         {
           'name': 'BattleBlock Theater',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '57cea955-160a-42fd-8e00-9d5034347e5f',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H26M',
+            'duration': 5160000,
             'type': 'duration'
           },
           'data': {
@@ -601,12 +601,12 @@ export default {
         {
           'name': 'Ori and the Blind Forest Definitive Edition',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'a04391b9-220f-46b4-b3d9-cc612f684c13',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H',
+            'duration': 3600000,
             'type': 'duration'
           },
           'data': {
@@ -625,12 +625,12 @@ export default {
         {
           'name': 'GeoGuessr',
           'start': {
-            'setup': 'PT8M',
+            'setup': 480000,
             'ref': '40c9dd38-c5c3-42f8-8ed1-5f9dc1ee377e',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT30M',
+            'duration': 1800000,
             'type': 'duration'
           },
           'data': {
@@ -652,12 +652,12 @@ export default {
         {
           'name': 'Halo 3',
           'start': {
-            'setup': 'PT1M',
+            'setup': 60000,
             'ref': 'cf3c61a6-02e7-46b7-9406-79b90d60b2aa',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H40M',
+            'duration': 6000000,
             'type': 'duration'
           },
           'data': {
@@ -676,12 +676,12 @@ export default {
         {
           'name': 'Daikatana',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'e0d79ca9-3853-410e-bca1-bf32ebf70f39',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H',
+            'duration': 3600000,
             'type': 'duration'
           },
           'data': {
@@ -700,12 +700,12 @@ export default {
         {
           'name': 'Serious Sam: The First Encounter',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '6441dc2b-d74b-47c2-9831-49221e721b22',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT45M',
+            'duration': 2700000,
             'type': 'duration'
           },
           'data': {
@@ -724,12 +724,12 @@ export default {
         {
           'name': 'Doom: Scythe',
           'start': {
-            'setup': 'PT4M',
+            'setup': 240000,
             'ref': '22c7678b-ccb0-4277-8dd4-6950e934d381',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT21M',
+            'duration': 1260000,
             'type': 'duration'
           },
           'data': {
@@ -748,12 +748,12 @@ export default {
         {
           'name': 'Outlast',
           'start': {
-            'setup': 'PT7M',
+            'setup': 420000,
             'ref': 'ff410ffc-4daa-45f8-b4a5-ef49233d19b0',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT10M',
+            'duration': 600000,
             'type': 'duration'
           },
           'data': {
@@ -772,12 +772,12 @@ export default {
         {
           'name': 'Amnesia: The Dark Descent',
           'start': {
-            'setup': 'PT18M',
+            'setup': 1080000,
             'ref': 'f68f23e1-944a-43b0-b6e4-5dcaa584b704',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT32M',
+            'duration': 1920000,
             'type': 'duration'
           },
           'data': {
@@ -796,12 +796,12 @@ export default {
         {
           'name': 'S.T.A.L.K.E.R.: Shadow of Chernobyl',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '8cf6c84a-bebe-4ff9-9840-7626b3c2d02a',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H30M',
+            'duration': 5400000,
             'type': 'duration'
           },
           'data': {
@@ -820,12 +820,12 @@ export default {
         {
           'name': 'Silent Hill 3',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '3e0a7275-7a69-44b7-a3cd-07b2206676ce',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT55M',
+            'duration': 3300000,
             'type': 'duration'
           },
           'data': {
@@ -844,12 +844,12 @@ export default {
         {
           'name': 'Nioh',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'ce3618a9-36fc-4342-a31c-ce0d7a8ef6ba',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H50M',
+            'duration': 6600000,
             'type': 'duration'
           },
           'data': {
@@ -868,12 +868,12 @@ export default {
         {
           'name': 'Horizon Zero Dawn',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'd30b1ad9-226a-4150-a5af-dd27ae4619a2',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT2H20M',
+            'duration': 8400000,
             'type': 'duration'
           },
           'data': {
@@ -892,12 +892,12 @@ export default {
         {
           'name': 'Little Nightmares',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '853d6e90-7b17-480f-81c8-c77bc5167b61',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT45M',
+            'duration': 2700000,
             'type': 'duration'
           },
           'data': {
@@ -916,12 +916,12 @@ export default {
         {
           'name': 'Q.U.B.E. 2',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'eaea7b8c-bd97-46a1-9898-577bce589c66',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H20M',
+            'duration': 4800000,
             'type': 'duration'
           },
           'data': {
@@ -943,12 +943,12 @@ export default {
         {
           'name': 'Densha de D: Lightning Stage',
           'start': {
-            'setup': 'PT15M',
+            'setup': 900000,
             'ref': '43a4dcfb-0f38-48e1-a3cc-35be04d23766',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT25M',
+            'duration': 1500000,
             'type': 'duration'
           },
           'data': {
@@ -970,12 +970,12 @@ export default {
         {
           'name': 'Need for Speed: Most Wanted (2005)',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '5973e067-52e3-4a77-a201-6a7ec207feb4',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT3H50M',
+            'duration': 13800000,
             'type': 'duration'
           },
           'data': {
@@ -994,12 +994,12 @@ export default {
         {
           'name': 'Bionic Commando Rearmed',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '111b1146-0c47-4c07-8271-ddc70d0ac80c',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT40M',
+            'duration': 2400000,
             'type': 'duration'
           },
           'data': {
@@ -1018,12 +1018,12 @@ export default {
         {
           'name': 'Sonic the Hedgehog 2',
           'start': {
-            'setup': 'PT7M',
+            'setup': 420000,
             'ref': 'cc41ccff-b8ee-460a-9cc3-884ef6d2846b',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT25M',
+            'duration': 1500000,
             'type': 'duration'
           },
           'data': {
@@ -1045,12 +1045,12 @@ export default {
         {
           'name': 'Rot Gut',
           'start': {
-            'setup': 'PT26M',
+            'setup': 1560000,
             'ref': '913f0645-f4dd-4d87-aabf-e39d94043f5e',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT05M',
+            'duration': 300000,
             'type': 'duration'
           },
           'data': {
@@ -1069,12 +1069,12 @@ export default {
         {
           'name': 'Mega Man 2',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'bdb817c9-8293-45dd-83b5-2ed0d931aef0',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT35M',
+            'duration': 2100000,
             'type': 'duration'
           },
           'data': {
@@ -1096,12 +1096,12 @@ export default {
         {
           'name': 'Mega Man 5',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '4d9c9d4b-6de6-4acd-85f3-bfda5672c507',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT40M',
+            'duration': 2400000,
             'type': 'duration'
           },
           'data': {
@@ -1120,12 +1120,12 @@ export default {
         {
           'name': 'Battletoads',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '9561b8fb-71bb-455c-be04-a95e6dda1f22',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT17M',
+            'duration': 1020000,
             'type': 'duration'
           },
           'data': {
@@ -1144,12 +1144,12 @@ export default {
         {
           'name': 'Castlevania',
           'start': {
-            'setup': 'PT20M',
+            'setup': 1200000,
             'ref': 'f67f7199-7d34-4a7b-8f7b-3e4559cf05be',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT15M',
+            'duration': 900000,
             'type': 'duration'
           },
           'data': {
@@ -1168,12 +1168,12 @@ export default {
         {
           'name': "Castlevania II: Simon's Quest",
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'bdf311b3-c569-4a18-aff1-13c80f4ffbe9',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT44M',
+            'duration': 2640000,
             'type': 'duration'
           },
           'data': {
@@ -1192,12 +1192,12 @@ export default {
         {
           'name': 'Firestriker',
           'start': {
-            'setup': 'PT2M',
+            'setup': 120000,
             'ref': '67b52fcc-1dda-4cf6-a6af-552d14a6acfa',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT30M',
+            'duration': 1800000,
             'type': 'duration'
           },
           'data': {
@@ -1219,12 +1219,12 @@ export default {
         {
           'name': 'Kung Fu',
           'start': {
-            'setup': 'PT2M',
+            'setup': 120000,
             'ref': 'faadd23b-32ef-4dd5-9dba-305ada3aaa29',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT05M',
+            'duration': 300000,
             'type': 'duration'
           },
           'data': {
@@ -1243,12 +1243,12 @@ export default {
         {
           'name': 'The Binding of Isaac: Afterbirth+',
           'start': {
-            'setup': 'PT17M',
+            'setup': 1020000,
             'ref': '78d6899a-cd2b-456e-a226-1a1df7b86378',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H50M',
+            'duration': 6600000,
             'type': 'duration'
           },
           'data': {
@@ -1273,12 +1273,12 @@ export default {
         {
           'name': 'Transistor',
           'start': {
-            'setup': 'PT20M',
+            'setup': 1200000,
             'ref': '1fd0f0c8-26de-475e-98c3-1820e80ac519',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H',
+            'duration': 3600000,
             'type': 'duration'
           },
           'data': {
@@ -1297,12 +1297,12 @@ export default {
         {
           'name': 'Undertale',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'aaaf1e82-64e2-42c4-8508-da07f625075e',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H40M',
+            'duration': 6000000,
             'type': 'duration'
           },
           'data': {
@@ -1321,12 +1321,12 @@ export default {
         {
           'name': 'South Park: The Stick of Truth',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '2e4c69b7-fc1a-485f-84cb-b6f9640d5313',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H45M',
+            'duration': 6300000,
             'type': 'duration'
           },
           'data': {
@@ -1345,12 +1345,12 @@ export default {
         {
           'name': 'Harry Potter and the Chamber of Secrets',
           'start': {
-            'setup': 'PT20M',
+            'setup': 1200000,
             'ref': '433a5e0d-6b9b-4475-a54a-75aecdb4ac28',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H50M',
+            'duration': 6600000,
             'type': 'duration'
           },
           'data': {
@@ -1369,12 +1369,12 @@ export default {
         {
           'name': 'The Legend of Zelda: Twilight Princess HD',
           'start': {
-            'setup': 'PT20M',
+            'setup': 1200000,
             'ref': '47a7a2c9-8d02-4445-8531-207ff2c0f251',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT4H',
+            'duration': 14400000,
             'type': 'duration'
           },
           'data': {
@@ -1393,12 +1393,12 @@ export default {
         {
           'name': 'Okami',
           'start': {
-            'setup': 'PT20M',
+            'setup': 1200000,
             'ref': 'bc83635a-3b50-4600-84ea-121e73dc9204',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H30M',
+            'duration': 5400000,
             'type': 'duration'
           },
           'data': {
@@ -1417,12 +1417,12 @@ export default {
         {
           'name': 'Dissidia: Final Fantasy',
           'start': {
-            'setup': 'PT35M',
+            'setup': 2100000,
             'ref': '84eff138-c76b-4b5c-8d46-0d1d19848a37',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H40M',
+            'duration': 6000000,
             'type': 'duration'
           },
           'data': {
@@ -1441,12 +1441,12 @@ export default {
         {
           'name': 'Jak and Daxter: The Precursor Legacy',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '38a9605d-fcb5-490b-ab32-e1ed6cb14203',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H10M',
+            'duration': 4200000,
             'type': 'duration'
           },
           'data': {
@@ -1465,12 +1465,12 @@ export default {
         {
           'name': 'Prince of Persia: Warrior Within',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'f74177cb-a59c-4893-95fc-2ec2afab2844',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT25M',
+            'duration': 1500000,
             'type': 'duration'
           },
           'data': {
@@ -1489,12 +1489,12 @@ export default {
         {
           'name': 'Darksiders',
           'start': {
-            'setup': 'PT0M',
+            'setup': 0,
             'ref': 'bf9f7234-4540-4635-a36a-7b512668c637',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H30M',
+            'duration': 5400000,
             'type': 'duration'
           },
           'data': {
@@ -1513,12 +1513,12 @@ export default {
         {
           'name': 'NieR: Automata',
           'start': {
-            'setup': 'PT0M',
+            'setup': 0,
             'ref': '7a5000a2-374a-4790-84e9-39c04307fb93',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H30M',
+            'duration': 5400000,
             'type': 'duration'
           },
           'data': {
@@ -1537,12 +1537,12 @@ export default {
         {
           'name': 'Dark Souls II',
           'start': {
-            'setup': 'PT0M',
+            'setup': 0,
             'ref': '973e1365-c4ca-46aa-b0c5-ff364beb61df',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT2H20M',
+            'duration': 8400000,
             'type': 'duration'
           },
           'data': {
@@ -1564,12 +1564,12 @@ export default {
         {
           'name': 'Shadow of the Colossus Remaster',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '313f56af-33c7-41dc-a8cb-f55305ee7738',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H55M',
+            'duration': 6900000,
             'type': 'duration'
           },
           'data': {
@@ -1588,12 +1588,12 @@ export default {
         {
           'name': 'Diablo II: Lord of Destruction',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '035559fb-bc9b-4ed5-a570-64a4cfcbe772',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT2H',
+            'duration': 7200000,
             'type': 'duration'
           },
           'data': {
@@ -1612,12 +1612,12 @@ export default {
         {
           'name': 'Deus Ex',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'd51da5d7-2e4e-42db-9bd0-c47f8e4be633',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT50M',
+            'duration': 3000000,
             'type': 'duration'
           },
           'data': {
@@ -1636,12 +1636,12 @@ export default {
         {
           'name': 'Fallout 3',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '6058c849-6f64-41d7-985c-8443553931a1',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H40M',
+            'duration': 6000000,
             'type': 'duration'
           },
           'data': {
@@ -1660,12 +1660,12 @@ export default {
         {
           'name': 'Yakuza 6: The Song of Life',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'a8245c0c-1f13-42dd-9cf7-c6fc26f10a48',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT3H15M',
+            'duration': 11700000,
             'type': 'duration'
           },
           'data': {
@@ -1684,12 +1684,12 @@ export default {
         {
           'name': 'LEGO Harry Potter: Years 5-7',
           'start': {
-            'setup': 'PT24M',
+            'setup': 1440000,
             'ref': 'c539a03a-5008-4602-aba3-710a11159495',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT2H',
+            'duration': 7200000,
             'type': 'duration'
           },
           'data': {
@@ -1708,12 +1708,12 @@ export default {
         {
           'name': 'Grand Theft Auto IV',
           'start': {
-            'setup': 'PT16M',
+            'setup': 960000,
             'ref': 'b36a31ef-0579-497f-bebb-de0425090a4e',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT4H',
+            'duration': 14400000,
             'type': 'duration'
           },
           'data': {
@@ -1732,12 +1732,12 @@ export default {
         {
           'name': 'Grand Theft Auto 2',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'c3e3927d-32f6-4fe9-8a94-bd11c6b8fab9',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT35M',
+            'duration': 2100000,
             'type': 'duration'
           },
           'data': {
@@ -1756,12 +1756,12 @@ export default {
         {
           'name': 'Final Fantasy IX',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '5a3788e0-4727-4409-b672-dae60c265035',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT5H25M',
+            'duration': 19500000,
             'type': 'duration'
           },
           'data': {
@@ -1780,12 +1780,12 @@ export default {
         {
           'name': 'Awful Games',
           'start': {
-            'setup': 'PT32M',
+            'setup': 1920000,
             'ref': '8a1a1583-7993-452e-9040-b2624c23c0b2',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT30M',
+            'duration': 1800000,
             'type': 'duration'
           },
           'data': {
@@ -1807,12 +1807,12 @@ export default {
         {
           'name': 'Arabian Nights',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'dcf06f90-e128-4e65-b3db-dde09c750679',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT40M',
+            'duration': 2400000,
             'type': 'duration'
           },
           'data': {
@@ -1831,12 +1831,12 @@ export default {
         {
           'name': 'Prince of Persia: The Sands of Time',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '44d8e883-bff7-402a-a366-a2b7149c8f3f',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H05M',
+            'duration': 3900000,
             'type': 'duration'
           },
           'data': {
@@ -1855,12 +1855,12 @@ export default {
         {
           'name': 'SUPERHOT',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '70053544-c075-47f1-ae83-111a18a7ceab',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT23M',
+            'duration': 1380000,
             'type': 'duration'
           },
           'data': {
@@ -1879,12 +1879,12 @@ export default {
         {
           'name': 'I Wanna Kill The Kamilia 2',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'b2944f52-c59a-409c-bafa-27da03ce5664',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H30M',
+            'duration': 5400000,
             'type': 'duration'
           },
           'data': {
@@ -1903,12 +1903,12 @@ export default {
         {
           'name': 'Family Guy: Back to the Multiverse',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '3512ae84-445d-4df3-bde8-7f943cb41ebf',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H',
+            'duration': 3600000,
             'type': 'duration'
           },
           'data': {
@@ -1930,12 +1930,12 @@ export default {
         {
           'name': 'Lara Croft and the Guardian of Light',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '05138a34-a7ef-4610-8657-8b29c56269a7',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT32M',
+            'duration': 1920000,
             'type': 'duration'
           },
           'data': {
@@ -1957,12 +1957,12 @@ export default {
         {
           'name': 'Tomb Raider III: Adventures of Lara Croft',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '7593ede2-1866-4403-8173-c1b36b8180d7',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H20M',
+            'duration': 4800000,
             'type': 'duration'
           },
           'data': {
@@ -1981,12 +1981,12 @@ export default {
         {
           'name': 'Tomb Raider: The Angel of Darkness',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '741a9eaf-69b8-4547-b198-8be2f5d665ca',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT30M',
+            'duration': 1800000,
             'type': 'duration'
           },
           'data': {
@@ -2005,12 +2005,12 @@ export default {
         {
           'name': 'BioShock Infinite',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'e94130e5-22ee-4273-a6fd-31706a32747d',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H50M',
+            'duration': 6600000,
             'type': 'duration'
           },
           'data': {
@@ -2029,12 +2029,12 @@ export default {
         {
           'name': 'WarioWare: Smooth Moves',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '09d87570-cfbe-4dcb-a618-2c36574619a5',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT53M',
+            'duration': 3180000,
             'type': 'duration'
           },
           'data': {
@@ -2056,12 +2056,12 @@ export default {
         {
           'name': 'Jak II',
           'start': {
-            'setup': 'PT20M',
+            'setup': 1200000,
             'ref': '23d80b1f-6cfc-45f9-9887-83d75b5cdd3d',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H10M',
+            'duration': 4200000,
             'type': 'duration'
           },
           'data': {
@@ -2080,12 +2080,12 @@ export default {
         {
           'name': 'The Legend of Zelda: A Link Between Worlds',
           'start': {
-            'setup': 'PT20M',
+            'setup': 1200000,
             'ref': 'a8e4f378-5bd1-427f-9d2c-68b95c02925a',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT3H20M',
+            'duration': 12000000,
             'type': 'duration'
           },
           'data': {
@@ -2104,12 +2104,12 @@ export default {
         {
           'name': 'Bastion',
           'start': {
-            'setup': 'PT16M',
+            'setup': 960000,
             'ref': 'f6fece85-bbdc-434c-a39f-0486b41a69d1',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H15M',
+            'duration': 4500000,
             'type': 'duration'
           },
           'data': {
@@ -2137,12 +2137,12 @@ export default {
         {
           'name': 'Light Fall',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '172f09a7-dc90-408f-a9e4-a1aec3027494',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT35M',
+            'duration': 2100000,
             'type': 'duration'
           },
           'data': {
@@ -2161,12 +2161,12 @@ export default {
         {
           'name': 'Run Invalid',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'a873a1ff-586c-4396-aa04-d290db02832b',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT30M',
+            'duration': 1800000,
             'type': 'duration'
           },
           'data': {
@@ -2188,12 +2188,12 @@ export default {
         {
           'name': 'Celeste',
           'start': {
-            'setup': 'PT2M',
+            'setup': 120000,
             'ref': 'b6c683aa-beeb-45d0-ae3d-660e99745165',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT50M',
+            'duration': 3000000,
             'type': 'duration'
           },
           'data': {
@@ -2212,12 +2212,12 @@ export default {
         {
           'name': 'Donkey Kong 5: The Journey of Over Time and Space',
           'start': {
-            'setup': 'PT2M',
+            'setup': 120000,
             'ref': '580f7e77-6617-4baf-982d-60cd4ab8ee39',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT07M',
+            'duration': 420000,
             'type': 'duration'
           },
           'data': {
@@ -2236,12 +2236,12 @@ export default {
         {
           'name': 'VVVVVV',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'b343aecf-af36-4284-a915-d170f3a1b6bb',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT13M',
+            'duration': 780000,
             'type': 'duration'
           },
           'data': {
@@ -2266,12 +2266,12 @@ export default {
         {
           'name': 'I Wanna Be The Boshy',
           'start': {
-            'setup': 'PT2M',
+            'setup': 120000,
             'ref': '77a94163-cc48-4bc4-ab63-e069c317ead7',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H10M',
+            'duration': 4200000,
             'type': 'duration'
           },
           'data': {
@@ -2290,12 +2290,12 @@ export default {
         {
           'name': 'Nitronic Rush',
           'start': {
-            'setup': 'PT2M',
+            'setup': 120000,
             'ref': '31e06a79-bd52-4a53-82a6-6c18eb16b036',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT10M',
+            'duration': 600000,
             'type': 'duration'
           },
           'data': {
@@ -2314,12 +2314,12 @@ export default {
         {
           'name': 'Tetris The Grand Master',
           'start': {
-            'setup': 'PT28M',
+            'setup': 1680000,
             'ref': '41657e12-9304-48c2-9b95-496310167309',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT45M',
+            'duration': 2700000,
             'type': 'duration'
           },
           'data': {
@@ -2338,12 +2338,12 @@ export default {
         {
           'name': 'Tekken 7',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '5b693e91-e28c-4258-a2aa-9f7bb485e1ae',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT35M',
+            'duration': 2100000,
             'type': 'duration'
           },
           'data': {
@@ -2362,12 +2362,12 @@ export default {
         {
           'name': "Mike Tyson's Punch-Out!!",
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '83f40ef1-3d6a-4351-8f92-8cb4aa120620',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT25M',
+            'duration': 1500000,
             'type': 'duration'
           },
           'data': {
@@ -2386,12 +2386,12 @@ export default {
         {
           'name': 'Adventure Island II',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'df17589a-70e5-4a7c-a400-8250051fd355',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT30M',
+            'duration': 1800000,
             'type': 'duration'
           },
           'data': {
@@ -2410,12 +2410,12 @@ export default {
         {
           'name': 'Batman: The Video Game',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'b7c98475-d68f-4de8-ac42-e1848ff1b53a',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT15M',
+            'duration': 900000,
             'type': 'duration'
           },
           'data': {
@@ -2437,12 +2437,12 @@ export default {
         {
           'name': 'Strider',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '550f7c03-2251-45b1-b436-909176784a38',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT08M',
+            'duration': 480000,
             'type': 'duration'
           },
           'data': {
@@ -2461,12 +2461,12 @@ export default {
         {
           'name': "Demon's Crest",
           'start': {
-            'setup': 'PT5M',
+            'setup': 300000,
             'ref': '201002ea-aaa7-478a-8552-a8b2f978a34f',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT50M',
+            'duration': 3000000,
             'type': 'duration'
           },
           'data': {
@@ -2485,12 +2485,12 @@ export default {
         {
           'name': 'Ratchet: Deadlocked',
           'start': {
-            'setup': 'PT0M',
+            'setup': 0,
             'ref': '5b5bef0f-28a2-4336-893d-d9d9c58b68e3',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT55M',
+            'duration': 3300000,
             'type': 'duration'
           },
           'data': {
@@ -2509,12 +2509,12 @@ export default {
         {
           'name': 'Dishonored 2',
           'start': {
-            'setup': 'PT2M',
+            'setup': 120000,
             'ref': 'c3567713-f075-4f57-b3ef-8e4a9d0bc134',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT38M',
+            'duration': 2280000,
             'type': 'duration'
           },
           'data': {
@@ -2533,12 +2533,12 @@ export default {
         {
           'name': 'Dishonored: Death of the Outsider',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '99448087-5767-41b0-8c78-0af381643b1e',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT18M',
+            'duration': 1080000,
             'type': 'duration'
           },
           'data': {
@@ -2557,12 +2557,12 @@ export default {
         {
           'name': 'The Witness',
           'start': {
-            'setup': 'PT0M',
+            'setup': 0,
             'ref': '7ef1a633-abea-4743-8309-38af8047f91b',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT20M',
+            'duration': 1200000,
             'type': 'duration'
           },
           'data': {
@@ -2581,12 +2581,12 @@ export default {
         {
           'name': 'Pok\u00e9mon Platinum',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'a154a1e3-2f9e-448d-a023-3d69c6c1a82b',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT3H15M',
+            'duration': 11700000,
             'type': 'duration'
           },
           'data': {
@@ -2605,12 +2605,12 @@ export default {
         {
           'name': 'Solar Jetman',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '03ca0608-01bf-414b-b3fc-0e16fe5c4eab',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT40M',
+            'duration': 2400000,
             'type': 'duration'
           },
           'data': {
@@ -2629,12 +2629,12 @@ export default {
         {
           'name': 'Taz-Mania',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'a57580e8-cb07-4a63-8ae8-e5374f818245',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT15M',
+            'duration': 900000,
             'type': 'duration'
           },
           'data': {
@@ -2656,12 +2656,12 @@ export default {
         {
           'name': 'Yume Penguin Monogatari',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '995fc44a-7c8b-45bb-b360-be0842b82dfa',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT12M',
+            'duration': 720000,
             'type': 'duration'
           },
           'data': {
@@ -2683,12 +2683,12 @@ export default {
         {
           'name': 'Super Metroid',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '43068dcd-4a3c-424a-81f6-0f63c48c09c0',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H25M',
+            'duration': 5100000,
             'type': 'duration'
           },
           'data': {
@@ -2707,12 +2707,12 @@ export default {
         {
           'name': 'Kirby Super Star Ultra',
           'start': {
-            'setup': 'PT33M',
+            'setup': 1980000,
             'ref': '807c5aaa-dda5-4f4b-8e6a-30e8f5a0a091',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT2H10M',
+            'duration': 7800000,
             'type': 'duration'
           },
           'data': {
@@ -2731,12 +2731,12 @@ export default {
         {
           'name': 'Super Mario 64',
           'start': {
-            'setup': 'PT37M',
+            'setup': 2220000,
             'ref': 'b7ec8314-a15c-4cf6-a139-c5b9b8cc8308',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT2H',
+            'duration': 7200000,
             'type': 'duration'
           },
           'data': {
@@ -2755,12 +2755,12 @@ export default {
         {
           'name': "Mirror's Edge",
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'bd76e212-6aad-4d30-8530-c68565fa8c15',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT50M',
+            'duration': 3000000,
             'type': 'duration'
           },
           'data': {
@@ -2779,12 +2779,12 @@ export default {
         {
           'name': 'Dark Souls',
           'start': {
-            'setup': 'PT2M',
+            'setup': 120000,
             'ref': 'bf18058f-cc92-4e57-ae89-3efc7e41c8fd',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H35M',
+            'duration': 5700000,
             'type': 'duration'
           },
           'data': {
@@ -2803,12 +2803,12 @@ export default {
         {
           'name': 'Dark Souls',
           'start': {
-            'setup': 'PT14M',
+            'setup': 840000,
             'ref': '3fdd248b-7fd5-4c94-af77-e20d0fb15176',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT20M',
+            'duration': 1200000,
             'type': 'duration'
           },
           'data': {
@@ -2827,12 +2827,12 @@ export default {
         {
           'name': 'Dark Souls (Remastered)',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '120504cc-c9df-48b5-a4cb-3aee53e8b037',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H',
+            'duration': 3600000,
             'type': 'duration'
           },
           'data': {
@@ -2854,12 +2854,12 @@ export default {
         {
           'name': 'Star Wars Jedi Knight: Jedi Academy',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '557f1a28-33d1-41ef-8c10-6b887200dd6f',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT35M',
+            'duration': 2100000,
             'type': 'duration'
           },
           'data': {
@@ -2884,12 +2884,12 @@ export default {
         {
           'name': 'Hitman: Blood Money',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'd7dcdb61-ff12-4849-9c71-8d946cbab31a',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT47M',
+            'duration': 2820000,
             'type': 'duration'
           },
           'data': {
@@ -2908,12 +2908,12 @@ export default {
         {
           'name': 'Quake',
           'start': {
-            'setup': 'PT6M',
+            'setup': 360000,
             'ref': '69c17850-0172-47e6-87aa-7f3312853d4a',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT20M',
+            'duration': 1200000,
             'type': 'duration'
           },
           'data': {
@@ -2935,12 +2935,12 @@ export default {
         {
           'name': 'Half-Life',
           'start': {
-            'setup': 'PT6M',
+            'setup': 360000,
             'ref': '3aac6019-1d43-413b-a878-ad4608fbd469',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT35M',
+            'duration': 2100000,
             'type': 'duration'
           },
           'data': {
@@ -2959,12 +2959,12 @@ export default {
         {
           'name': 'Deus Ex: Human Revolution',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'c73d6eca-4bf5-4323-bbb8-418144347258',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT50M',
+            'duration': 3000000,
             'type': 'duration'
           },
           'data': {
@@ -2983,12 +2983,12 @@ export default {
         {
           'name': 'Prey (2017)',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'c4266377-0588-42b9-8b6e-dbb360ddf956',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT20M',
+            'duration': 1200000,
             'type': 'duration'
           },
           'data': {
@@ -3007,12 +3007,12 @@ export default {
         {
           'name': 'Dying Light',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '9fdbd9d1-827d-4da2-9ade-a9184e7aac81',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT2H',
+            'duration': 7200000,
             'type': 'duration'
           },
           'data': {
@@ -3031,12 +3031,12 @@ export default {
         {
           'name': 'Minecraft: Java Edition',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '3fb5e3ef-3c14-4788-8887-501d367177ca',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT15M',
+            'duration': 900000,
             'type': 'duration'
           },
           'data': {
@@ -3055,12 +3055,12 @@ export default {
         {
           'name': 'Hearthstone: League of Explorers',
           'start': {
-            'setup': 'PT13M',
+            'setup': 780000,
             'ref': '01e78843-202b-4416-a904-e2f8647e36da',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H40M',
+            'duration': 6000000,
             'type': 'duration'
           },
           'data': {
@@ -3079,12 +3079,12 @@ export default {
         {
           'name': 'Sonic Forces',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '294d40ea-2662-48ee-9bab-e0780e5f6881',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H05M',
+            'duration': 3900000,
             'type': 'duration'
           },
           'data': {
@@ -3103,12 +3103,12 @@ export default {
         {
           'name': 'Sonic Mania',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'cdb16df7-ace4-45d5-80b2-a0c6ff5313a4',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H05M',
+            'duration': 3900000,
             'type': 'duration'
           },
           'data': {
@@ -3127,12 +3127,12 @@ export default {
         {
           'name': 'The Legend of Spyro: The Eternal Night',
           'start': {
-            'setup': 'PT16M',
+            'setup': 960000,
             'ref': '881a5fcb-4f36-4adc-b8bd-094feb7d5bb1',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT35M',
+            'duration': 2100000,
             'type': 'duration'
           },
           'data': {
@@ -3154,12 +3154,12 @@ export default {
         {
           'name': 'Kingdom Hearts Birth by Sleep Final Mix HD',
           'start': {
-            'setup': 'PT13M',
+            'setup': 780000,
             'ref': 'b5228e47-b185-43bc-8dc8-c45a539e34b3',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H',
+            'duration': 3600000,
             'type': 'duration'
           },
           'data': {
@@ -3178,12 +3178,12 @@ export default {
         {
           'name': 'Kirby & The Amazing Mirror',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '9ca21dda-b721-49fd-be2b-39fd17969a64',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT30M',
+            'duration': 1800000,
             'type': 'duration'
           },
           'data': {
@@ -3205,12 +3205,12 @@ export default {
         {
           'name': 'The Legend of Zelda: Ocarina of Time',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '9626b1a2-ba90-4e4f-8916-21499e2f2394',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT2H10M',
+            'duration': 7800000,
             'type': 'duration'
           },
           'data': {
@@ -3229,12 +3229,12 @@ export default {
         {
           'name': 'The Legend of Zelda: The Wind Waker HD',
           'start': {
-            'setup': 'PT28M',
+            'setup': 1680000,
             'ref': '0903ceb4-afa1-475a-b753-4a95d6608e5f',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H15M',
+            'duration': 4500000,
             'type': 'duration'
           },
           'data': {
@@ -3253,12 +3253,12 @@ export default {
         {
           'name': 'Super Mario Odyssey',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': 'f7278d0f-9e7e-426b-81f4-79cb9eca27d9',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT1H20M',
+            'duration': 4800000,
             'type': 'duration'
           },
           'data': {
@@ -3283,12 +3283,12 @@ export default {
         {
           'name': 'Grand Theft Auto III',
           'start': {
-            'setup': 'PT0M',
+            'setup': 0,
             'ref': '77491042-ab71-486a-b641-14f196b286cc',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT3H10M',
+            'duration': 11400000,
             'type': 'duration'
           },
           'data': {
@@ -3307,12 +3307,12 @@ export default {
         {
           'name': 'Best of NES - BIG10',
           'start': {
-            'setup': '00:10:00',
+            'setup': 600000,
             'ref': '76ca019c-0cf8-4336-b0b6-ec780bceda89',
             'type': 'endOf'
           },
           'end': {
-            'duration': 'PT3H',
+            'duration': 10800000,
             'type': 'duration'
           },
           'data': {
@@ -3360,12 +3360,12 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT5H10M'
+            'duration': 18600000
           },
           'id': '39ac9bf5-952b-4a98-b8c7-d6606d1c769c',
           'parent': 'ESAS18Second',
           'start': {
-            'time': '2018-07-22T14:00:00+02:00',
+            'time': 1532264400000,
             'type': 'absolute'
           },
           'data': {
@@ -3383,13 +3383,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT1H05M'
+            'duration': 3900000
           },
           'id': '6ef9a638-a862-4e77-9edc-8d6dfe5d47b4',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '39ac9bf5-952b-4a98-b8c7-d6606d1c769c',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3407,13 +3407,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT35M'
+            'duration': 2100000
           },
           'id': '4b8d9353-cb5a-4f3d-842c-2f3f138ecdb6',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '6ef9a638-a862-4e77-9edc-8d6dfe5d47b4',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3431,13 +3431,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT30M'
+            'duration': 1800000
           },
           'id': '5343acf3-9e33-4673-85c9-9d852d4a23ee',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '4b8d9353-cb5a-4f3d-842c-2f3f138ecdb6',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3455,13 +3455,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT1H55M'
+            'duration': 6900000
           },
           'id': '85f5e250-ffd8-41f0-88ee-8d9998e5cb51',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '5343acf3-9e33-4673-85c9-9d852d4a23ee',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3479,13 +3479,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT1H50M'
+            'duration': 6600000
           },
           'id': 'f2845ce3-acb7-4e75-9eac-676d674fdb78',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '85f5e250-ffd8-41f0-88ee-8d9998e5cb51',
-            'setup': 'PT0M',
+            'setup': 0,
             'type': 'endOf'
           },
           'data': {
@@ -3503,12 +3503,12 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT20M'
+            'duration': 1200000
           },
           'id': '7e9f50f3-a37b-489c-9fa2-5cb60480575e',
           'parent': 'ESAS18Second',
           'start': {
-            'time': '2018-07-23T10:00:00+02:00',
+            'time': 1532336400000,
             'type': 'absolute'
           },
           'data': {
@@ -3526,13 +3526,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT13M'
+            'duration': 780000
           },
           'id': '116a92ec-a6ba-4482-b90a-0c5bf9b6454a',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '7e9f50f3-a37b-489c-9fa2-5cb60480575e',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3550,13 +3550,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT20M'
+            'duration': 1200000
           },
           'id': '275b48f9-bfb9-41bd-a8e8-c2976cc83a17',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '116a92ec-a6ba-4482-b90a-0c5bf9b6454a',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3574,13 +3574,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT15M'
+            'duration': 900000
           },
           'id': 'f3142b6a-af56-4b7d-ad1b-8312b0368435',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '275b48f9-bfb9-41bd-a8e8-c2976cc83a17',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3598,13 +3598,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT20M'
+            'duration': 1200000
           },
           'id': '6e67de45-7eb3-4861-b059-26788a219126',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'f3142b6a-af56-4b7d-ad1b-8312b0368435',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3622,13 +3622,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT15M'
+            'duration': 900000
           },
           'id': 'c9fff6f4-d530-45ba-baa0-8f109a9a9048',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '6e67de45-7eb3-4861-b059-26788a219126',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3646,13 +3646,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT50M'
+            'duration': 3000000
           },
           'id': '6c596177-bf2a-4d46-b97b-fd4253ca67bd',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'c9fff6f4-d530-45ba-baa0-8f109a9a9048',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3670,13 +3670,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT25M'
+            'duration': 1500000
           },
           'id': 'f468fbfd-aa03-4478-89be-38b5c1a43311',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '6c596177-bf2a-4d46-b97b-fd4253ca67bd',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3694,13 +3694,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT1H10M'
+            'duration': 4200000
           },
           'id': '5521ee0c-5c56-4e0e-ae38-b02d33a36ad2',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'f468fbfd-aa03-4478-89be-38b5c1a43311',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3718,13 +3718,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT1H45M'
+            'duration': 6300000
           },
           'id': 'ac54d584-e36c-4d05-a15b-3f063fe3ee43',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '5521ee0c-5c56-4e0e-ae38-b02d33a36ad2',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3742,13 +3742,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT1H50M'
+            'duration': 6600000
           },
           'id': 'fdf92d77-27b9-418d-8b8c-5d95b5e2ddb5',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'ac54d584-e36c-4d05-a15b-3f063fe3ee43',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3766,13 +3766,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT30M'
+            'duration': 1800000
           },
           'id': 'bfe663b1-d50c-4f1e-8d5e-402572b9c547',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'fdf92d77-27b9-418d-8b8c-5d95b5e2ddb5',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3790,13 +3790,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT3H15M'
+            'duration': 11700000
           },
           'id': '65170c40-7c4b-4c74-b932-ab41a6b7d471',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'bfe663b1-d50c-4f1e-8d5e-402572b9c547',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3814,13 +3814,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT48M'
+            'duration': 2880000
           },
           'id': '7e9821f4-7186-4680-9166-4ea90ae3f38d',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '65170c40-7c4b-4c74-b932-ab41a6b7d471',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3838,13 +3838,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT1H30M'
+            'duration': 5400000
           },
           'id': 'f99f6e47-9d5f-47c9-8758-523718b98256',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '7e9821f4-7186-4680-9166-4ea90ae3f38d',
-            'setup': 'PT0M',
+            'setup': 0,
             'type': 'endOf'
           },
           'data': {
@@ -3862,12 +3862,12 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT25M'
+            'duration': 1500000
           },
           'id': 'fe9981d0-5792-40ea-bc14-d8339392d8ba',
           'parent': 'ESAS18Second',
           'start': {
-            'time': '2018-07-24T10:00:00+02:00',
+            'time': 1532422800000,
             'type': 'absolute'
           },
           'data': {
@@ -3885,13 +3885,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT35M'
+            'duration': 2100000
           },
           'id': '0004f2c9-f6f4-41b1-9779-de84d4914cad',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'fe9981d0-5792-40ea-bc14-d8339392d8ba',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3909,13 +3909,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT13M'
+            'duration': 780000
           },
           'id': '92b222f9-7f55-4c29-a7a0-fceaf5ab0c3f',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '0004f2c9-f6f4-41b1-9779-de84d4914cad',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3933,13 +3933,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT55M'
+            'duration': 3300000
           },
           'id': '75f62b80-f375-4649-bcbf-7dd43f35c37c',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '92b222f9-7f55-4c29-a7a0-fceaf5ab0c3f',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3957,13 +3957,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT35M'
+            'duration': 2100000
           },
           'id': '4cd8174d-2b65-41e1-8996-db8a8147c7d4',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '75f62b80-f375-4649-bcbf-7dd43f35c37c',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -3981,13 +3981,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT40M'
+            'duration': 2400000
           },
           'id': '7c8de7cf-7eb4-4a5f-83a5-90a94d35372c',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '4cd8174d-2b65-41e1-8996-db8a8147c7d4',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4005,13 +4005,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT50M'
+            'duration': 3000000
           },
           'id': '1b2b9af8-e923-403f-b8f9-6d89e4fe9068',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '7c8de7cf-7eb4-4a5f-83a5-90a94d35372c',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4029,13 +4029,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT26M'
+            'duration': 1560000
           },
           'id': '5ba9cd7d-9598-4975-99f4-2e5b131cad0f',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '1b2b9af8-e923-403f-b8f9-6d89e4fe9068',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4053,13 +4053,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT28M'
+            'duration': 1680000
           },
           'id': '62575c7f-8f01-47a5-a40a-b469a7ef40c3',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '5ba9cd7d-9598-4975-99f4-2e5b131cad0f',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4077,13 +4077,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT38M'
+            'duration': 2280000
           },
           'id': 'b5b41960-c651-4f6d-bf4e-125c9b742b91',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '62575c7f-8f01-47a5-a40a-b469a7ef40c3',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4101,13 +4101,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT22M'
+            'duration': 1320000
           },
           'id': 'c1593e4f-ff48-4a54-ad43-00161a855579',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'b5b41960-c651-4f6d-bf4e-125c9b742b91',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4125,13 +4125,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT32M'
+            'duration': 1920000
           },
           'id': '419adc7d-bd15-4e61-96b1-77a261d640d5',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'c1593e4f-ff48-4a54-ad43-00161a855579',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4149,13 +4149,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT1H'
+            'duration': 3600000
           },
           'id': '9eea5277-a5ba-44e0-9871-47ec7735697b',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '419adc7d-bd15-4e61-96b1-77a261d640d5',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4173,13 +4173,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT5H15M'
+            'duration': 18900000
           },
           'id': '0827f130-6022-4824-8063-2b13dc8db642',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '9eea5277-a5ba-44e0-9871-47ec7735697b',
-            'setup': 'PT0M',
+            'setup': 0,
             'type': 'endOf'
           },
           'data': {
@@ -4197,12 +4197,12 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT5H20M'
+            'duration': 19200000
           },
           'id': '78c8d606-2a9f-495e-8177-0ca9ba527877',
           'parent': 'ESAS18Second',
           'start': {
-            'time': '2018-07-25T10:00:00+02:00',
+            'time': 1532509200000,
             'type': 'absolute'
           },
           'data': {
@@ -4220,13 +4220,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT35M'
+            'duration': 2100000
           },
           'id': 'b3a34b1f-ca4f-473d-a3e9-522ae4cb2f13',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '78c8d606-2a9f-495e-8177-0ca9ba527877',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4244,13 +4244,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT35M'
+            'duration': 2100000
           },
           'id': 'b64a4b05-702b-493b-92a9-68f49e702aa6',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'b3a34b1f-ca4f-473d-a3e9-522ae4cb2f13',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4268,13 +4268,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT20M'
+            'duration': 1200000
           },
           'id': '4de0f8b6-d108-42c5-8381-bfbd66b47d39',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'b64a4b05-702b-493b-92a9-68f49e702aa6',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4292,13 +4292,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT55M'
+            'duration': 3300000
           },
           'id': '3b1bc623-0301-4afd-a044-3aeb599cf508',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '4de0f8b6-d108-42c5-8381-bfbd66b47d39',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4316,13 +4316,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT2H40M'
+            'duration': 9600000
           },
           'id': 'fd69a17e-a691-4bf6-9dec-9875d77ff097',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '3b1bc623-0301-4afd-a044-3aeb599cf508',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4340,13 +4340,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT4H'
+            'duration': 14400000
           },
           'id': '49ffff60-1d80-4a9a-b16e-6f3fdf85fee1',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'fd69a17e-a691-4bf6-9dec-9875d77ff097',
-            'setup': 'PT0M',
+            'setup': 0,
             'type': 'endOf'
           },
           'data': {
@@ -4364,12 +4364,12 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT5H'
+            'duration': 18000000
           },
           'id': '91172f15-58c7-48ef-bf7f-9a331b19111f',
           'parent': 'ESAS18Second',
           'start': {
-            'time': '2018-07-26T10:00:00+02:00',
+            'time': 1532595600000,
             'type': 'absolute'
           },
           'data': {
@@ -4387,13 +4387,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT4H05M'
+            'duration': 14700000
           },
           'id': '8655ae13-8672-4b26-b2c5-acd7c6626570',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '91172f15-58c7-48ef-bf7f-9a331b19111f',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4411,13 +4411,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT1H50M'
+            'duration': 6600000
           },
           'id': '2c8dbd2d-1028-495d-9d9a-3c90da05d2b1',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '8655ae13-8672-4b26-b2c5-acd7c6626570',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4435,13 +4435,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT11M'
+            'duration': 660000
           },
           'id': '971f508e-10a9-4e4c-b4dc-16335c68370f',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '2c8dbd2d-1028-495d-9d9a-3c90da05d2b1',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4459,13 +4459,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT45M'
+            'duration': 2700000
           },
           'id': '79f5b4a1-aa41-469d-8fca-9a2ad951d2db',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '971f508e-10a9-4e4c-b4dc-16335c68370f',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4483,13 +4483,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT20M'
+            'duration': 1200000
           },
           'id': 'ec955524-6b26-4811-9993-b20193028a07',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '79f5b4a1-aa41-469d-8fca-9a2ad951d2db',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4507,13 +4507,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT25M'
+            'duration': 1500000
           },
           'id': 'b323201d-fa38-43dd-bb40-e5fc3f622980',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'ec955524-6b26-4811-9993-b20193028a07',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4531,13 +4531,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT32M'
+            'duration': 1920000
           },
           'id': 'ddb1c204-155a-4861-bd24-df02f7bf0129',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'b323201d-fa38-43dd-bb40-e5fc3f622980',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4555,13 +4555,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT1H'
+            'duration': 3600000
           },
           'id': 'cc156711-13ff-4eb3-b1f1-318b4964e542',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'ddb1c204-155a-4861-bd24-df02f7bf0129',
-            'setup': 'PT0M',
+            'setup': 0,
             'type': 'endOf'
           },
           'data': {
@@ -4579,12 +4579,12 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT4H30M'
+            'duration': 16200000
           },
           'id': '0e802dc6-33d3-48cf-811b-0b5c2214d4fd',
           'parent': 'ESAS18Second',
           'start': {
-            'time': '2018-07-27T10:00:00+02:00',
+            'time': 1532682000000,
             'type': 'absolute'
           },
           'data': {
@@ -4602,13 +4602,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT18M'
+            'duration': 1080000
           },
           'id': 'b160d728-eed7-4b8d-b011-69dc47044711',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '0e802dc6-33d3-48cf-811b-0b5c2214d4fd',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4626,13 +4626,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT30M'
+            'duration': 1800000
           },
           'id': '294626e0-d24e-4ac8-9e6f-e03bb8bcea3b',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'b160d728-eed7-4b8d-b011-69dc47044711',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4650,13 +4650,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT30M'
+            'duration': 1800000
           },
           'id': '6a2a7d8f-1387-43e0-a67d-d0f2e33c45ea',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '294626e0-d24e-4ac8-9e6f-e03bb8bcea3b',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4674,13 +4674,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT1H18M'
+            'duration': 4680000
           },
           'id': 'c58fcbd0-2d0b-447c-8784-cf25a549a34b',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '6a2a7d8f-1387-43e0-a67d-d0f2e33c45ea',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4698,13 +4698,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT1H30M'
+            'duration': 5400000
           },
           'id': '4f1c2bd5-8313-4d11-9ae8-40e62be1aa84',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'c58fcbd0-2d0b-447c-8784-cf25a549a34b',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4722,13 +4722,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT5H'
+            'duration': 18000000
           },
           'id': 'a581a253-9fa5-4c9a-ab1d-7444f0a58d56',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '4f1c2bd5-8313-4d11-9ae8-40e62be1aa84',
-            'setup': 'PT0M',
+            'setup': 0,
             'type': 'endOf'
           },
           'data': {
@@ -4746,12 +4746,12 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT50M'
+            'duration': 3000000
           },
           'id': 'e4b99151-eea3-4d99-b6da-774b7a57f78f',
           'parent': 'ESAS18Second',
           'start': {
-            'time': '2018-07-28T12:00:00+02:00',
+            'time': 1532775600000,
             'type': 'absolute'
           },
           'data': {
@@ -4769,13 +4769,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT1H'
+            'duration': 3600000
           },
           'id': '2d8f7da0-dda2-4da9-8c52-738fdf1c8505',
           'parent': 'ESAS18Second',
           'start': {
             'ref': 'e4b99151-eea3-4d99-b6da-774b7a57f78f',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {
@@ -4793,13 +4793,13 @@ export default {
         {
           'end': {
             'type': 'duration',
-            'duration': 'PT3H'
+            'duration': 10800000
           },
           'id': '514578fd-051c-48c3-a5f4-04d909622b84',
           'parent': 'ESAS18Second',
           'start': {
             'ref': '2d8f7da0-dda2-4da9-8c52-738fdf1c8505',
-            'setup': '00:10:00',
+            'setup': 600000,
             'type': 'endOf'
           },
           'data': {

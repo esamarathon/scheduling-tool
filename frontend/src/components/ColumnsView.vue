@@ -63,7 +63,7 @@ export default {
       }
     },
     timeTableHeight () {
-      return this.$store.getters.pixelsPerHour * this.$store.getters.eventDuration.asHours()
+      return this.$store.getters.pixelsPerHour * this.$store.getters.eventDuration / 3600000
     },
     hourmarkers () {
       let startTime = moment(this.$store.state.event.start)

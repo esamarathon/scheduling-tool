@@ -24,7 +24,11 @@ export default {
   computed: {
     eventData: {
       get: function () {
-        return JSON.stringify(this.$store.state.event, null, 2)
+        return JSON.stringify({
+          event: this.$store.state.event,
+          schedules: this.$store.state.schedules,
+          elements: this.$store.state.elements
+        }, null, 2)
       },
       set: function (newValue) {
         this.modifiedEventData = newValue

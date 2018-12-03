@@ -1,9 +1,9 @@
 <template>
   <div class="listview">
     <md-tabs v-on:md-changed="updateTab">
-      <md-tab v-for="schedule in schedules" :key="schedule.id" :id="String(schedule.id)" :md-label="schedule.name"></md-tab>
+      <md-tab v-for="schedule in schedules" :key="schedule" :id="String(schedule)" :md-label="$store.getters.lookupSchedule(schedule).name"></md-tab>
     </md-tabs>
-    <schedulelist v-if="selectedTab" :scheduleID="selectedTab"></schedulelist>
+    <schedulelist v-if="selectedTab" :scheduleId="selectedTab"></schedulelist>
   </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted: function () {
-    this.selectedTab = String(this.schedules[0].id)
+    this.selectedTab = String(this.schedules[0])
   }
 }
 </script>

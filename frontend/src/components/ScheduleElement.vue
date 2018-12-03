@@ -39,8 +39,11 @@ export default {
     }
   },
   props: {
-    element: {
-      type: Object
+    elementId: {
+      type: String
+    },
+    parent: {
+      type: String
     }
   },
   computed: {
@@ -78,28 +81,28 @@ export default {
     },
     topBorderColor () {
       if (this.assignState.ongoing) {
-        if (this.assignState.source !== this.element.id) {
+        if (this.assignState.source !== this.element._id) {
           return this.hoverTop ? 'green' : 'red'
         } else if (this.assignState.side === 'top') {
           return 'blue'
         }
       } else if (this.hoverTop && (this.element.start.type === 'startOf' || this.element.start.type === 'endOf')) {
         return 'green'
-      } else if (this.hoverHighlight.target === this.element.id && this.hoverHighlight.side === 'top') {
+      } else if (this.hoverHighlight.target === this.element._id && this.hoverHighlight.side === 'top') {
         return 'green'
       }
       return 'transparent'
     },
     bottomBorderColor () {
       if (this.assignState.ongoing) {
-        if (this.assignState.source !== this.element.id) {
+        if (this.assignState.source !== this.element._id) {
           return this.hoverBottom ? 'green' : 'red'
         } else if (this.assignState.side === 'bottom') {
           return 'blue'
         }
       } else if (this.hoverBottom && (this.element.end.type === 'startOf' || this.element.end.type === 'endOf')) {
         return 'green'
-      } else if (this.hoverHighlight.target === this.element.id && this.hoverHighlight.side === 'bottom') {
+      } else if (this.hoverHighlight.target === this.element._id && this.hoverHighlight.side === 'bottom') {
         return 'green'
       }
       return 'transparent'
@@ -143,6 +146,9 @@ export default {
     },
     hoverHighlight () {
       return this.$store.getters.hoverHighlight
+    },
+    element () {
+      return this.$store.getters.lookupElement(this.elementId)
     }
   },
   methods: {
@@ -150,10 +156,10 @@ export default {
       if (!this.assignState.ongoing && event.ctrlKey && this.canAssignBottom) {
         event.stopPropagation()
         event.preventDefault()
-        this.$store.commit('startAssign', { source: this.element.id, side: 'bottom' })
+        this.$store.commit('startAssign', { source: this.element._id, side: 'bottom' })
         document.documentElement.addEventListener('keyup', this.stopAssign, true)
       } else if (this.assignState.ongoing) {
-        if (this.assignState.source !== this.element.id) {
+        if (this.assignState.source !== this.element._id) {
           event.stopPropagation()
           event.preventDefault()
           // assign source to this
@@ -161,10 +167,9 @@ export default {
           const timing = this.assignState.side === 'top' ? 'start' : 'end'
           this.$store.dispatch('apply', { type: 'update',
             actions: [
-              {id: sourceElement.id, path: timing + '.type', oldValue: sourceElement[timing].type, newValue: 'endOf'},
-              {id: sourceElement.id, path: timing + '.ref', oldValue: sourceElement[timing].ref, newValue: this.element.id}
-            ],
-            canUndo: true })
+              {idType: 'element', id: sourceElement._id, action: 'set', path: timing + '.type', oldValue: sourceElement[timing].type, newValue: 'endOf'},
+              {idType: 'element', id: sourceElement._id, action: 'set', path: timing + '.ref', oldValue: sourceElement[timing].ref, newValue: this.element._id}
+            ]})
 
           this.$store.commit('endAssign')
         }
@@ -190,9 +195,9 @@ export default {
       // we dispatch the change as it has only been temporary for now
       if (this.element.end.type === 'duration') {
         const newDuration = this.temporaryDuration - (this.element.start.setup || 0) - (this.element.end.teardown || 0)
-        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'end.duration', oldValue: this.element.end.duration, newValue: newDuration}], canUndo: true })
+        this.$store.dispatch('apply', { type: 'update', actions: [{idType: 'element', id: this.element._id, action: 'set', path: 'end.duration', oldValue: this.element.end.duration, newValue: newDuration}] })
       } else if (this.element.end.type === 'absolute') {
-        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'end.time', oldValue: this.element.end.time, newValue: this.temporaryEnd}], canUndo: true })
+        this.$store.dispatch('apply', { type: 'update', actions: [{idType: 'element', id: this.element._id, action: 'set', path: 'end.time', oldValue: this.element.end.time, newValue: this.temporaryEnd}] })
       }
       this.resizing = false
       this.originalPosition = null
@@ -225,10 +230,10 @@ export default {
       if (!this.assignState.ongoing && event.ctrlKey && this.canAssignTop) {
         event.stopPropagation()
         event.preventDefault()
-        this.$store.commit('startAssign', { source: this.element.id, side: 'top' })
+        this.$store.commit('startAssign', { source: this.element._id, side: 'top' })
         document.documentElement.addEventListener('keyup', this.stopAssign, true)
       } else if (this.assignState.ongoing) {
-        if (this.assignState.source !== this.element.id) {
+        if (this.assignState.source !== this.element._id) {
           event.stopPropagation()
           event.preventDefault()
           // assign source to this
@@ -236,10 +241,9 @@ export default {
           const timing = this.assignState.side === 'top' ? 'start' : 'end'
           this.$store.dispatch('apply', { type: 'update',
             actions: [
-              {id: sourceElement.id, path: timing + '.type', oldValue: sourceElement[timing].type, newValue: 'startOf'},
-              {id: sourceElement.id, path: timing + '.ref', oldValue: sourceElement[timing].ref, newValue: this.element.id}
-            ],
-            canUndo: true })
+              {idType: 'element', id: sourceElement._id, action: 'set', path: timing + '.type', oldValue: sourceElement[timing].type, newValue: 'startOf'},
+              {idType: 'element', id: sourceElement._id, action: 'set', path: timing + '.ref', oldValue: sourceElement[timing].ref, newValue: this.element._id}
+            ]})
 
           this.$store.commit('endAssign')
         }
@@ -263,9 +267,8 @@ export default {
       // we dispatch the change as it has only been temporary for now
       const newDuration = this.temporaryDuration - (this.element.start.setup || 0) - (this.element.end.teardown || 0)
       this.$store.dispatch('apply', { type: 'update',
-        actions: [{id: this.element.id, path: 'end.duration', oldValue: this.element.end.duration, newValue: newDuration},
-          {id: this.element.id, path: 'start.time', oldValue: this.element.start.time, newValue: this.temporaryStart}],
-        canUndo: true })
+        actions: [{idType: 'element', id: this.element._id, action: 'set', path: 'end.duration', oldValue: this.element.end.duration, newValue: newDuration},
+          {idType: 'element', id: this.element._id, action: 'set', path: 'start.time', oldValue: this.element.start.time, newValue: this.temporaryStart}]})
       this.resizing = false
       this.originalPosition = null
       this.temporaryDuration = null
@@ -303,7 +306,7 @@ export default {
       event.preventDefault()
       if (this.temporaryStart) {
         // we dispatch the change as it has only been temporary for now
-        this.$store.dispatch('apply', { type: 'update', actions: [{id: this.element.id, path: 'start.time', oldValue: this.element.start.time, newValue: this.temporaryStart}], canUndo: true })
+        this.$store.dispatch('apply', { type: 'update', actions: [{idType: 'element', id: this.element._id, action: 'set', path: 'start.time', oldValue: this.element.start.time, newValue: this.temporaryStart}] })
       }
       this.dragging = false
       this.originalPosition = null
@@ -330,7 +333,7 @@ export default {
       }
     },
     deleteMe () {
-      this.$store.dispatch('apply', { type: 'removeElement', elementID: this.element.id, canUndo: true })
+      this.$store.dispatch('removeElement', { elementId: this.element._id, parent: this.parent })
     },
     mouseOverBottom () {
       this.hoverBottom = true
@@ -360,10 +363,9 @@ export default {
         event.preventDefault()
         this.$store.dispatch('apply', { type: 'update',
           actions: [
-            {id: this.element.id, path: 'start.time', oldValue: this.element.start.time, newValue: this.startTime},
-            {id: this.element.id, path: 'start.type', oldValue: this.element.start.type, newValue: 'absolute'}
-          ],
-          canUndo: true })
+            {idType: 'element', id: this.element._id, action: 'set', path: 'start.time', oldValue: this.element.start.time, newValue: this.startTime},
+            {idType: 'element', id: this.element._id, action: 'set', path: 'start.type', oldValue: this.element.start.type, newValue: 'absolute'}
+          ] })
       }
     },
     doubleClickBottom (event) {
@@ -375,19 +377,17 @@ export default {
           // convert to absolute
           this.$store.dispatch('apply', { type: 'update',
             actions: [
-              {id: this.element.id, path: 'end.time', oldValue: this.element.end.time, newValue: this.endTime},
-              {id: this.element.id, path: 'end.type', oldValue: this.element.end.type, newValue: 'absolute'}
-            ],
-            canUndo: true })
+              {idType: 'element', id: this.element._id, action: 'set', path: 'end.time', oldValue: this.element.end.time, newValue: this.endTime},
+              {idType: 'element', id: this.element._id, action: 'set', path: 'end.type', oldValue: this.element.end.type, newValue: 'absolute'}
+            ] })
           this.$store.commit('hoverHighlightClear')
         } else {
           // convert to duration
           this.$store.dispatch('apply', { type: 'update',
             actions: [
-              {id: this.element.id, path: 'end.duration', oldValue: this.element.end.duration, newValue: this.duration},
-              {id: this.element.id, path: 'end.type', oldValue: this.element.end.type, newValue: 'duration'}
-            ],
-            canUndo: true })
+              {idType: 'element', id: this.element._id, action: 'set', path: 'end.duration', oldValue: this.element.end.duration, newValue: this.duration},
+              {idType: 'element', id: this.element._id, action: 'set', path: 'end.type', oldValue: this.element.end.type, newValue: 'duration'}
+            ] })
           this.$store.commit('hoverHighlightClear')
         }
       }
@@ -396,7 +396,7 @@ export default {
       event.stopPropagation()
       event.preventDefault()
       this.stopDrag(event)
-      this.$store.commit('showEditDialog', this.element.id)
+      this.$store.commit('showEditDialog', { elementID: this.elementId, scheduleID: this.parent })
     }
   }
 }

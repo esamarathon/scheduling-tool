@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { calculateTimes } from '../../shared/src/calculateSchedule'
+import { fetchEvent, sendTransformation } from './backend-api.js'
+import { getLoggedInUser } from './auth'
+import _ from 'lodash'
 
 Vue.use(Vuex)
 
@@ -15,46 +19,21 @@ export default new Vuex.Store({
       hoverHighlightSide: null
     },
     event: {},
+    schedules: {},
+    elements: {},
     history: {
       undo: [],
       redo: []
     },
     lookup: {
-      schedules: {},
-      elements: {},
       calculatedTimes: {}
     },
     dialogs: {
-      editElement: null
+      editElement: null,
+      editElementParent: null
     }
   },
   mutations: {
-    generateLookupTable (state) {
-      let schedule
-      let element
-      state.lookup.schedules = {}
-      state.lookup.elements = {}
-      for (let i = 0; i < state.event.schedules.length; i += 1) {
-        schedule = state.event.schedules[i]
-        Vue.set(state.lookup.schedules, schedule.id, schedule)
-        for (let j = 0; j < schedule.elements.length; j += 1) {
-          element = schedule.elements[j]
-          Vue.set(state.lookup.elements, element.id, element)
-        }
-      }
-    },
-    addElementId (state, { id, target }) {
-      Vue.set(state.lookup.elements, id, target)
-    },
-    removeElementId (state, id) {
-      Vue.delete(state.lookup.elements, id)
-    },
-    addScheduleId (state, { id, target }) {
-      Vue.set(state.lookup.schedules, id, target)
-    },
-    removeScheduleId (state, id) {
-      Vue.delete(state.lookup.schedules, id)
-    },
     setZoomFactor (state, pixelsPerHour) {
       state.display.pixelsPerHour = pixelsPerHour
     },
@@ -77,29 +56,64 @@ export default new Vuex.Store({
         state.history.undo.push(lastRedo)
       }
     },
-    setNestedElementProperty (state, { elementID, path, value }) {
+    setNestedElementProperty (state, { type, id, path, newValue, oldValue }) {
       try {
         const pathSplits = path.split('.')
-        let iterObj = state.lookup.elements[elementID]
+        let iterObj = lookupItem(state, type, id)
+
         for (let i = 0; i < pathSplits.length - 1; i += 1) {
           iterObj = iterObj[pathSplits[i]]
         }
-        Vue.set(iterObj, pathSplits.slice(-1)[0], value)
+        if (iterObj[pathSplits.slice(-1)[0]] === oldValue) {
+          Vue.set(iterObj, pathSplits.slice(-1)[0], newValue)
+        }
       } catch (err) {}
     },
-    addSchedule (state, { newSchedule, position }) {
-      const index = position !== null ? position : state.event.schedules.length
-      state.event.schedules.splice(index, 0, newSchedule)
+    insertNestedElementProperty (state, { type, id, path, newValue }) {
+      try {
+        const pathSplits = path.split('.')
+        let iterObj = lookupItem(state, type, id)
+
+        for (let i = 0; i < pathSplits.length; i += 1) {
+          iterObj = iterObj[pathSplits[i]]
+        }
+        iterObj.splice(iterObj.length, 0, newValue)
+      } catch (err) {}
     },
-    removeSchedule (state, oldSchedule) {
-      state.event.schedules.splice(state.event.schedules.indexOf(oldSchedule), 1)
+    deleteNestedElementProperty (state, { type, id, path, oldValue }) {
+      try {
+        const pathSplits = path.split('.')
+        let iterObj = lookupItem(state, type, id)
+
+        for (let i = 0; i < pathSplits.length; i += 1) {
+          iterObj = iterObj[pathSplits[i]]
+        }
+        if (Array.isArray(iterObj)) {
+          iterObj.splice(iterObj.indexOf(oldValue), 1)
+        } else {
+          delete iterObj[oldValue]
+        }
+      } catch (err) {}
     },
-    addElement (state, { newElement, parent, position }) {
-      const index = position !== null ? position : parent.elements.length
-      parent.elements.splice(index, 0, newElement)
+    addScheduleItem (state, { type, newValue }) {
+      switch (type) {
+        case 'element':
+          state.elements[newValue._id] = newValue
+          break
+        case 'schedule':
+          state.schedules[newValue._id] = newValue
+          break
+      }
     },
-    removeElement (state, { parent, oldElement }) {
-      parent.elements.splice(parent.elements.indexOf(oldElement), 1)
+    removeScheduleItem (state, { type, oldValue }) {
+      switch (type) {
+        case 'element':
+          delete state.elements[oldValue._id]
+          break
+        case 'schedule':
+          delete state.schedules[oldValue._id]
+          break
+      }
     },
     startAssign (state, { source, side }) {
       state.display.assignOngoing = true
@@ -120,174 +134,153 @@ export default new Vuex.Store({
       state.display.hoverHighlightSide = null
     },
     recalculateSchedule (state) {
-      state.lookup.calculatedTimes = calculateTimes(state)
+      state.lookup.calculatedTimes = calculateTimes(state.event, (type, id) => lookupItem(state, type, id))
     },
-    showEditDialog (state, elementID) {
+    showEditDialog (state, { elementID, scheduleID }) {
       state.dialogs.editElement = elementID
+      state.dialogs.editElementParent = scheduleID
     },
     closeEditDialog (state) {
       state.dialogs.editElement = null
-    }
-  },
-  actions: {
-    loadEvent (context, event) {
-      const state = context.state
-      state.event = event
+      state.dialogs.editElementParent = null
+    },
+    clearHistory (state) {
       state.history = {
         undo: [],
         redo: []
       }
-      context.commit('generateLookupTable')
+    },
+    loadEventData (state, eventData) {
+      state.event = eventData.event
+      state.schedules = eventData.schedules
+      state.elements = eventData.elements
+    }
+  },
+  actions: {
+    async loadEvent (context, eventId) {
+      context.commit('clearHistory')
+      context.commit('loadEventData', {event: {name: `loading ${eventId}`, schedules: []}, schedules: { elements: [] }, elements: {}})
+      context.commit('recalculateSchedule')
+      let eventData = await fetchEvent(eventId)
+      context.commit('loadEventData', eventData)
       context.commit('recalculateSchedule')
     },
-    update (context, { actions, canUndo = false, isUndo = false }) {
+    update (context, transformation) {
       let action
-      let element
-      const updatedElements = new Set()
-      for (let i = 0; i < actions.length; i += 1) {
-        action = actions[i]
-        element = context.getters.lookupElement(action.id)
+      for (let i = 0; i < transformation.actions.length; i += 1) {
+        action = transformation.actions[i]
         // ToDo error handling
-        if (element) {
-          if (context.getters.getNestedProperty(action.id, action.path) === (isUndo ? action.newValue : action.oldValue)) {
-            context.commit('setNestedElementProperty', { elementID: action.id, path: action.path, value: isUndo ? action.oldValue : action.newValue })
-            if (action.path.startsWith('start') || action.path.startsWith('end')) {
-              updatedElements.add(action.id)
-            }
-          } else {
-            return
-          }
-        } else {
-          return
+        switch (action.action) {
+          case 'set':
+            context.commit('setNestedElementProperty', { type: action.idType, id: action.id, path: action.path, newValue: action.newValue, oldValue: action.oldValue })
+            break
+          case 'insert':
+            context.commit('insertNestedElementProperty', { type: action.idType, id: action.id, path: action.path, newValue: action.newValue })
+            break
+          case 'delete':
+            context.commit('deleteNestedElementProperty', { type: action.idType, id: action.id, path: action.path, oldValue: action.oldValue })
+            break
+          case 'addItem':
+            context.commit('addScheduleItem', { type: action.idType, newValue: action.newValue })
+            break
+          case 'removeItem':
+            context.commit('removeScheduleItem', { type: action.idType, oldValue: action.oldValue })
+            break
         }
       }
-      if (updatedElements) {
-        context.commit('recalculateSchedule')
-      }
-      if (!isUndo && canUndo) {
-        context.commit('pushUndo', { type: 'update', actions })
-      }
-    },
-    addSchedule (context, { newSchedule, position = null, canUndo = false }) {
-      context.commit('addSchedule', { newSchedule, position })
-      context.commit('addScheduleId', { id: newSchedule.id, target: newSchedule })
-      for (let i = 0; i < newSchedule.elements.length; i += 1) {
-        context.commit('addElementId', { id: newSchedule.elements[i].id, target: newSchedule.elements[i] })
-      }
       context.commit('recalculateSchedule')
-      if (canUndo) {
-        context.commit('pushUndo', { type: 'addSchedule', position, newSchedule })
-      }
     },
-    removeSchedule (context, { scheduleID, canUndo = false }) {
-      const oldSchedule = context.getters.lookupSchedule(scheduleID)
-      const oldPosition = context.state.event.schedules.indexOf(oldSchedule)
-      context.commit('removeSchedule', oldSchedule)
-      context.commit('removeScheduleId', oldSchedule.id)
+    addSchedule (context, newSchedule) {
+      const transformation = {type: 'addSchedule',
+        actions: [{
+          idType: 'schedule', action: 'addItem', newValue: newSchedule
+        }, {
+          idType: 'event', id: context.state.event._id, path: 'schedules', action: 'insert', newValue: newSchedule._id
+        }]}
+      context.dispatch('apply', transformation)
+    },
+    removeSchedule (context, scheduleId) {
+      const oldSchedule = context.getters.lookupSchedule(scheduleId)
+      const transformation = {type: 'removeSchedule',
+        actions: [{
+          idType: 'event', id: context.state.event._id, path: 'schedules', action: 'delete', oldValue: scheduleId
+        }, {
+          idType: 'schedule', action: 'removeItem', oldValue: oldSchedule
+        }]}
+
+      let oldElement
       for (let i = 0; i < oldSchedule.elements.length; i += 1) {
-        context.commit('removeElementId', oldSchedule.elements[i].id)
+        oldElement = context.getters.lookupElement(oldSchedule.elements[i])
+        transformation.actions.splice(0, 0, {idType: 'element', action: 'removeItem', oldValue: oldElement})
       }
-      context.commit('recalculateSchedule')
-      if (canUndo) {
-        context.commit('pushUndo', { type: 'removeSchedule', oldPosition, oldSchedule })
-      }
+
+      context.dispatch('apply', transformation)
     },
-    addElement (context, { newElement, position = null, canUndo = false }) {
-      context.commit('addElement', { newElement, parent: context.getters.lookupSchedule(newElement.parent), position })
-      context.commit('addElementId', { id: newElement.id, target: newElement })
-      context.commit('recalculateSchedule')
-      if (canUndo) {
-        context.commit('pushUndo', { type: 'addElement', position, newElement })
-      }
+    addElement (context, { newElement, parent }) {
+      const transformation = {type: 'addElement',
+        actions: [{
+          idType: 'element', action: 'addItem', newValue: newElement
+        }, {
+          idType: 'schedule', id: parent, path: 'elements', action: 'insert', newValue: newElement._id
+        }]}
+      context.dispatch('apply', transformation)
     },
-    removeElement (context, { elementID, canUndo = false }) {
-      const oldElement = context.getters.lookupElement(elementID)
-      const parentSchedule = context.getters.lookupSchedule(oldElement.parent)
-      const oldPosition = parentSchedule.elements.indexOf(oldElement)
-      context.commit('removeElement', { oldElement, parent: parentSchedule })
-      context.commit('removeElementId', oldElement.id)
-      context.commit('recalculateSchedule')
-      if (canUndo) {
-        context.commit('pushUndo', { type: 'removeElement', oldPosition, oldElement })
-      }
+    removeElement (context, { elementId, parent }) {
+      const oldElement = context.getters.lookupElement(elementId)
+      const transformation = {type: 'removeElement',
+        actions: [{
+          idType: 'schedule', id: parent, path: 'elements', action: 'delete', oldValue: elementId
+        }, {
+          idType: 'element', action: 'removeItem', oldValue: oldElement
+        }]}
+      context.dispatch('apply', transformation)
     },
     undo (context) {
       const lastUndo = context.state.history.undo.slice(-1)[0]
       if (lastUndo) {
-        switch (lastUndo.type) {
-          case 'update':
-            context.dispatch('update', { actions: lastUndo.actions, isUndo: true })
-            break
-          case 'addSchedule':
-            context.dispatch('removeSchedule', { scheduleID: lastUndo.newSchedule.id, canUndo: false })
-            break
-          case 'removeSchedule':
-            context.dispatch('addSchedule', { newSchedule: lastUndo.oldSchedule, position: lastUndo.oldPosition, canUndo: false })
-            break
-          case 'addElement':
-            context.dispatch('removeElement', { elementID: lastUndo.newElement.id, canUndo: false })
-            break
-          case 'removeElement':
-            context.dispatch('addElement', { newElement: lastUndo.oldElement, position: lastUndo.oldPosition, canUndo: false })
-            break
-          default:
-            break
-        }
+        const invertedTransformation = invertTransformation(lastUndo)
+
+        invertedTransformation['time'] = new Date()
+        invertedTransformation['userId'] = getLoggedInUser()
+        sendTransformation(invertedTransformation)
+
+        context.dispatch('update', invertedTransformation)
         context.commit('popUndo')
       }
     },
     redo (context) {
       const lastRedo = context.state.history.redo.slice(-1)[0]
       if (lastRedo) {
-        switch (lastRedo.type) {
-          case 'update':
-            context.dispatch('update', { actions: lastRedo.actions, canUndo: false })
-            break
-          case 'addSchedule':
-            context.dispatch('addSchedule', { newSchedule: lastRedo.newSchedule, position: lastRedo.position, canUndo: false })
-            break
-          case 'removeSchedule':
-            context.dispatch('removeSchedule', { scheduleID: lastRedo.oldSchedule.id, canUndo: false })
-            break
-          case 'addElement':
-            context.dispatch('addElement', { newElement: lastRedo.newElement, position: lastRedo.position, canUndo: false })
-            break
-          case 'removeElement':
-            context.dispatch('removeElement', { elementID: lastRedo.oldElement.id, canUndo: false })
-            break
-          default:
-            break
-        }
+        sendTransformation(lastRedo)
+
+        context.dispatch('update', lastRedo)
         context.commit('popRedo')
       }
     },
     apply (context, transformation) {
-      if (transformation.type === 'update') {
-        context.dispatch('update', transformation)
-      } else if (transformation.type === 'addSchedule') {
-        context.dispatch('addSchedule', transformation)
-      } else if (transformation.type === 'removeSchedule') {
-        context.dispatch('removeSchedule', transformation)
-      } else if (transformation.type === 'addElement') {
-        context.dispatch('addElement', transformation)
-      } else if (transformation.type === 'removeElement') {
-        context.dispatch('removeElement', transformation)
-      }
+      transformation['time'] = new Date()
+      transformation['userId'] = getLoggedInUser()
+
+      sendTransformation(transformation)
+
+      context.dispatch('update', transformation)
+      context.commit('pushUndo', transformation)
     }
   },
   getters: {
-    lookupElement: state => elementID => state.lookup.elements[elementID],
-    lookupSchedule: state => scheduleID => state.lookup.schedules[scheduleID],
-    getNestedProperty: (state, getters) => (elementID, path) => {
+    lookupElement: state => elementID => state.elements[elementID],
+    lookupSchedule: state => scheduleID => state.schedules[scheduleID],
+    lookup: state => (type, id) => lookupItem(state, type, id),
+    getNestedProperty: (state, getters) => (idType, id, path) => {
       try {
-        return path.split('.').reduce((iterObj, prop) => iterObj[prop], getters.lookupElement(elementID))
+        return path.split('.').reduce((iterObj, prop) => iterObj[prop], getters.lookup(idType, id))
       } catch (err) {
         return undefined
       }
     },
-    getStartTime: state => element => state.lookup.calculatedTimes[element.id]['start'],
-    getEndTime: state => element => state.lookup.calculatedTimes[element.id]['end'],
-    getDuration: state => element => state.lookup.calculatedTimes[element.id]['duration'],
+    getStartTime: state => element => state.lookup.calculatedTimes[element._id]['start'],
+    getEndTime: state => element => state.lookup.calculatedTimes[element._id]['end'],
+    getDuration: state => element => state.lookup.calculatedTimes[element._id]['duration'],
     pixelsPerHour: state => state.display.pixelsPerHour || 100,
     snapToMinutes: state => state.display.snapToMinutes || 15,
     getEventOffset: (state, getters) => element => getters.getStartTime(element) - state.event.start,
@@ -296,22 +289,12 @@ export default new Vuex.Store({
       const schedule = getters.lookupSchedule(scheduleID)
       let end = state.event.start
       for (let i = 0; i < schedule.elements.length; i += 1) {
-        const elementEnd = getters.getEndTime(schedule.elements[i])
+        const elementEnd = getters.getEndTime(getters.lookupElement(schedule.elements[i]))
         if (elementEnd > end) {
           end = elementEnd
         }
       }
       return end
-    },
-    getPreviousElement: (state, getters) => (elementID, scheduleID) => {
-      const schedule = getters.lookupSchedule(scheduleID)
-      const element = getters.lookupElement(elementID)
-      return schedule.elements[schedule.elements.indexOf(element) - 1]
-    },
-    getNextElement: (state, getters) => (elementID, scheduleID) => {
-      const schedule = getters.lookupSchedule(scheduleID)
-      const element = getters.lookupElement(elementID)
-      return schedule.elements[schedule.elements.indexOf(element) + 1]
     },
     eventDuration: state => state.event.end - state.event.start,
     assignState: state => ({ ongoing: state.display.assignOngoing, source: state.display.assignSource, side: state.display.assignSourceSide }),
@@ -319,122 +302,47 @@ export default new Vuex.Store({
   }
 })
 
-function calculateTimes (state) {
-  const calculatedTimes = {}
-  let schedule
-  let element
-  for (let i = 0; i < state.event.schedules.length; i += 1) {
-    schedule = state.event.schedules[i]
-    for (let j = 0; j < schedule.elements.length; j += 1) {
-      element = schedule.elements[j]
-      calculateStartTime(element, state, calculatedTimes)
-      calculateEndTime(element, state, calculatedTimes)
-      calculateDuration(element, state, calculatedTimes)
+function lookupItem (state, type, id) {
+  switch (type) {
+    case 'element':
+      return state.elements[id]
+    case 'schedule':
+      return state.schedules[id]
+    case 'event':
+      if (state.event._id === id) {
+        return state.event
+      }
+      break
+  }
+  return undefined
+}
+
+function invertTransformation (transformation) {
+  const ret = _.assign({}, transformation, {type: 'undo', actions: []})
+  let action
+  let newAction
+  for (let i = 0; i < transformation.actions.length; i += 1) {
+    action = transformation.actions[i]
+
+    // ToDo error handling
+    switch (action.action) {
+      case 'set':
+        newAction = _.assign({}, action, {newValue: action.oldValue, oldValue: action.newValue})
+        break
+      case 'insert':
+        newAction = _.assign({}, action, {action: 'delete', newValue: action.oldValue, oldValue: action.newValue})
+        break
+      case 'delete':
+        newAction = _.assign({}, action, {action: 'insert', newValue: action.oldValue, oldValue: action.newValue})
+        break
+      case 'addItem':
+        newAction = _.assign({}, action, {action: 'removeItem', newValue: action.oldValue, oldValue: action.newValue})
+        break
+      case 'removeItem':
+        newAction = _.assign({}, action, {action: 'addItem', newValue: action.oldValue, oldValue: action.newValue})
+        break
     }
+    ret.actions.splice(ret.actions.length, 0, newAction)
   }
-  return calculatedTimes
-}
-
-function calculateStartTime (element, state, calculatedTimes) {
-  if (element.id in calculatedTimes && 'start' in calculatedTimes[element.id]) {
-    return
-  }
-
-  if (element.start.actualTime) {
-    return element.start.actualTime
-  }
-  let referencedElement
-  let startTime
-  switch (element.start.type || 'absolute') {
-    case 'absolute':
-      startTime = element.start.time + (element.start.offset || 0)
-      break
-    case 'startOf':
-      referencedElement = state.lookup.elements[element.start.ref]
-      // calculate and then use
-      calculateStartTime(referencedElement, state, calculatedTimes)
-      startTime = calculatedTimes[element.start.ref]['start']
-      break
-    case 'endOf':
-      referencedElement = state.lookup.elements[element.start.ref]
-      // calculate and then use
-      calculateEndTime(referencedElement, state, calculatedTimes)
-      startTime = calculatedTimes[element.start.ref]['end']
-      break
-    default:
-      // safety valve
-      startTime = state.event.start
-      break
-  }
-
-  if (element.id in calculatedTimes) {
-    calculatedTimes[element.id]['start'] = startTime
-  } else {
-    calculatedTimes[element.id] = { start: startTime }
-  }
-}
-
-function calculateEndTime (element, state, calculatedTimes) {
-  if (element.id in calculatedTimes && 'end' in calculatedTimes[element.id]) {
-    return
-  }
-
-  if (element.end.actualTime) {
-    return element.end.actualTime
-  }
-  let referencedElement
-  let endTime
-  switch (element.end.type || 'absolute') {
-    case 'absolute':
-      endTime = element.end.time + (element.end.offset || 0)
-      break
-    case 'duration':
-      calculateStartTime(element, state, calculatedTimes)
-      calculateDuration(element, state, calculatedTimes)
-      endTime = calculatedTimes[element.id]['start'] + calculatedTimes[element.id]['duration']
-      break
-    case 'startOf':
-      referencedElement = state.lookup.elements[element.end.ref]
-      // calculate and then use
-      calculateStartTime(referencedElement, state, calculatedTimes)
-      endTime = calculatedTimes[element.end.ref]['start']
-      break
-    case 'endOf':
-      referencedElement = state.lookup.elements[element.end.ref]
-      // calculate and then use
-      calculateEndTime(referencedElement, state, calculatedTimes)
-      endTime = calculatedTimes[element.end.ref]['end']
-      break
-    default:
-      // safety valve
-      endTime = state.event.end
-      break
-  }
-
-  if (element.id in calculatedTimes) {
-    calculatedTimes[element.id]['end'] = endTime
-  } else {
-    calculatedTimes[element.id] = { end: endTime }
-  }
-}
-
-function calculateDuration (element, state, calculatedTimes) {
-  if (element.id in calculatedTimes && 'duration' in calculatedTimes[element.id]) {
-    return
-  }
-
-  let duration
-  if (!element.end.type || element.end.type === 'duration') {
-    duration = (element.start.setup || 0) + element.end.duration + (element.end.teardown || 0)
-  } else {
-    calculateStartTime(element, state, calculatedTimes)
-    calculateEndTime(element, state, calculatedTimes)
-    duration = calculatedTimes[element.id]['end'] - calculatedTimes[element.id]['start']
-  }
-
-  if (element.id in calculatedTimes) {
-    calculatedTimes[element.id]['duration'] = duration
-  } else {
-    calculatedTimes[element.id] = { end: duration }
-  }
+  return ret
 }

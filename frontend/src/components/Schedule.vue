@@ -11,14 +11,14 @@
       </span>
     </div>
     <div class="elementList">
-      <scheduleelement v-for="element in filteredRuns" :element="element" :key="element.id"></scheduleelement>
+      <scheduleelement v-for="element in filteredRuns" :elementId="element" :parent="scheduleId" :key="element"></scheduleelement>
     </div>
   </div>
 </template>
 
 <script>
 import _ from 'lodash'
-import uuidv4 from 'uuid/v4'
+import { generateID } from '../backend-api'
 
 export default {
   name: 'Schedule',
@@ -27,8 +27,8 @@ export default {
     }
   },
   props: {
-    schedule: {
-      type: Object
+    scheduleId: {
+      type: String
     },
     searchText: {
       type: String,
@@ -38,34 +38,36 @@ export default {
   methods: {
     addElement () {
       const newElement = {
-        id: uuidv4(),
-        parent: this.schedule.id,
+        _id: generateID(),
         people: [],
         start: {
           type: 'absolute',
-          time: this.$store.getters.getEndOfSchedule(this.schedule.id).toISOString()
+          time: this.$store.getters.getEndOfSchedule(this.scheduleId)
         },
         end: {
           type: 'duration',
-          duration: '01:00:00'
+          duration: 3600000
         },
         name: 'New Run'
       }
-      this.$store.dispatch('apply', { type: 'addElement', newElement, canUndo: true })
+      this.$store.dispatch('addElement', { parent: this.scheduleId, newElement })
     },
     deleteMe () {
-      this.$store.dispatch('apply', { type: 'removeSchedule', scheduleID: this.schedule.id, canUndo: true })
+      this.$store.dispatch('removeSchedule', this.schedule._id)
     }
   },
   computed: {
     filteredRuns () {
-      return _.filter(this.schedule.elements, element => element.name.toLowerCase().includes(this.searchText.toLowerCase()))
+      return _.filter(this.schedule.elements, element => this.$store.getters.lookupElement(element).name.toLowerCase().includes(this.searchText.toLowerCase()))
     },
     scheduleName () {
       return this.schedule.name
     },
     sequential () {
       return this.schedule.sequential
+    },
+    schedule () {
+      return this.$store.getters.lookupSchedule(this.scheduleId)
     }
   }
 }

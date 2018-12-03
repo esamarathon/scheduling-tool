@@ -15,20 +15,21 @@
         <div class="hourmarker" :style="hourMarkerStyle" v-for="hourmarker in hourmarkers" :key="hourmarker.time">{{ hourmarker.display }}</div>
       </div>
       <schedule class="column" :style="{ width: 90 / schedules.length + '%' }"
-        v-for="schedule in selectedSchedules" :key="schedule.id" :schedule="schedule" :searchText="searchText" :timeTableHeight="timeTableHeight"></schedule>
+        v-for="schedule in selectedSchedules" :key="schedule.id" :scheduleId="schedule.id" :searchText="searchText" :timeTableHeight="timeTableHeight"></schedule>
     </div>
   </div>
 </template>
 
 <script>
-import uuidv4 from 'uuid/v4'
+import { generateID } from '../backend-api'
 import moment from 'moment'
+import _ from 'lodash'
 
 export default {
   name: 'ColumnsView',
   computed: {
     schedules () {
-      return this.$store.state.event.schedules ? this.$store.state.event.schedules : []
+      return this.$store.state.event.schedules ? _.map(this.$store.state.event.schedules, (value) => { return { id: value, name: this.$store.getters.lookupSchedule(value).name } }) : []
     },
     zoomFactor: {
       get: function () {
@@ -90,10 +91,10 @@ export default {
     addNewSchedule () {
       const newSchedule = {
         name: 'New Schedule',
-        id: uuidv4(),
+        _id: generateID(),
         elements: []
       }
-      this.$store.dispatch('apply', { type: 'addSchedule', newSchedule, canUndo: true })
+      this.$store.dispatch('addSchedule', newSchedule)
     }
   },
   watch: {

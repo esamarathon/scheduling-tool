@@ -4,7 +4,7 @@
       <md-dialog-content>
         <div><people :people="element.people"></people></div>
         <div>{{ startTime.format('MMM Do HH:mm') }} - {{ endTime.format('MMM Do HH:mm') }}</div>
-        <data-edit-field v-for="dataElement in dataItems" :key="dataElement.name" :definition="dataElement" :originalValue="element.data[dataElement.name]" @modified="modifiedValue"></data-edit-field>
+        <data-edit-field v-for="dataElement in dataSchema" :key="dataElement.name" :definition="dataElement" :originalValue="element.data[dataElement.name]" @modified="modifiedValue"></data-edit-field>
         <md-dialog-actions>
           <md-button class="md-primary" @click="$store.commit('closeEditDialog')">Close</md-button>
           <md-button class="md-primary" @click="saveChanges">Save</md-button>
@@ -25,8 +25,11 @@ export default {
     }
   },
   props: {
-    element: {
-      type: Object
+    elementId: {
+      type: String
+    },
+    scheduleId: {
+      type: String
     }
   },
   computed: {
@@ -39,15 +42,18 @@ export default {
     duration () {
       return this.$store.getters.getDuration(this.element)
     },
-    dataItems () {
-      return this.$store.getters.lookupSchedule(this.element.parent).dataItems
+    dataSchema () {
+      return this.$store.getters.lookupSchedule(this.scheduleId).dataSchema
+    },
+    element () {
+      return this.$store.getters.lookupElement(this.elementId)
     }
   },
   methods: {
     saveChanges () {
       if (this.modifiedData) {
-        const modifiedActions = _.map(this.modifiedData, (value, name) => { return {id: this.element.id, path: 'data.' + name, oldValue: this.element.data[name], newValue: value} })
-        this.$store.dispatch('apply', { type: 'update', actions: modifiedActions, canUndo: true })
+        const modifiedActions = _.map(this.modifiedData, (value, name) => { return {idType: 'element', action: 'set', id: this.element._id, path: 'data.' + name, oldValue: this.element.data[name], newValue: value} })
+        this.$store.dispatch('apply', { type: 'update', actions: modifiedActions })
       }
       this.$store.commit('closeEditDialog')
     },

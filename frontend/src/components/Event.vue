@@ -1,6 +1,6 @@
 <template>
   <div>
-    Editing event ID {{ eventName }}.<br>
+    Editing Event {{ eventName }}<br>
     <md-tabs v-on:md-changed="updateTab" :md-alignment='"fixed"'>
       <md-tab :id='"columnsview"' :md-label='"Columns"'></md-tab>
       <md-tab :id='"listview"' :md-label='"List"'></md-tab>
@@ -8,14 +8,12 @@
     </md-tabs>
     <component v-bind:is="selectedTab"></component>
     <md-dialog :md-active.sync="editElement">
-      <editdialog :element="$store.getters.lookupElement(this.$store.state.dialogs.editElement)"></editdialog>
+      <editdialog :elementId="this.$store.state.dialogs.editElement" :scheduleId="this.$store.state.dialogs.editElementParent" ></editdialog>
     </md-dialog>
   </div>
 </template>
 
 <script>
-import fetchEvent from '@/connection.js'
-
 export default {
   name: 'Event',
   data () {
@@ -25,7 +23,7 @@ export default {
   },
   computed: {
     eventID () {
-      return this.$store.state.event.eventID
+      return this.$store.state.event._id
     },
     eventName () {
       return this.$store.state.event.name
@@ -63,7 +61,7 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.dispatch('loadEvent', fetchEvent(this.$route.params.eventID))
+    this.$store.dispatch('loadEvent', this.$route.params.eventID)
     document.documentElement.addEventListener('keydown', this.captureUndo, true)
   },
   beforeDestroy: function () {

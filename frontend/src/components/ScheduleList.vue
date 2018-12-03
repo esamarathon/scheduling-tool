@@ -1,6 +1,6 @@
 <template>
   <div class="schedule">
-    <schedulelistelement v-for="element in schedule.elements" :element="element" :key="element.id"></schedulelistelement>
+    <schedulelistelement v-for="element in schedule.elements" :elementId="element" :key="element" :parent="scheduleId"></schedulelistelement>
   </div>
 </template>
 
@@ -8,11 +8,11 @@
 export default {
   name: 'ScheduleList',
   props: {
-    scheduleID: {}
+    scheduleId: {}
   },
   computed: {
     schedule () {
-      return this.$store.getters.lookupSchedule(this.scheduleID)
+      return this.$store.getters.lookupSchedule(this.scheduleId)
     }
   }
 }

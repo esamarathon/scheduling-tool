@@ -21,8 +21,11 @@ export default {
     }
   },
   props: {
-    element: {
-      type: Object
+    elementId: {
+      type: String
+    },
+    parent: {
+      type: String
     }
   },
   computed: {
@@ -35,13 +38,16 @@ export default {
     },
     duration () {
       return this.$store.getters.getDuration(this.element)
+    },
+    element () {
+      return this.$store.getters.lookupElement(this.elementId)
     }
   },
   methods: {
     doubleClick (event) {
       event.stopPropagation()
       event.preventDefault()
-      this.$store.commit('showEditDialog', this.element.id)
+      this.$store.commit('showEditDialog', { elementID: this.elementId, scheduleID: this.parent })
     }
   }
 }

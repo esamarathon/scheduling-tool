@@ -1,12 +1,12 @@
 <template>
   <div>
     Editing Event {{ eventName }}<br>
-    <md-tabs v-on:md-changed="updateTab" :md-alignment='"fixed"'>
-      <md-tab :id='"columnsview"' :md-label='"Columns"'></md-tab>
-      <md-tab :id='"listview"' :md-label='"List"'></md-tab>
-      <md-tab :id='"devview"' :md-label='"Dev"'></md-tab>
+    <md-tabs md-sync-route :md-alignment='"fixed"'>
+      <md-tab :id='"ColumnsView"' :md-label='"Columns"' :to="{ name: 'ColumnsView' }"></md-tab>
+      <md-tab :id='"ListView"' :md-label='"List"' :to="{ name: 'ListView' }"></md-tab>
+      <md-tab :id='"DevView"' :md-label='"Dev"' :to="{ name: 'DevView' }"></md-tab>
     </md-tabs>
-    <component v-bind:is="selectedTab"></component>
+    <router-view/>
     <md-dialog :md-active.sync="editElement">
       <editdialog :elementId="this.$store.state.dialogs.editElement" :scheduleId="this.$store.state.dialogs.editElementParent" ></editdialog>
     </md-dialog>
@@ -14,11 +14,13 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   name: 'Event',
   data () {
     return {
-      selectedTab: 'columnsview'
+      selectedTab: 'ColumnsView'
     }
   },
   computed: {
@@ -55,9 +57,6 @@ export default {
           event.preventDefault()
         }
       }
-    },
-    updateTab (newTab) {
-      this.selectedTab = newTab
     }
   },
   mounted: function () {
@@ -66,6 +65,13 @@ export default {
   },
   beforeDestroy: function () {
     document.documentElement.removeEventListener('keydown', this.captureUndo, true)
+  },
+  beforeRouteEnter (to, from, next) {
+    if (to.name === 'Event') {
+      next({path: _.trimEnd(to.path, '/') + '/columns'})
+    } else {
+      next()
+    }
   }
 }
 </script>

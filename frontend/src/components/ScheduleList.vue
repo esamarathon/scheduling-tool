@@ -7,12 +7,12 @@
 <script>
 export default {
   name: 'ScheduleList',
-  props: {
-    scheduleId: {}
-  },
   computed: {
     schedule () {
-      return this.$store.getters.lookupSchedule(this.scheduleId)
+      return this.$store.getters.lookupSchedule(this.scheduleId) ? this.$store.getters.lookupSchedule(this.scheduleId) : { elements: [] }
+    },
+    scheduleId () {
+      return this.$route.params.scheduleID
     }
   }
 }

@@ -1,9 +1,9 @@
 <template>
   <div class="listview">
-    <md-tabs v-on:md-changed="updateTab">
-      <md-tab v-for="schedule in schedules" :key="schedule" :id="String(schedule)" :md-label="$store.getters.lookupSchedule(schedule).name"></md-tab>
+    <md-tabs :md-active="selectedTab" md-sync-route>
+      <md-tab v-for="schedule in schedules" :key="schedule" :id="String(schedule)" :md-label="$store.getters.lookupSchedule(schedule).name" :to="{ name: 'ScheduleList', params: { scheduleID: schedule } }"></md-tab>
     </md-tabs>
-    <schedulelist v-if="selectedTab" :scheduleId="selectedTab"></schedulelist>
+    <router-view/>
   </div>
 </template>
 
@@ -17,16 +17,8 @@ export default {
   },
   data () {
     return {
-      selectedTab: null
+      selectedTab: this.$route.params.scheduleID
     }
-  },
-  methods: {
-    updateTab (newTab) {
-      this.selectedTab = newTab
-    }
-  },
-  mounted: function () {
-    this.selectedTab = String(this.schedules[0])
   }
 }
 </script>

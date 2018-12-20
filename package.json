@@ -11,12 +11,15 @@
       "install": "run-s -l install:*",
       "install:frontend": "cd frontend && yarn install",
       "install:backend": "cd backend && yarn install",
+      "install:usertool": "cd usertoolstub && yarn install",
       "dev": "run-p -l dev:*",
       "dev:frontend": "cd frontend && yarn dev",
       "dev:backend": "cd backend && yarn dev",
+      "dev:usertool": "cd usertoolstub && yarn dev",
       "build": "run-p -l build:*",
       "build:frontend": "cd frontend && yarn build",
-      "build:backend": "cd backend && yarn build"
+      "build:backend": "cd backend && yarn build",
+      "build:usertool": "cd usertoolstub && yarn build"
     }
   }
   

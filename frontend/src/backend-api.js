@@ -57,3 +57,7 @@ export function fetchEvent (eventId) {
 export function sendTransformation (transformation) {
   return makePOST(`${settings.backend.api.baseurl}update`, transformation)
 }
+
+export function fetchUsers (eventId) {
+  return makeRequest(`${settings.usertool.api.baseurl}users/${eventId}`)
+}

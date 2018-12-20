@@ -9,6 +9,11 @@
         "baseurl": "http://127.0.0.1:8080/",
         "loginurl": "http://127.0.0.1:8080/#/login"
     },
+    "usertool": {
+        "api": {
+            "baseurl": "http://127.0.0.1:8082/"
+        }
+    },
     "auth": {
         "cookie": "esa-jwt-dev",
         "publicKey": "../shared/public-dev.pem",

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { calculateTimes } from '../../shared/src/calculateSchedule'
-import { fetchEvent, sendTransformation } from './backend-api.js'
+import { fetchEvent, sendTransformation, fetchUsers } from './backend-api.js'
 import { getLoggedInUser } from './auth'
 import _ from 'lodash'
 
@@ -21,6 +21,7 @@ export default new Vuex.Store({
     event: {},
     schedules: {},
     elements: {},
+    users: {},
     history: {
       undo: [],
       redo: []
@@ -154,6 +155,12 @@ export default new Vuex.Store({
       state.event = eventData.event
       state.schedules = eventData.schedules
       state.elements = eventData.elements
+    },
+    clearUsers (state) {
+      state.users = {}
+    },
+    updateUsers (state, newUsers) {
+      state.users = _.merge({}, state.users, newUsers)
     }
   },
   actions: {
@@ -163,6 +170,7 @@ export default new Vuex.Store({
       context.commit('recalculateSchedule')
       let eventData = await fetchEvent(eventId)
       context.commit('loadEventData', eventData)
+      context.dispatch('loadUsers', context.state.event.usertoolRef)
       context.commit('recalculateSchedule')
     },
     update (context, transformation) {
@@ -265,6 +273,11 @@ export default new Vuex.Store({
 
       context.dispatch('update', transformation)
       context.commit('pushUndo', transformation)
+    },
+    async loadUsers (context, eventId) {
+      context.commit('clearUsers')
+      let users = await fetchUsers(eventId)
+      context.commit('updateUsers', users)
     }
   },
   getters: {

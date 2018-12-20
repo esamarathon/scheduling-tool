@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "extends": [    
+    "standard"
+  ],
+  "rules": {
+    "generator-star-spacing": "off"
+  }
+}

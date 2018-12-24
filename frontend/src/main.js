@@ -4,6 +4,7 @@ import Vue from 'vue'
 import 'vue-material/dist/vue-material.min.css'
 import VueMaterial from 'vue-material'
 import Multiselect from 'vue-multiselect'
+import Notifications from 'vue-notification'
 import 'moment'
 
 import './assets/theme.scss'
@@ -24,6 +25,7 @@ import DataEditField from './components/DataEditField'
 import store from './datamodel'
 
 Vue.use(VueMaterial)
+Vue.use(Notifications)
 
 Vue.component('scheduleelement', ScheduleElement)
 Vue.component('schedulelistelement', ScheduleListElement)

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { calculateTimes } from '../../shared/src/calculateSchedule'
+import { validateTransformation } from '../../shared/src/transformation'
 import { fetchEvent, sendTransformation, fetchUsers } from './backend-api.js'
 import { getLoggedInUser } from './auth'
 import _ from 'lodash'
@@ -57,44 +58,23 @@ export default new Vuex.Store({
         state.history.undo.push(lastRedo)
       }
     },
-    setNestedElementProperty (state, { type, id, path, newValue, oldValue }) {
-      try {
-        const pathSplits = path.split('.')
-        let iterObj = lookupItem(state, type, id)
-
-        for (let i = 0; i < pathSplits.length - 1; i += 1) {
-          iterObj = iterObj[pathSplits[i]]
-        }
-        if (iterObj[pathSplits.slice(-1)[0]] === oldValue) {
-          Vue.set(iterObj, pathSplits.slice(-1)[0], newValue)
-        }
-      } catch (err) {}
+    setNestedElementProperty (state, { type, id, path, newValue }) {
+      _.set(lookupItem(state, type, id), path, newValue)
     },
     insertNestedElementProperty (state, { type, id, path, newValue }) {
-      try {
-        const pathSplits = path.split('.')
-        let iterObj = lookupItem(state, type, id)
-
-        for (let i = 0; i < pathSplits.length; i += 1) {
-          iterObj = iterObj[pathSplits[i]]
-        }
-        iterObj.splice(iterObj.length, 0, newValue)
-      } catch (err) {}
+      let target = lookupItem(state, type, id)
+      target = _.get(target, path)
+      target.push(newValue)
     },
     deleteNestedElementProperty (state, { type, id, path, oldValue }) {
-      try {
-        const pathSplits = path.split('.')
-        let iterObj = lookupItem(state, type, id)
+      let target = lookupItem(state, type, id)
+      target = _.get(target, path)
 
-        for (let i = 0; i < pathSplits.length; i += 1) {
-          iterObj = iterObj[pathSplits[i]]
-        }
-        if (Array.isArray(iterObj)) {
-          iterObj.splice(iterObj.indexOf(oldValue), 1)
-        } else {
-          delete iterObj[oldValue]
-        }
-      } catch (err) {}
+      if (Array.isArray(target)) {
+        target.splice(target.indexOf(oldValue), 1)
+      } else {
+        delete target[oldValue]
+      }
     },
     addScheduleItem (state, { type, newValue }) {
       switch (type) {
@@ -180,7 +160,7 @@ export default new Vuex.Store({
         // ToDo error handling
         switch (action.action) {
           case 'set':
-            context.commit('setNestedElementProperty', { type: action.idType, id: action.id, path: action.path, newValue: action.newValue, oldValue: action.oldValue })
+            context.commit('setNestedElementProperty', { type: action.idType, id: action.id, path: action.path, newValue: action.newValue })
             break
           case 'insert':
             context.commit('insertNestedElementProperty', { type: action.idType, id: action.id, path: action.path, newValue: action.newValue })
@@ -219,7 +199,7 @@ export default new Vuex.Store({
       let oldElement
       for (let i = 0; i < oldSchedule.elements.length; i += 1) {
         oldElement = context.getters.lookupElement(oldSchedule.elements[i])
-        transformation.actions.splice(0, 0, {idType: 'element', action: 'removeItem', oldValue: oldElement})
+        transformation.actions.unshift({idType: 'element', action: 'removeItem', oldValue: oldElement})
       }
 
       context.dispatch('apply', transformation)
@@ -250,29 +230,34 @@ export default new Vuex.Store({
 
         invertedTransformation['time'] = new Date()
         invertedTransformation['userId'] = getLoggedInUser()
-        sendTransformation(invertedTransformation)
 
-        context.dispatch('update', invertedTransformation)
-        context.commit('popUndo')
+        if (validTransformation(invertedTransformation, context)) {
+          sendTransformation(invertedTransformation)
+          context.dispatch('update', invertedTransformation)
+          context.commit('popUndo')
+        }
       }
     },
     redo (context) {
       const lastRedo = context.state.history.redo.slice(-1)[0]
       if (lastRedo) {
-        sendTransformation(lastRedo)
-
-        context.dispatch('update', lastRedo)
-        context.commit('popRedo')
+        if (validTransformation(lastRedo, context)) {
+          sendTransformation(lastRedo)
+          context.dispatch('update', lastRedo)
+          context.commit('popRedo')
+        }
       }
     },
     apply (context, transformation) {
       transformation['time'] = new Date()
       transformation['userId'] = getLoggedInUser()
 
-      sendTransformation(transformation)
+      if (validTransformation(transformation, context)) {
+        sendTransformation(transformation)
 
-      context.dispatch('update', transformation)
-      context.commit('pushUndo', transformation)
+        context.dispatch('update', transformation)
+        context.commit('pushUndo', transformation)
+      }
     },
     async loadUsers (context, eventId) {
       context.commit('clearUsers')
@@ -355,7 +340,26 @@ function invertTransformation (transformation) {
         newAction = _.assign({}, action, {action: 'addItem', newValue: action.oldValue, oldValue: action.newValue})
         break
     }
-    ret.actions.splice(ret.actions.length, 0, newAction)
+    ret.actions.push(newAction)
   }
   return ret
+}
+
+function validTransformation (transformation, context) {
+  try {
+    return validateTransformation(transformation, (type, id) => lookupItem(context.state, type, id))
+  } catch (e) {
+    if (e.name === 'ValidationError') {
+      Vue.notify({
+        group: 'schedule',
+        type: 'error',
+        title: 'Validation Error',
+        text: e.message
+      })
+      console.log(transformation)
+      return false
+    } else {
+      throw e
+    }
+  }
 }

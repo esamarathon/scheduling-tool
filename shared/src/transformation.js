@@ -34,8 +34,6 @@ function mergeWithCustomizerReplaceArray (objValue, srcValue) {
 function validateTransformation (transformation, lookupItem) {
   // stores modifications carried out by the transformation
   const modifications = {}
-  // Validate each action individually
-  _.forEach(transformation.actions, (action) => validateAction(action, lookupItem, modifications))
 
   // Proxy lookup function that overlays the modifications over the real event state
   const proxyLookupItem = function (type, id) {
@@ -59,6 +57,9 @@ function validateTransformation (transformation, lookupItem) {
     // Arrays need to be overwritten instead of merged, so we use a customizer for that
     return _.mergeWith({}, realObj, modifiedObj, mergeWithCustomizerReplaceArray)
   }
+
+  // Validate each action individually
+  _.forEach(transformation.actions, (action) => validateAction(action, proxyLookupItem, modifications))
 
   // known good time references for shortcutting
   const knownGood = {}

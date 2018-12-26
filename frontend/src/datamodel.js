@@ -5,6 +5,7 @@ import { validateTransformation } from '../../shared/src/transformation'
 import { fetchEvent, sendTransformation, fetchUsers } from './backend-api.js'
 import { getLoggedInUser } from './auth'
 import { checkConstraints } from './constraints'
+import { convertReferencingToAbsoluteTime } from './scheduleUtils'
 import _ from 'lodash'
 
 Vue.use(Vuex)
@@ -213,12 +214,12 @@ export default new Vuex.Store({
           idType: 'event', id: context.state.event._id, path: 'schedules', action: 'delete', oldValue: scheduleId
         }, {
           idType: 'schedule', action: 'removeItem', oldValue: oldSchedule
-        }]}
+        }].concat(convertReferencingToAbsoluteTime(oldSchedule.elements, 'duration', true))}
 
       let oldElement
       for (let i = 0; i < oldSchedule.elements.length; i += 1) {
         oldElement = context.getters.lookupElement(oldSchedule.elements[i])
-        transformation.actions.unshift({idType: 'element', action: 'removeItem', oldValue: oldElement})
+        transformation.actions.push({idType: 'element', action: 'removeItem', oldValue: oldElement})
       }
 
       context.dispatch('apply', transformation)
@@ -239,7 +240,7 @@ export default new Vuex.Store({
           idType: 'schedule', id: parent, path: 'elements', action: 'delete', oldValue: elementId
         }, {
           idType: 'element', action: 'removeItem', oldValue: oldElement
-        }]}
+        }].concat(convertReferencingToAbsoluteTime([elementId]))}
       context.dispatch('apply', transformation)
     },
     undo (context) {
@@ -375,7 +376,7 @@ function invertTransformation (transformation) {
         newAction = _.assign({}, action, {action: 'addItem', newValue: action.oldValue, oldValue: action.newValue})
         break
     }
-    ret.actions.push(newAction)
+    ret.actions.unshift(newAction)
   }
   return ret
 }

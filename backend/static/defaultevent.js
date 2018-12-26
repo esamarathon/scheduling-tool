@@ -2,6 +2,7 @@ export default function createDefaultEvent (eventID) {
   return {
     event: {
       _id: eventID,
+      usertoolRef: eventID,
       name: eventID,
       start: 1535785200000,
       end: 1535871600000,

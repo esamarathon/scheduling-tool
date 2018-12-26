@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { convertToAbsoluteTime } from '@/scheduleUtils'
 
 function roundTimeToNearest (date, duration) {
   if (+duration) {
@@ -362,10 +363,8 @@ export default {
         event.stopPropagation()
         event.preventDefault()
         this.$store.dispatch('apply', { type: 'update',
-          actions: [
-            {idType: 'element', id: this.element._id, action: 'set', path: 'start.time', oldValue: this.element.start.time, newValue: this.startTime},
-            {idType: 'element', id: this.element._id, action: 'set', path: 'start.type', oldValue: this.element.start.type, newValue: 'absolute'}
-          ] })
+          actions: convertToAbsoluteTime(this.element, 'start')
+        })
       }
     },
     doubleClickBottom (event) {
@@ -376,18 +375,14 @@ export default {
         if (event.ctrlKey) {
           // convert to absolute
           this.$store.dispatch('apply', { type: 'update',
-            actions: [
-              {idType: 'element', id: this.element._id, action: 'set', path: 'end.time', oldValue: this.element.end.time, newValue: this.endTime},
-              {idType: 'element', id: this.element._id, action: 'set', path: 'end.type', oldValue: this.element.end.type, newValue: 'absolute'}
-            ] })
+            actions: convertToAbsoluteTime(this.element, 'end', 'absolute')
+          })
           this.$store.commit('hoverHighlightClear')
         } else {
           // convert to duration
           this.$store.dispatch('apply', { type: 'update',
-            actions: [
-              {idType: 'element', id: this.element._id, action: 'set', path: 'end.duration', oldValue: this.element.end.duration, newValue: this.duration},
-              {idType: 'element', id: this.element._id, action: 'set', path: 'end.type', oldValue: this.element.end.type, newValue: 'duration'}
-            ] })
+            actions: convertToAbsoluteTime(this.element, 'end', 'duration')
+          })
           this.$store.commit('hoverHighlightClear')
         }
       }

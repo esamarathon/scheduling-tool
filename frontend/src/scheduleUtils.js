@@ -40,4 +40,22 @@ function convertReferencingToAbsoluteTime (targets, endType = 'duration', exclud
   return _.flatMap(ret)
 }
 
-export { convertToAbsoluteTime, convertReferencingToAbsoluteTime }
+function sortedIntervals (schedule) {
+  const intervals = _.map(schedule.elements, (element) => {
+    return {
+      id: element,
+      start: store.state.lookup.calculatedTimes[element]['start'],
+      end: store.state.lookup.calculatedTimes[element]['end']
+    }
+  })
+  intervals.sort((a, b) => {
+    if (a.start < b.start) return -1
+    else if (a.start > b.start) return 1
+    else if (a._id < b._id) return -1
+    else if (a._id > b._id) return 1
+    return 0
+  })
+  return intervals
+}
+
+export { convertToAbsoluteTime, convertReferencingToAbsoluteTime, sortedIntervals }

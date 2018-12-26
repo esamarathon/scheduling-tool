@@ -45,6 +45,9 @@ export default {
     },
     parent: {
       type: String
+    },
+    relativePosition: {
+      type: Object
     }
   },
   computed: {
@@ -73,7 +76,9 @@ export default {
       const style = {
         height: (this.$store.getters.pixelsPerHour * this.duration / 3600000) + 'px',
         top: (this.$store.getters.pixelsPerHour * this.eventOffset / 3600000) + 'px',
-        background: 'linear-gradient(to bottom, rgba(175, 175, 175, 0.75) ' + this.percentSetup + '%, rgb(255, 127, 80, 0.75) ' + this.percentSetup + '%, rgb(255, 127, 80, 0.75) ' + this.percentTeardown + '%, rgba(175, 175, 175, 0.75) ' + this.percentTeardown + '%)'
+        background: 'linear-gradient(to bottom, rgba(175, 175, 175, 0.75) ' + this.percentSetup + '%, rgb(255, 127, 80, 0.75) ' + this.percentSetup + '%, rgb(255, 127, 80, 0.75) ' + this.percentTeardown + '%, rgba(175, 175, 175, 0.75) ' + this.percentTeardown + '%)',
+        left: this.relativePosition.position * (100 / this.relativePosition.of) + '%',
+        width: (100 / this.relativePosition.of) + '%'
       }
       if (this.canDrag) {
         style['cursor'] = 'move'
@@ -400,7 +405,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .element {
-  width: 100%;
   border-radius: 3px;
   border: 1px solid black;
   margin-bottom: -1px;

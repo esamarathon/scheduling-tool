@@ -1,9 +1,11 @@
 <template>
   <div>
-    Editing Event {{ eventName }}<br>
+    Editing Event {{ eventName }} - <span v-if="constraintCheck">{{constraintCount}} constraints to check - </span><span class="weak">{{weakCount}} weak</span> <span class="strict">{{strictCount}} strict</span> findings
+    <br>
     <md-tabs md-sync-route :md-alignment='"fixed"'>
       <md-tab :id='"ColumnsView"' :md-label='"Columns"' :to="{ name: 'ColumnsView' }"></md-tab>
       <md-tab :id='"ListView"' :md-label='"List"' :to="{ name: 'ListView' }"></md-tab>
+      <md-tab :id='"ConstraintsView"' :md-label='"Constraints"' :to="{ name: 'ConstraintsView' }"></md-tab>
       <md-tab :id='"DevView"' :md-label='"Dev"' :to="{ name: 'DevView' }"></md-tab>
     </md-tabs>
     <router-view/>
@@ -40,6 +42,18 @@ export default {
       set: function (newValue) {
         this.$store.commit('closeEditDialog')
       }
+    },
+    constraintCheck () {
+      return this.$store.getters.constraintCheckState
+    },
+    weakCount () {
+      return this.$store.getters.weakFindings.length
+    },
+    strictCount () {
+      return this.$store.getters.strictFindings.length
+    },
+    constraintCount () {
+      return this.$store.state.constraints.stackSize
     }
   },
   methods: {
@@ -80,5 +94,11 @@ export default {
 <style scoped>
 .column {
   float: left;
+}
+.weak {
+  color: orange
+}
+.strict {
+  color: red
 }
 </style>

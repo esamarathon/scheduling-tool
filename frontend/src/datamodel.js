@@ -4,6 +4,7 @@ import { calculateTimes } from '../../shared/src/calculateSchedule'
 import { validateTransformation } from '../../shared/src/transformation'
 import { fetchEvent, sendTransformation, fetchUsers } from './backend-api.js'
 import { getLoggedInUser } from './auth'
+import { checkConstraints } from './constraints'
 import _ from 'lodash'
 
 Vue.use(Vuex)
@@ -33,6 +34,12 @@ export default new Vuex.Store({
     dialogs: {
       editElement: null,
       editElementParent: null
+    },
+    constraints: {
+      findings: {},
+      nonce: null,
+      state: false,
+      stackSize: 0
     }
   },
   mutations: {
@@ -141,6 +148,18 @@ export default new Vuex.Store({
     },
     updateUsers (state, newUsers) {
       state.users = _.merge({}, state.users, newUsers)
+    },
+    updateConstraintNonce (state) {
+      state.constraints.nonce = {}
+    },
+    setConstraintFindings (state, newFindings) {
+      state.constraints.findings = newFindings
+    },
+    setConstraintCheckState (state, newState) {
+      state.constraints.state = newState
+    },
+    setConstraintStackSize (state, size) {
+      state.constraints.stackSize = size
     }
   },
   actions: {
@@ -258,11 +277,23 @@ export default new Vuex.Store({
         context.dispatch('update', transformation)
         context.commit('pushUndo', transformation)
       }
+
+      // ToDo this belongs elsewhere, but for testing
+      context.dispatch('checkConstraints')
     },
     async loadUsers (context, eventId) {
       context.commit('clearUsers')
       let users = await fetchUsers(eventId)
       context.commit('updateUsers', users)
+    },
+    checkConstraints (context) {
+      // First update nonce to stop running checks
+      context.commit('updateConstraintNonce')
+      // Clear findings
+      context.commit('setConstraintFindings', {})
+      context.commit('setConstraintCheckState', true)
+      // trigger contraint checker
+      checkConstraints(context.state.constraints.nonce, [{ type: 'populateConstraints', data: { eventId: context.state.event._id } }])
     }
   },
   getters: {
@@ -296,7 +327,11 @@ export default new Vuex.Store({
     },
     eventDuration: state => state.event.end - state.event.start,
     assignState: state => ({ ongoing: state.display.assignOngoing, source: state.display.assignSource, side: state.display.assignSourceSide }),
-    hoverHighlight: state => ({ target: state.display.hoverHighlightTarget, side: state.display.hoverHighlightSide })
+    hoverHighlight: state => ({ target: state.display.hoverHighlightTarget, side: state.display.hoverHighlightSide }),
+    constraintCheckState: state => state.constraints.state,
+    flattenedConstraintFindings: state => _.flatMap(state.constraints.findings, (group) => { return _.flatMap(group) }),
+    strictFindings: (state, getters) => _.filter(getters.flattenedConstraintFindings, finding => finding.class === 'strict'),
+    weakFindings: (state, getters) => _.filter(getters.flattenedConstraintFindings, finding => finding.class === 'weak')
   }
 })
 

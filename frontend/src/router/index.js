@@ -6,6 +6,7 @@ import LoginDev from '@/components/LoginDev'
 import ColumnsView from '@/components/ColumnsView'
 import ListView from '@/components/ListView'
 import DevView from '@/components/DevView'
+import ConstraintsView from '@/components/ConstraintsView'
 import ScheduleList from '@/components/ScheduleList'
 
 Vue.use(Router)
@@ -38,6 +39,11 @@ export default new Router({
               component: ScheduleList
             }
           ]
+        },
+        {
+          path: 'constraints',
+          name: 'ConstraintsView',
+          component: ConstraintsView
         },
         {
           path: 'dev',

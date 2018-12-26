@@ -22,6 +22,7 @@ import ListView from './components/ListView'
 import DevView from './components/DevView'
 import ElementEditDialog from './components/ElementEditDialog'
 import DataEditField from './components/DataEditField'
+import Finding from './components/Finding'
 import store from './datamodel'
 
 Vue.use(VueMaterial)
@@ -38,6 +39,7 @@ Vue.component('listview', ListView)
 Vue.component('multiselect', Multiselect)
 Vue.component('editdialog', ElementEditDialog)
 Vue.component('data-edit-field', DataEditField)
+Vue.component('finding', Finding)
 
 Vue.config.productionTip = false
 

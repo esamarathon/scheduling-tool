@@ -42,8 +42,22 @@ export default {
     duration () {
       return this.$store.getters.getDuration(this.element)
     },
+    parentSchedule () {
+      if (this.scheduleId) {
+        return this.$store.getters.lookupSchedule(this.scheduleId)
+      } else {
+        // need to search the schedules to see which one is the parent
+        let schedule
+        for (let i = 0; i < this.$store.state.event.schedules.length; i++) {
+          schedule = this.$store.getters.lookupSchedule(this.$store.state.event.schedules[i])
+          for (let j = 0; j < schedule.elements.length; j++) {
+            if (schedule.elements[j] === this.elementId) return schedule
+          }
+        }
+      }
+    },
     dataSchema () {
-      return this.$store.getters.lookupSchedule(this.scheduleId).dataSchema
+      return this.parentSchedule.dataSchema
     },
     element () {
       return this.$store.getters.lookupElement(this.elementId)

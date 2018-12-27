@@ -1,6 +1,7 @@
 import esas18 from '../static/esas18'
 import makeDefaultEvent from '../static/defaultevent'
 
+import { calculateTimes } from 'shared/calculateSchedule'
 export async function getEvents (req, res) {
   if (!req.jwt) return res.status(401).end('Not authenticated.')
   // ToDo, dummy
@@ -20,6 +21,9 @@ export async function getEvent (req, res) {
 export async function handleTransformation (req, res) {
   if (!req.jwt) return res.status(401).end('Not authenticated.')
   // ToDo
+  const calculatedTimes = calculateTimes({}, () => {})
+  console.log(calculatedTimes)
+
   console.log(req.body)
   return res.json({})
 }

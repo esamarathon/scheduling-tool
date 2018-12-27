@@ -28,6 +28,10 @@ export default {
           type: String
         }
       ],
+      constraints: {
+        noGaps: true,
+        noOverlap: true
+      },
       elements: [
         '677e7337526f4b6f87b0a389',
         '6f118551282c40568a9f4ffa',
@@ -181,6 +185,9 @@ export default {
           type: String
         }
       ],
+      constraints: {
+        minimumSetupTime: 600000
+      },
       elements: [
         'd9914678243e4cd1a1e5052a',
         '8f01c68d508c4cc9b0fcf14b',
@@ -2907,6 +2914,9 @@ export default {
         'Platform': 'PC',
         'Category': 'All Bosses',
         'Note': null
+      },
+      'constraints': {
+        'preferedTimeslot': ['graveyard']
       }
     },
     '4a95efd3b21041d3a089599d': {
@@ -3172,6 +3182,9 @@ export default {
         'Platform': 'PC',
         'Category': 'Heroic',
         'Note': null
+      },
+      'constraints': {
+        'preferedTimeslot': ['primetime']
       }
     },
     '808a01b431f242bcb675d18a': {

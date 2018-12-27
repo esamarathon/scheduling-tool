@@ -172,6 +172,9 @@ export default new Vuex.Store({
       context.commit('loadEventData', eventData)
       context.dispatch('loadUsers', context.state.event.usertoolRef)
       context.commit('recalculateSchedule')
+
+      // ToDo this belongs elsewhere, but for testing
+      context.dispatch('checkConstraints')
     },
     update (context, transformation) {
       let action
@@ -256,6 +259,9 @@ export default new Vuex.Store({
           context.dispatch('update', invertedTransformation)
           context.commit('popUndo')
         }
+
+        // ToDo this belongs elsewhere, but for testing
+        context.dispatch('checkConstraints')
       }
     },
     redo (context) {
@@ -266,6 +272,9 @@ export default new Vuex.Store({
           context.dispatch('update', lastRedo)
           context.commit('popRedo')
         }
+
+        // ToDo this belongs elsewhere, but for testing
+        context.dispatch('checkConstraints')
       }
     },
     apply (context, transformation) {

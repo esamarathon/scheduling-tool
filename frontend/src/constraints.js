@@ -1,5 +1,7 @@
 import store from './datamodel'
 import _ from 'lodash'
+import moment from 'moment'
+import { sortedIntervals } from './scheduleUtils'
 
 // feedback is posted to Vuex periodically on a timer to avoid strain on DOM calculations
 function updateConstraintState (nonce, stack, findings) {
@@ -59,7 +61,7 @@ async function checkConstraints (nonce, stack) {
     await queueAsMacroTask(channel, async () => { newFinding = await processConstraint(constraint, stack) })
     // record new findings if there are any
     if (newFinding) {
-      _.merge(findings, newFinding, mergeWithCustomizerConcatArray)
+      _.mergeWith(findings, newFinding, mergeWithCustomizerConcatArray)
     }
   }
   // mark check as done if we are still the valid checker
@@ -77,6 +79,14 @@ async function processConstraint (constraint, stack) {
       return populateConstraints(constraint.data.eventId, stack)
     case 'positiveDuration':
       return positiveDuration(constraint.data.element)
+    case 'minimumSetup':
+      return minimumSetup(constraint.data.element, constraint.data.setupTime)
+    case 'noGaps':
+      return noGaps(constraint.data.schedule)
+    case 'noOverlap':
+      return noOverlap(constraint.data.schedule)
+    case 'preferedTimeslot':
+      return preferedTimeslot(constraint.data.element, constraint.data.timeslot)
     default:
       console.log(`Unsupported constraint checker ${constraint}`)
       break
@@ -95,6 +105,23 @@ async function populateConstraints (eventId, stack) {
   _.forEach(event.schedules, (scheduleId) => {
     let schedule = store.getters.lookup('schedule', scheduleId)
     // ToDo schedule specific constraints
+    if (_.get(schedule, 'constraints.noGaps')) {
+      stack.push({
+        type: 'noGaps',
+        data: {
+          schedule: schedule
+        }
+      })
+    }
+    if (_.get(schedule, 'constraints.noOverlap')) {
+      stack.push({
+        type: 'noOverlap',
+        data: {
+          schedule: schedule
+        }
+      })
+    }
+
     _.forEach(schedule.elements, (elementId) => {
       let element = store.getters.lookup('element', elementId)
       // ToDo more element specific constraints
@@ -103,6 +130,24 @@ async function populateConstraints (eventId, stack) {
         data: {
           element: element
         }
+      })
+      if (_.get(schedule, 'constraints.minimumSetupTime')) {
+        stack.push({
+          type: 'minimumSetup',
+          data: {
+            element: element,
+            setupTime: schedule.constraints.minimumSetupTime
+          }
+        })
+      }
+      _.forEach(_.get(element, 'constraints.preferedTimeslot'), (timeslot) => {
+        stack.push({
+          type: 'preferedTimeslot',
+          data: {
+            element: element,
+            timeslot: timeslot
+          }
+        })
       })
     })
   })
@@ -120,6 +165,128 @@ async function positiveDuration (element) {
           type: 'element'
         },
         id: `${element._id}_positiveDuration`
+      }]
+    }}
+  }
+}
+
+// Verify that a minimum setup time is set for all items
+async function minimumSetup (element, setupTime) {
+  if (element.start.setup === null || (element.start.setup < setupTime)) {
+    return { element: {
+      [element._id]: [{
+        class: 'weak',
+        finding: `The setup time of ${element.start.setup} is smaller than the allowed minimum of ${setupTime}.`,
+        source: {
+          id: element._id,
+          type: 'element'
+        },
+        id: `${element._id}_minimumSetup`
+      }]
+    }}
+  }
+}
+
+// Verify that a schedule contains no gaps
+async function noGaps (schedule) {
+  let hasGaps = false
+  const sorted = sortedIntervals(schedule)
+  let lastEnd = null
+  for (let i = 0; i < sorted.length; i++) {
+    if (lastEnd !== null) {
+      if (sorted[i].start > lastEnd) {
+        hasGaps = true
+        break
+      }
+    }
+    lastEnd = sorted[i].end
+  }
+
+  if (hasGaps) {
+    return { schedule: {
+      [schedule._id]: [{
+        class: 'strict',
+        finding: `There are gaps in the schedule.`,
+        source: {
+          id: schedule._id,
+          type: 'schedule'
+        },
+        id: `${schedule._id}_noGaps`
+      }]
+    }}
+  }
+}
+
+// Verify that a schedule contains no overlap
+async function noOverlap (schedule) {
+  let hasOverlap = false
+  const sorted = sortedIntervals(schedule)
+  let lastEnd = null
+  for (let i = 0; i < sorted.length; i++) {
+    if (lastEnd !== null) {
+      if (sorted[i].start < lastEnd) {
+        hasOverlap = true
+        break
+      }
+    }
+    lastEnd = sorted[i].end
+  }
+
+  if (hasOverlap) {
+    return { schedule: {
+      [schedule._id]: [{
+        class: 'strict',
+        finding: `There are overlaps in the schedule.`,
+        source: {
+          id: schedule._id,
+          type: 'schedule'
+        },
+        id: `${schedule._id}_noOverlap`
+      }]
+    }}
+  }
+}
+
+// Verify that an element falls (mostly) in its prefered timeslot
+async function preferedTimeslot (element, timeslot) {
+  let outsideTimeslot = false
+  const startTime = store.state.lookup.calculatedTimes[element._id]['start']
+  const endTime = store.state.lookup.calculatedTimes[element._id]['end']
+  // ToDo sensible margin?
+  const margin = (endTime - startTime) * 0.2
+  const cleanedStart = moment(startTime + margin)
+  const cleanedEnd = moment(endTime - margin)
+  switch (timeslot) {
+    // ToDo better definitions
+    case 'graveyard':
+      outsideTimeslot = !(cleanedStart.hours() >= 0 && cleanedStart.hours() <= 5 && cleanedEnd.hours() >= 0 && cleanedEnd.hours() <= 5)
+      break
+    case 'primetime':
+      outsideTimeslot = !(cleanedStart.hours() >= 18 && cleanedStart.hours() <= 23 && cleanedEnd.hours() >= 18 && cleanedEnd.hours() <= 23)
+      break
+    default:
+      return { element: {
+        [element._id]: [{
+          class: 'strict',
+          finding: `The element requests an unsupported prefered timeslot ${timeslot}.`,
+          source: {
+            id: element._id,
+            type: 'element'
+          },
+          id: `${element._id}_preferedTimeslot_${timeslot}`
+        }]
+      }}
+  }
+  if (outsideTimeslot) {
+    return { element: {
+      [element._id]: [{
+        class: 'weak',
+        finding: `The element does not lie in its prefered timeslot ${timeslot}.`,
+        source: {
+          id: element._id,
+          type: 'element'
+        },
+        id: `${element._id}_preferedTimeslot_${timeslot}`
       }]
     }}
   }

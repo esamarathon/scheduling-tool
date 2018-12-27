@@ -1,4 +1,4 @@
-export default function createDefaultEvent (eventID) {
+module.exports.default = function createDefaultEvent (eventID) {
   return {
     event: {
       _id: eventID,

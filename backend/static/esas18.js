@@ -1,4 +1,4 @@
-export default {
+module.exports.default = {
   event: {
     _id: 'e3ceed3b54b2627843698dae',
     usertoolRef: 'ec01c36206450f5709c0c891',

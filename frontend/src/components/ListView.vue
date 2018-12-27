@@ -1,9 +1,13 @@
 <template>
   <div class="listview">
-    <md-tabs :md-active="selectedTab" md-sync-route>
-      <md-tab v-for="schedule in schedules" :key="schedule" :id="String(schedule)" :md-label="$store.getters.lookupSchedule(schedule).name" :to="{ name: 'ScheduleList', params: { scheduleID: schedule } }"></md-tab>
-    </md-tabs>
-    <router-view/>
+    <div class="header">
+      <md-tabs :md-active="selectedTab" md-sync-route>
+        <md-tab v-for="schedule in schedules" :key="schedule" :id="String(schedule)" :md-label="$store.getters.lookupSchedule(schedule).name" :to="{ name: 'ScheduleList', params: { scheduleID: schedule } }"></md-tab>
+      </md-tabs>
+    </div>
+    <div class="content">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -25,4 +29,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.listview {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.header {
+  flex: 0 0 auto;
+}
+.content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
 </style>

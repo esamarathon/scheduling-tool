@@ -1,24 +1,11 @@
 <template>
-  <div class="schedule">
-    <div class="header">{{ scheduleName }}
-      <span class="icon-top-right">
-        <md-button class="md-icon-button" @click="addElement">
-          <md-icon>add</md-icon>
-        </md-button>
-        <md-button class="md-icon-button" @click="deleteMe">
-          <md-icon>delete</md-icon>
-        </md-button>
-      </span>
-    </div>
-    <div class="elementList">
-      <scheduleelement v-for="element in filteredRuns" :elementId="element" :parent="scheduleId" :relativePosition="relativePosition(element)" :key="element"></scheduleelement>
-    </div>
+  <div class="elementList">
+    <scheduleelement v-for="element in filteredRuns" :elementId="element" :parent="scheduleId" :relativePosition="relativePosition(element)" :key="element"></scheduleelement>
   </div>
 </template>
 
 <script>
 import _ from 'lodash'
-import { generateID } from '../backend-api'
 import { sortedIntervals } from '@/scheduleUtils'
 
 export default {
@@ -37,25 +24,6 @@ export default {
     }
   },
   methods: {
-    addElement () {
-      const newElement = {
-        _id: generateID(),
-        people: [],
-        start: {
-          type: 'absolute',
-          time: this.$store.getters.getEndOfSchedule(this.scheduleId)
-        },
-        end: {
-          type: 'duration',
-          duration: 3600000
-        },
-        name: 'New Run'
-      }
-      this.$store.dispatch('addElement', { parent: this.scheduleId, newElement })
-    },
-    deleteMe () {
-      this.$store.dispatch('removeSchedule', this.schedule._id)
-    },
     relativePosition (elementID) {
       let min = this.$store.state.lookup.calculatedTimes[elementID].start
       let max = this.$store.state.lookup.calculatedTimes[elementID].end
@@ -105,15 +73,5 @@ export default {
 <style scoped>
 .elementList {
   position: relative;
-}
-.icon-top-right {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.header {
-  position: relative;
-  overflow: hidden;
-  height: 40px;
 }
 </style>

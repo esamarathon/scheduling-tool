@@ -21,7 +21,8 @@ const EndPoint = new mongoose.Schema({
 
 const People = new mongoose.Schema({
   // ToDo, this is still very open
-  name: String
+  name: String, // Name for entries not taken from user tool
+  userId: String // Reference to user from user tool
 })
 
 const Element = new mongoose.Schema({
@@ -33,7 +34,7 @@ const Element = new mongoose.Schema({
   constraints: {
     preferredTimeslot: String
   },
-  people: [People],
+  people: [[People]],
   start: StartPoint,
   end: EndPoint
 })

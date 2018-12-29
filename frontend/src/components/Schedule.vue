@@ -63,7 +63,7 @@ export default {
       return this.$store.getters.lookupSchedule(this.scheduleId)
     },
     sortedIntervals () {
-      return sortedIntervals(this.schedule)
+      return sortedIntervals(this.schedule.elements)
     }
   }
 }

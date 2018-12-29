@@ -1,4 +1,4 @@
-module.exports.default = {
+export default {
   event: {
     _id: 'e3ceed3b54b2627843698dae',
     usertoolRef: 'ec01c36206450f5709c0c891',
@@ -265,14 +265,14 @@ module.exports.default = {
       },
       '_id': '677e7337526f4b6f87b0a389',
       'name': 'Dark Souls III',
-      'people': [
+      'people': [[
         {
           'name': 'Fudgecow'
         },
         {
           'name': 'SayviTV'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'All Bosses',
@@ -291,11 +291,11 @@ module.exports.default = {
       },
       '_id': '6f118551282c40568a9f4ffa',
       'name': 'God of War',
-      'people': [
+      'people': [[
         {
           'name': 'ThaRixer'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS3',
         'Category': 'Any% (NG+)',
@@ -314,11 +314,11 @@ module.exports.default = {
       },
       '_id': 'd8a618aa64a54866b258e337',
       'name': 'Cuphead',
-      'people': [
+      'people': [[
         {
           'name': 'Kirthar'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'All Bosses (Regular, Legacy)',
@@ -337,14 +337,14 @@ module.exports.default = {
       },
       '_id': '60182fc4574446598732e4d7',
       'name': 'Super Mario Land 2: 6 Golden Coins',
-      'people': [
+      'people': [[
         {
           'name': 'Oh_DeeR'
         },
         {
           'name': 'LateLearner'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'SNES (Super Game Boy 2)',
         'Category': 'Any% (Glitchless)',
@@ -363,11 +363,11 @@ module.exports.default = {
       },
       '_id': '29a6cff7f897418b8be4f53a',
       'name': 'Gremlins 2: The New Batch',
-      'people': [
+      'people': [[
         {
           'name': 'EndySWE'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any%',
@@ -386,14 +386,14 @@ module.exports.default = {
       },
       '_id': '6877fda2e4044f208f5c68b6',
       'name': 'Darkwing Duck',
-      'people': [
+      'people': [[
         {
           'name': 'TheMexicanRunner'
         },
         {
           'name': 'Jokaah'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any%',
@@ -412,11 +412,11 @@ module.exports.default = {
       },
       '_id': '2d601bc52c604c71ad9a954a',
       'name': 'Castle of Illusion HD',
-      'people': [
+      'people': [[
         {
           'name': 'KrazyRasmus'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -435,11 +435,11 @@ module.exports.default = {
       },
       '_id': 'b2fb33402d0446afa3158ebe',
       'name': 'Hollow Knight',
-      'people': [
+      'people': [[
         {
           'name': 'Ushebti'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (No Major Glitches)',
@@ -458,11 +458,11 @@ module.exports.default = {
       },
       '_id': 'efdd7e221a084ca6aa4a844a',
       'name': 'Fable: The Lost Chapters',
-      'people': [
+      'people': [[
         {
           'name': 'Etem'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': '100%',
@@ -481,11 +481,11 @@ module.exports.default = {
       },
       '_id': '3ed02f19317547cfb32d1a53',
       'name': 'Ratchet & Clank',
-      'people': [
+      'people': [[
         {
           'name': 'Janky'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS3',
         'Category': 'All Gold Bolts',
@@ -504,11 +504,11 @@ module.exports.default = {
       },
       '_id': '5086308837d94604bedb49b5',
       'name': 'Warhammer 40,000: Dawn of War - Dark Crusade',
-      'people': [
+      'people': [[
         {
           'name': 'TheLaughingMax'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'All Strongholds (Necron)',
@@ -527,11 +527,11 @@ module.exports.default = {
       },
       '_id': '53eb2e697b36466586b761b8',
       'name': 'Kingdom Hearts Dream Drop Distance HD',
-      'people': [
+      'people': [[
         {
           'name': 'RebelDragon95'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS4',
         'Category': 'Any% (Beginner NG+)',
@@ -550,11 +550,11 @@ module.exports.default = {
       },
       '_id': '457a71c1c8174243a837eaee',
       'name': "Tony Hawk's American Wasteland",
-      'people': [
+      'people': [[
         {
           'name': 'English_Ben'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Story Mode (Normal)',
@@ -573,11 +573,11 @@ module.exports.default = {
       },
       '_id': '0614e4ed77344eb19156fcfe',
       'name': 'Tomb Raider: Anniversary',
-      'people': [
+      'people': [[
         {
           'name': 'Cadarev'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -596,14 +596,14 @@ module.exports.default = {
       },
       '_id': 'c09b9249ebd947cda9237e74',
       'name': 'El Matador',
-      'people': [
+      'people': [[
         {
           'name': 'catalystz'
         },
         {
           'name': 'havrd'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -622,11 +622,11 @@ module.exports.default = {
       },
       '_id': '7a0fce973e66496d934acc7f',
       'name': 'Max Payne',
-      'people': [
+      'people': [[
         {
           'name': 'tocaloni1'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'GBP',
         'Category': 'Any%',
@@ -645,11 +645,11 @@ module.exports.default = {
       },
       '_id': '039da863fed740d186edc2f8',
       'name': 'Beyblade VForce: Ultimate Blader Jam',
-      'people': [
+      'people': [[
         {
           'name': 'lennart_underscore'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'GBP',
         'Category': 'Any%',
@@ -668,11 +668,11 @@ module.exports.default = {
       },
       '_id': '8496a59850384397a0ccae07',
       'name': 'Snake Pass',
-      'people': [
+      'people': [[
         {
           'name': 'Jetsa (aka Flotsa)'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (NG+)',
@@ -691,11 +691,11 @@ module.exports.default = {
       },
       '_id': 'e56f08acaacf4daa831766e2',
       'name': 'Pikmin 3',
-      'people': [
+      'people': [[
         {
           'name': '360Chrism'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Wii U',
         'Category': 'Collect Treasures (No DLC)',
@@ -714,14 +714,14 @@ module.exports.default = {
       },
       '_id': 'e5f99f4d0c25436c8cd62826',
       'name': 'ibb & obb',
-      'people': [
+      'people': [[
         {
           'name': 'emptysys'
         },
         {
           'name': 'OsZ_'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Co-Op)',
@@ -740,11 +740,11 @@ module.exports.default = {
       },
       '_id': 'f9f66b6dea05490bb4ed58be',
       'name': 'Dust: An Elysian Tail',
-      'people': [
+      'people': [[
         {
           'name': 'acridstingray3'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -763,11 +763,11 @@ module.exports.default = {
       },
       '_id': 'fc7c53069dc347f5b5d8fcf2',
       'name': 'Solstice: Quest for the Staff of Demnos',
-      'people': [
+      'people': [[
         {
           'name': 'Niss3'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any%',
@@ -786,7 +786,7 @@ module.exports.default = {
       },
       '_id': '79b0a5ce478940b284a4116e',
       'name': 'BattleBlock Theater',
-      'people': [
+      'people': [[
         {
           'name': 'Paulister'
         },
@@ -796,7 +796,7 @@ module.exports.default = {
         {
           'name': 'SeductiveSpatula'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (NLS)',
@@ -815,11 +815,11 @@ module.exports.default = {
       },
       '_id': '85b596f845ec47e189eae6f4',
       'name': 'Ori and the Blind Forest Definitive Edition',
-      'people': [
+      'people': [[
         {
           'name': 'Jitaenow'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'All Cells (No Restrictions)',
@@ -838,14 +838,14 @@ module.exports.default = {
       },
       '_id': '7077f446958e4f4ea22b8d06',
       'name': 'GeoGuessr',
-      'people': [
+      'people': [[
         {
           'name': 'havrd'
         },
         {
           'name': 'Janmumrik'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Co-Op',
@@ -864,11 +864,11 @@ module.exports.default = {
       },
       '_id': 'e2d318e9f3d54c758bc0e180',
       'name': 'Halo 3',
-      'people': [
+      'people': [[
         {
           'name': 'Sorix'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'XBOX 360',
         'Category': 'Legendary',
@@ -887,11 +887,11 @@ module.exports.default = {
       },
       '_id': '085cdc537600488693b934c9',
       'name': 'Daikatana',
-      'people': [
+      'people': [[
         {
           'name': 'SphereMJ'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -910,11 +910,11 @@ module.exports.default = {
       },
       '_id': 'a38f51b4a9a14969b3e3f1fd',
       'name': 'Serious Sam: The First Encounter',
-      'people': [
+      'people': [[
         {
           'name': 'Kykystas'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Tourist)',
@@ -933,11 +933,11 @@ module.exports.default = {
       },
       '_id': 'ed2577285ab3473aaa2ab328',
       'name': 'Doom: Scythe',
-      'people': [
+      'people': [[
         {
           'name': '4shockblast'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'UV-Speed',
@@ -956,11 +956,11 @@ module.exports.default = {
       },
       '_id': '620712b52afd46adb59a63de',
       'name': 'Outlast',
-      'people': [
+      'people': [[
         {
           'name': 'catalystz'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -979,11 +979,11 @@ module.exports.default = {
       },
       '_id': '0fbd25c7aba541d1bc5d081b',
       'name': 'Amnesia: The Dark Descent',
-      'people': [
+      'people': [[
         {
           'name': 'RabzZ'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -1002,11 +1002,11 @@ module.exports.default = {
       },
       '_id': '4606abcefc43494da363eafe',
       'name': 'S.T.A.L.K.E.R.: Shadow of Chernobyl',
-      'people': [
+      'people': [[
         {
           'name': 'antidotsrd'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'All Main Missions',
@@ -1025,11 +1025,11 @@ module.exports.default = {
       },
       '_id': '3714ff8fbd1341ee9420ad0a',
       'name': 'Silent Hill 3',
-      'people': [
+      'people': [[
         {
           'name': 'Punchi'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'NG (Easy)',
@@ -1048,11 +1048,11 @@ module.exports.default = {
       },
       '_id': '9c8d93c8b2514b2d951c220d',
       'name': 'Nioh',
-      'people': [
+      'people': [[
         {
           'name': 'AxelSaGo'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS4',
         'Category': 'All Main Missions Vanilla',
@@ -1071,11 +1071,11 @@ module.exports.default = {
       },
       '_id': 'b76b211c95c24429a3cb0527',
       'name': 'Horizon Zero Dawn',
-      'people': [
+      'people': [[
         {
           'name': 'ElkjaerTV'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS4',
         'Category': 'Any% (NG+ Ultra Hard)',
@@ -1094,11 +1094,11 @@ module.exports.default = {
       },
       '_id': 'daa018bf97db4647955b3cee',
       'name': 'Little Nightmares',
-      'people': [
+      'people': [[
         {
           'name': 'Yajijy_'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -1117,14 +1117,14 @@ module.exports.default = {
       },
       '_id': '86d292ce28ac4b8da3235b14',
       'name': 'Q.U.B.E. 2',
-      'people': [
+      'people': [[
         {
           'name': 'Fatzke'
         },
         {
           'name': 'eTholon'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (No Numpad Skips)',
@@ -1143,14 +1143,14 @@ module.exports.default = {
       },
       '_id': '8ac6accef13046b1990a6903',
       'name': 'Densha de D: Lightning Stage',
-      'people': [
+      'people': [[
         {
           'name': 'Jugachi'
         },
         {
           'name': 'Lordmau5'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -1169,11 +1169,11 @@ module.exports.default = {
       },
       '_id': '2e56f11c72964dca895f10e8',
       'name': 'Need for Speed: Most Wanted (2005)',
-      'people': [
+      'people': [[
         {
           'name': 'KuruHS'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -1192,11 +1192,11 @@ module.exports.default = {
       },
       '_id': '5bab2fb25d0e4c54bfbb9911',
       'name': 'Bionic Commando Rearmed',
-      'people': [
+      'people': [[
         {
           'name': 'ViewtifulViktor'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -1215,14 +1215,14 @@ module.exports.default = {
       },
       '_id': 'd40402fa3b3b4424ac8a819a',
       'name': 'Sonic the Hedgehog 2',
-      'people': [
+      'people': [[
         {
           'name': 'Oldclov'
         },
         {
           'name': 'linkboss'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Genesis',
         'Category': 'Any%',
@@ -1241,11 +1241,11 @@ module.exports.default = {
       },
       '_id': 'fedea57894f64069b1f37eb8',
       'name': 'Rot Gut',
-      'people': [
+      'people': [[
         {
           'name': 'Sajiki'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -1264,14 +1264,14 @@ module.exports.default = {
       },
       '_id': 'd9c21bdf056f49d89a53552a',
       'name': 'Mega Man 2',
-      'people': [
+      'people': [[
         {
           'name': 'COOLKID'
         },
         {
           'name': 'EndySWE'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any% (Difficult)',
@@ -1290,11 +1290,11 @@ module.exports.default = {
       },
       '_id': 'e734f8d5c6f8419fa8eba147',
       'name': 'Mega Man 5',
-      'people': [
+      'people': [[
         {
           'name': 'Jokaah'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any%',
@@ -1313,11 +1313,11 @@ module.exports.default = {
       },
       '_id': 'd25ae34cc1ab47d68e946d8c',
       'name': 'Battletoads',
-      'people': [
+      'people': [[
         {
           'name': 'TheMexicanRunner'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any% (No Wrong Warp)',
@@ -1336,11 +1336,11 @@ module.exports.default = {
       },
       '_id': '9cf6c3b44d5a4d2ca9eb5fd0',
       'name': 'Castlevania',
-      'people': [
+      'people': [[
         {
           'name': 'EndySWE'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any%',
@@ -1359,11 +1359,11 @@ module.exports.default = {
       },
       '_id': '88140bc51ce4431ab98324b3',
       'name': "Castlevania II: Simon's Quest",
-      'people': [
+      'people': [[
         {
           'name': 'Burb__'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any%',
@@ -1382,14 +1382,14 @@ module.exports.default = {
       },
       '_id': 'a2a046ed29114552bba33ca1',
       'name': 'Firestriker',
-      'people': [
+      'people': [[
         {
           'name': 'BroedgeMan'
         },
         {
           'name': 'joker_of_god'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'SNES',
         'Category': 'Any%',
@@ -1408,11 +1408,11 @@ module.exports.default = {
       },
       '_id': '9b74c37449644fa08998102c',
       'name': 'Kung Fu',
-      'people': [
+      'people': [[
         {
           'name': 'Frippen'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any% (Game A)',
@@ -1431,7 +1431,7 @@ module.exports.default = {
       },
       '_id': '11a800cb578a4a6b87068e47',
       'name': 'The Binding of Isaac: Afterbirth+',
-      'people': [
+      'people': [[
         {
           'name': 'Shigan_'
         },
@@ -1441,7 +1441,7 @@ module.exports.default = {
         {
           'name': 'GamonymousRC'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Racing+ Season 3',
@@ -1460,11 +1460,11 @@ module.exports.default = {
       },
       '_id': '4368a135c0dc4489952d4541',
       'name': 'Transistor',
-      'people': [
+      'people': [[
         {
           'name': 'Cadarev'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -1483,11 +1483,11 @@ module.exports.default = {
       },
       '_id': '6fb98cd6b640404a82c6e7c5',
       'name': 'Undertale',
-      'people': [
+      'people': [[
         {
           'name': 'Firepaw'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'True Pacifist',
@@ -1506,11 +1506,11 @@ module.exports.default = {
       },
       '_id': 'f506952fa13548239c0b64e1',
       'name': 'South Park: The Stick of Truth',
-      'people': [
+      'people': [[
         {
           'name': 'HardcoreYork'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Mage Current Patch)',
@@ -1529,11 +1529,11 @@ module.exports.default = {
       },
       '_id': 'd86136a24ca04e82a485e29c',
       'name': 'Harry Potter and the Chamber of Secrets',
-      'people': [
+      'people': [[
         {
           'name': 'Rasschla'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': '100%',
@@ -1552,11 +1552,11 @@ module.exports.default = {
       },
       '_id': '9afd5bd695964bb8bf00bb60',
       'name': 'The Legend of Zelda: Twilight Princess HD',
-      'people': [
+      'people': [[
         {
           'name': 'Lolicry'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Wii U',
         'Category': 'Any%',
@@ -1575,11 +1575,11 @@ module.exports.default = {
       },
       '_id': '66a0239c4ce2477cae5cc349',
       'name': 'Okami',
-      'people': [
+      'people': [[
         {
           'name': 'Kinnin11'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS3',
         'Category': 'Any% (NG+)',
@@ -1598,11 +1598,11 @@ module.exports.default = {
       },
       '_id': '20288cacfa6f431c9d7f2b7c',
       'name': 'Dissidia: Final Fantasy',
-      'people': [
+      'people': [[
         {
           'name': 'Leonis07'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PSP',
         'Category': 'Any%',
@@ -1621,11 +1621,11 @@ module.exports.default = {
       },
       '_id': '9971e58766544b76854cb3ac',
       'name': 'Jak and Daxter: The Precursor Legacy',
-      'people': [
+      'people': [[
         {
           'name': 'SixRockFire'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS2',
         'Category': 'Any% (No LTS (One-handed))',
@@ -1644,11 +1644,11 @@ module.exports.default = {
       },
       '_id': '27beddf34d57452290897983',
       'name': 'Prince of Persia: Warrior Within',
-      'people': [
+      'people': [[
         {
           'name': 'catalystz'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Normal)',
@@ -1667,11 +1667,11 @@ module.exports.default = {
       },
       '_id': '1ca823779899489d9d581849',
       'name': 'Darksiders',
-      'people': [
+      'people': [[
         {
           'name': 'henyK'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -1690,11 +1690,11 @@ module.exports.default = {
       },
       '_id': 'e5d77e9205da48b7bee1a843',
       'name': 'NieR: Automata',
-      'people': [
+      'people': [[
         {
           'name': 'Kanaris'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Ending [A]',
@@ -1713,14 +1713,14 @@ module.exports.default = {
       },
       '_id': '4693414d026b4b54aa593573',
       'name': 'Dark Souls II',
-      'people': [
+      'people': [[
         {
           'name': 'Noobest'
         },
         {
           'name': 'Stennis'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Reverse Boss Order',
@@ -1739,11 +1739,11 @@ module.exports.default = {
       },
       '_id': 'aebaa886787c42f39c27cf2b',
       'name': 'Shadow of the Colossus Remaster',
-      'people': [
+      'people': [[
         {
           'name': 'Elajjaz'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS4',
         'Category': 'Any%',
@@ -1762,11 +1762,11 @@ module.exports.default = {
       },
       '_id': '3bca5b9ca750433bb09fae9d',
       'name': 'Diablo II: Lord of Destruction',
-      'people': [
+      'people': [[
         {
           'name': 'Ellieceraptor'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Normal)',
@@ -1785,11 +1785,11 @@ module.exports.default = {
       },
       '_id': '4590905e6c9d4595b07a20f3',
       'name': 'Deus Ex',
-      'people': [
+      'people': [[
         {
           'name': 'Heinki'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -1808,11 +1808,11 @@ module.exports.default = {
       },
       '_id': '349d6d03764b44f28cfedd59',
       'name': 'Fallout 3',
-      'people': [
+      'people': [[
         {
           'name': 'NoobSalmon'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'All Quests',
@@ -1831,11 +1831,11 @@ module.exports.default = {
       },
       '_id': '79c62c3044b04ddcaa5bcade',
       'name': 'Yakuza 6: The Song of Life',
-      'people': [
+      'people': [[
         {
           'name': 'FroobMcGuffin'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS4',
         'Category': 'Any%',
@@ -1854,11 +1854,11 @@ module.exports.default = {
       },
       '_id': '4130164ad5b0442683a1739c',
       'name': 'LEGO Harry Potter: Years 5-7',
-      'people': [
+      'people': [[
         {
           'name': 'Ellaapiie'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Replay Story)',
@@ -1877,11 +1877,11 @@ module.exports.default = {
       },
       '_id': '02dc6b8adaf14208a0bf6cc6',
       'name': 'Grand Theft Auto IV',
-      'people': [
+      'people': [[
         {
           'name': 'KyleDoesIt'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -1900,11 +1900,11 @@ module.exports.default = {
       },
       '_id': '1a57a2a2acbc401b95fd6a44',
       'name': 'Grand Theft Auto 2',
-      'people': [
+      'people': [[
         {
           'name': 'Tezur0'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -1923,11 +1923,11 @@ module.exports.default = {
       },
       '_id': '770dea10a052474bbe2cf8a5',
       'name': 'Final Fantasy IX',
-      'people': [
+      'people': [[
         {
           'name': 'Metako'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS2',
         'Category': 'Any% Part 1',
@@ -1946,14 +1946,14 @@ module.exports.default = {
       },
       '_id': '62393e067ffb4f5a907a717d',
       'name': 'Awful Games',
-      'people': [
+      'people': [[
         {
           'name': 'havrd'
         },
         {
           'name': 'Janmumrik'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -1972,11 +1972,11 @@ module.exports.default = {
       },
       '_id': '5290d3f642614ebdb999273a',
       'name': 'Arabian Nights',
-      'people': [
+      'people': [[
         {
           'name': 'Goost91'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (With Dialogue)',
@@ -1995,11 +1995,11 @@ module.exports.default = {
       },
       '_id': '4778ff60121843ee83cca06e',
       'name': 'Prince of Persia: The Sands of Time',
-      'people': [
+      'people': [[
         {
           'name': 'tocaloni1'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Zipless) Segmented Reveal',
@@ -2018,11 +2018,11 @@ module.exports.default = {
       },
       '_id': '8f1a618081d8449eaaef5cd8',
       'name': 'SUPERHOT',
-      'people': [
+      'people': [[
         {
           'name': 'Jackintoshh'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -2041,11 +2041,11 @@ module.exports.default = {
       },
       '_id': '39926c5d29714f98af13a038',
       'name': 'I Wanna Kill The Kamilia 2',
-      'people': [
+      'people': [[
         {
           'name': 'BBF_'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -2064,14 +2064,14 @@ module.exports.default = {
       },
       '_id': 'a7ce1f47525a4d2cb02824e7',
       'name': 'Family Guy: Back to the Multiverse',
-      'people': [
+      'people': [[
         {
           'name': 'Geurge'
         },
         {
           'name': 'Hennejoe'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (NG+ Co-Op)',
@@ -2090,14 +2090,14 @@ module.exports.default = {
       },
       '_id': '8278067f8e9a4a708a4a785e',
       'name': 'Lara Croft and the Guardian of Light',
-      'people': [
+      'people': [[
         {
           'name': 'RandomPinkBunny'
         },
         {
           'name': 'SeductiveSpatula'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (NG+)',
@@ -2116,11 +2116,11 @@ module.exports.default = {
       },
       '_id': 'c2ee1badac2a4d8baf8d55e3',
       'name': 'Tomb Raider III: Adventures of Lara Croft',
-      'people': [
+      'people': [[
         {
           'name': 'eidgod'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -2139,11 +2139,11 @@ module.exports.default = {
       },
       '_id': '123aa75675b241398e2c51a2',
       'name': 'Tomb Raider: The Angel of Darkness',
-      'people': [
+      'people': [[
         {
           'name': 'Cadarev'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -2162,11 +2162,11 @@ module.exports.default = {
       },
       '_id': '8b361b5668e34d1c91b765c3',
       'name': 'BioShock Infinite',
-      'people': [
+      'people': [[
         {
           'name': 'henyK'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -2185,14 +2185,14 @@ module.exports.default = {
       },
       '_id': '3430dc37938f4b61bc481bda',
       'name': 'WarioWare: Smooth Moves',
-      'people': [
+      'people': [[
         {
           'name': 'ChriSoofy'
         },
         {
           'name': 'Ellaapiie'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Wii',
         'Category': 'Any%',
@@ -2211,11 +2211,11 @@ module.exports.default = {
       },
       '_id': 'bc3f34efe67640cb86414039',
       'name': 'Jak II',
-      'people': [
+      'people': [[
         {
           'name': 'Boomer'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS3',
         'Category': 'Any%',
@@ -2234,11 +2234,11 @@ module.exports.default = {
       },
       '_id': 'a6ee6eb04ac94dd59c8aa865',
       'name': 'The Legend of Zelda: A Link Between Worlds',
-      'people': [
+      'people': [[
         {
           'name': 'Herreteman'
         }
-      ],
+      ]],
       'data': {
         'Platform': '3DS',
         'Category': '100%',
@@ -2257,7 +2257,7 @@ module.exports.default = {
       },
       '_id': 'd57d627846264ce2bedddf5e',
       'name': 'Bastion',
-      'people': [
+      'people': [[
         {
           'name': 'acridstingray3'
         },
@@ -2270,7 +2270,7 @@ module.exports.default = {
         {
           'name': 'Leonmachar'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Dreams and Challenges',
@@ -2289,11 +2289,11 @@ module.exports.default = {
       },
       '_id': '8a97d2807e094c2b92d0059c',
       'name': 'Light Fall',
-      'people': [
+      'people': [[
         {
           'name': 'Dedew'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Normal)',
@@ -2312,14 +2312,14 @@ module.exports.default = {
       },
       '_id': '474252da60154769a6a080ff',
       'name': 'Run Invalid',
-      'people': [
+      'people': [[
         {
           'name': 'havrd'
         },
         {
           'name': 'Strife'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -2338,11 +2338,11 @@ module.exports.default = {
       },
       '_id': '06ccc149db894138ab18dfc9',
       'name': 'Celeste',
-      'people': [
+      'people': [[
         {
           'name': 'Punchi'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -2361,11 +2361,11 @@ module.exports.default = {
       },
       '_id': 'dc42c92904444a3aa0d08863',
       'name': 'Donkey Kong 5: The Journey of Over Time and Space',
-      'people': [
+      'people': [[
         {
           'name': 'CDRomatron'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'GBP',
         'Category': 'Any%',
@@ -2384,7 +2384,7 @@ module.exports.default = {
       },
       '_id': 'a863ad4c975f48f4afac4486',
       'name': 'VVVVVV',
-      'people': [
+      'people': [[
         {
           'name': 'mohoc'
         },
@@ -2394,7 +2394,7 @@ module.exports.default = {
         {
           'name': 'lennart_underscore'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (No Telejumping)',
@@ -2413,11 +2413,11 @@ module.exports.default = {
       },
       '_id': 'c710723f6488403ab975943c',
       'name': 'I Wanna Be The Boshy',
-      'people': [
+      'people': [[
         {
           'name': 'BBF_'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Rage-Mode)',
@@ -2436,11 +2436,11 @@ module.exports.default = {
       },
       '_id': '7a063e13752b48f28d7203ed',
       'name': 'Nitronic Rush',
-      'people': [
+      'people': [[
         {
           'name': 'Lordmau5'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Story Mode',
@@ -2459,11 +2459,11 @@ module.exports.default = {
       },
       '_id': '9a4966ac1468474295ced464',
       'name': 'Tetris The Grand Master',
-      'people': [
+      'people': [[
         {
           'name': 'TC_Qlex'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Arcade',
         'Category': 'Exhibition',
@@ -2482,11 +2482,11 @@ module.exports.default = {
       },
       '_id': 'cb8c19112dfc49169eb036c6',
       'name': 'Tekken 7',
-      'people': [
+      'people': [[
         {
           'name': 'Shirdel'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (3 Stars)',
@@ -2505,11 +2505,11 @@ module.exports.default = {
       },
       '_id': 'a69c9b093b1e47c8a0c7ba92',
       'name': "Mike Tyson's Punch-Out!!",
-      'people': [
+      'people': [[
         {
           'name': 'sinister1'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any%',
@@ -2528,11 +2528,11 @@ module.exports.default = {
       },
       '_id': '83d22d699fc74fea8ff3d41c',
       'name': 'Adventure Island II',
-      'people': [
+      'people': [[
         {
           'name': 'TheMexicanRunner'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any%',
@@ -2551,14 +2551,14 @@ module.exports.default = {
       },
       '_id': '6bd94003aaf64efba10f747b',
       'name': 'Batman: The Video Game',
-      'people': [
+      'people': [[
         {
           'name': 'Dxtr'
         },
         {
           'name': 'EndySWE'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any%',
@@ -2577,11 +2577,11 @@ module.exports.default = {
       },
       '_id': '14eed1e1f86f40e5b2b7b9a4',
       'name': 'Strider',
-      'people': [
+      'people': [[
         {
           'name': 'COOLKID'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any%',
@@ -2600,11 +2600,11 @@ module.exports.default = {
       },
       '_id': '9a39d8415a854e60b2a4c76e',
       'name': "Demon's Crest",
-      'people': [
+      'people': [[
         {
           'name': 'BroedgeMan'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'SNES',
         'Category': '100%',
@@ -2623,11 +2623,11 @@ module.exports.default = {
       },
       '_id': '2a668b20ac8d411383bb4fc1',
       'name': 'Ratchet: Deadlocked',
-      'people': [
+      'people': [[
         {
           'name': 'Mucke1Man'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS3',
         'Category': 'Any% (NG+ no EGS)',
@@ -2646,11 +2646,11 @@ module.exports.default = {
       },
       '_id': 'a1df45cf1d3642279c74c13a',
       'name': 'Dishonored 2',
-      'people': [
+      'people': [[
         {
           'name': 'Scopii'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Corvo Any%',
@@ -2669,11 +2669,11 @@ module.exports.default = {
       },
       '_id': '86b4c657d1ab4e3b8aff6f97',
       'name': 'Dishonored: Death of the Outsider',
-      'people': [
+      'people': [[
         {
           'name': 'Scopii'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -2692,11 +2692,11 @@ module.exports.default = {
       },
       '_id': '031464d14081436bbf116758',
       'name': 'The Witness',
-      'people': [
+      'people': [[
         {
           'name': 'tzann'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Current Patch)',
@@ -2715,11 +2715,11 @@ module.exports.default = {
       },
       '_id': '0c2388f6dcb74d6494a17ea8',
       'name': 'Pok\u00e9mon Platinum',
-      'people': [
+      'people': [[
         {
           'name': 'Retrotato'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'DS',
         'Category': 'Any%',
@@ -2738,11 +2738,11 @@ module.exports.default = {
       },
       '_id': '134b8d8afda643a69d387a9b',
       'name': 'Solar Jetman',
-      'people': [
+      'people': [[
         {
           'name': 'TheMotherBrain86'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any%',
@@ -2761,14 +2761,14 @@ module.exports.default = {
       },
       '_id': 'a30361389c934e6481b9852e',
       'name': 'Taz-Mania',
-      'people': [
+      'people': [[
         {
           'name': 'COOLKID'
         },
         {
           'name': 'KrazyRasmus'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Master System',
         'Category': 'Any%',
@@ -2787,14 +2787,14 @@ module.exports.default = {
       },
       '_id': '38e14cc6de294b5ab2696ee7',
       'name': 'Yume Penguin Monogatari',
-      'people': [
+      'people': [[
         {
           'name': 'CartinaCow'
         },
         {
           'name': 'EndySWE'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Any%',
@@ -2813,11 +2813,11 @@ module.exports.default = {
       },
       '_id': '5ad22edf2bc7496ba9e71f92',
       'name': 'Super Metroid',
-      'people': [
+      'people': [[
         {
           'name': 'Enmet'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'SNES',
         'Category': '100%',
@@ -2836,11 +2836,11 @@ module.exports.default = {
       },
       '_id': '29ad08fd166e4e538a237d4e',
       'name': 'Kirby Super Star Ultra',
-      'people': [
+      'people': [[
         {
           'name': 'Kinnin11'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'DS',
         'Category': '100%',
@@ -2859,11 +2859,11 @@ module.exports.default = {
       },
       '_id': 'd51143bf0a404e5cbe4d855d',
       'name': 'Super Mario 64',
-      'people': [
+      'people': [[
         {
           'name': 'Fuzzyness & Friends'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Wii',
         'Category': '70 Star Relay Race',
@@ -2882,11 +2882,11 @@ module.exports.default = {
       },
       '_id': '0afb3d689b4944a28739c12b',
       'name': "Mirror's Edge",
-      'people': [
+      'people': [[
         {
           'name': 'Phillotrax'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': '100%',
@@ -2905,11 +2905,11 @@ module.exports.default = {
       },
       '_id': '80ac3ef483bb4cfa9071d632',
       'name': 'Dark Souls',
-      'people': [
+      'people': [[
         {
           'name': 'Kahmul78'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'All Bosses',
@@ -2931,11 +2931,11 @@ module.exports.default = {
       },
       '_id': '4a95efd3b21041d3a089599d',
       'name': 'Dark Souls',
-      'people': [
+      'people': [[
         {
           'name': 'Kahmul78'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Glitch Exhibition',
@@ -2954,14 +2954,14 @@ module.exports.default = {
       },
       '_id': '4d50f53ccae54b2d8b180be9',
       'name': 'Dark Souls (Remastered)',
-      'people': [
+      'people': [[
         {
           'name': 'SayviTV'
         },
         {
           'name': 'Elajjaz'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -2980,7 +2980,7 @@ module.exports.default = {
       },
       '_id': '003e1aff1f92488d97389d02',
       'name': 'Star Wars Jedi Knight: Jedi Academy',
-      'people': [
+      'people': [[
         {
           'name': 'praskOo_'
         },
@@ -2990,7 +2990,7 @@ module.exports.default = {
         {
           'name': 'AerO__'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3009,11 +3009,11 @@ module.exports.default = {
       },
       '_id': 'bea163a34a4c41c4beaf07d7',
       'name': 'Hitman: Blood Money',
-      'people': [
+      'people': [[
         {
           'name': 'TheKotti'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Silent Assassin',
@@ -3032,14 +3032,14 @@ module.exports.default = {
       },
       '_id': 'ca8f84754e20424bbf226e83',
       'name': 'Quake',
-      'people': [
+      'people': [[
         {
           'name': 'brainfluid'
         },
         {
           'name': 'praskOo_'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3058,11 +3058,11 @@ module.exports.default = {
       },
       '_id': 'a04e9ef6b82043919ffb69da',
       'name': 'Half-Life',
-      'people': [
+      'people': [[
         {
           'name': 'Maxam1337'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% Scriptless',
@@ -3081,11 +3081,11 @@ module.exports.default = {
       },
       '_id': '787d8379ea7e4d4ca3ba591d',
       'name': 'Deus Ex: Human Revolution',
-      'people': [
+      'people': [[
         {
           'name': 'Heinki'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3104,11 +3104,11 @@ module.exports.default = {
       },
       '_id': 'f8e0653155a0490ab4c257b4',
       'name': 'Prey (2017)',
-      'people': [
+      'people': [[
         {
           'name': 'Janmumrik'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3127,11 +3127,11 @@ module.exports.default = {
       },
       '_id': 'bde35096bdf94029a1ee38cb',
       'name': 'Dying Light',
-      'people': [
+      'people': [[
         {
           'name': 'WolfE87'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3150,11 +3150,11 @@ module.exports.default = {
       },
       '_id': '4717c366e9564cbca42b3c3c',
       'name': 'Minecraft: Java Edition',
-      'people': [
+      'people': [[
         {
           'name': 'SpoonTy'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Glitchless Set Seed)',
@@ -3173,11 +3173,11 @@ module.exports.default = {
       },
       '_id': 'cf3fc3377008452298a4987c',
       'name': 'Hearthstone: League of Explorers',
-      'people': [
+      'people': [[
         {
           'name': 'srd_27'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Heroic',
@@ -3199,11 +3199,11 @@ module.exports.default = {
       },
       '_id': '808a01b431f242bcb675d18a',
       'name': 'Sonic Forces',
-      'people': [
+      'people': [[
         {
           'name': 'Akaraien'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3222,11 +3222,11 @@ module.exports.default = {
       },
       '_id': '6ece3918a4074be493a00596',
       'name': 'Sonic Mania',
-      'people': [
+      'people': [[
         {
           'name': 'Argick'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Sonic & Tails (All Emeralds)',
@@ -3245,14 +3245,14 @@ module.exports.default = {
       },
       '_id': '591997a9764c4de682abbd4e',
       'name': 'The Legend of Spyro: The Eternal Night',
-      'people': [
+      'people': [[
         {
           'name': 'CDRomatron'
         },
         {
           'name': 'LoveBot'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'GBA',
         'Category': 'Any%',
@@ -3271,11 +3271,11 @@ module.exports.default = {
       },
       '_id': '896509d54294482fb7047aeb',
       'name': 'Kingdom Hearts Birth by Sleep Final Mix HD',
-      'people': [
+      'people': [[
         {
           'name': 'RebelDragon95'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS4',
         'Category': 'Any% (Terra Beginner)',
@@ -3294,14 +3294,14 @@ module.exports.default = {
       },
       '_id': 'c512ef9d929a4c0c81576555',
       'name': 'Kirby & The Amazing Mirror',
-      'people': [
+      'people': [[
         {
           'name': 'Kinnin11'
         },
         {
           'name': 'Sniperwave'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'GBP',
         'Category': 'Any% (Co-Op)',
@@ -3320,11 +3320,11 @@ module.exports.default = {
       },
       '_id': '4c02018f95de472187ba29d1',
       'name': 'The Legend of Zelda: Ocarina of Time',
-      'people': [
+      'people': [[
         {
           'name': 'Amateseru'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Wii',
         'Category': 'MST',
@@ -3343,11 +3343,11 @@ module.exports.default = {
       },
       '_id': '36c87734375440d7ba46cf37',
       'name': 'The Legend of Zelda: The Wind Waker HD',
-      'people': [
+      'people': [[
         {
           'name': 'Linkus7'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Wii U',
         'Category': 'Any%',
@@ -3366,7 +3366,7 @@ module.exports.default = {
       },
       '_id': 'f3ebff56758641f7a95829d5',
       'name': 'Super Mario Odyssey',
-      'people': [
+      'people': [[
         {
           'name': '360Chrism'
         },
@@ -3376,7 +3376,7 @@ module.exports.default = {
         {
           'name': 'Yoshim_'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Switch',
         'Category': 'Any%',
@@ -3395,11 +3395,11 @@ module.exports.default = {
       },
       '_id': '256f0ba0afb541cab3dbd946',
       'name': 'Grand Theft Auto III',
-      'people': [
+      'people': [[
         {
           'name': 'UltimaOmega07'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'All Missions',
@@ -3418,7 +3418,7 @@ module.exports.default = {
       },
       '_id': 'b7ca75d4191c4505a36d5a13',
       'name': 'Best of NES - BIG10',
-      'people': [
+      'people': [[
         {
           'name': 'InfestedRiche'
         },
@@ -3431,7 +3431,7 @@ module.exports.default = {
         {
           'name': 'JkL87'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'NES',
         'Category': 'Various',
@@ -3449,11 +3449,11 @@ module.exports.default = {
       },
       '_id': 'd9914678243e4cd1a1e5052a',
       'name': 'Tales of Berseria',
-      'people': [
+      'people': [[
         {
           'name': 'FellVisage'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (NG)',
@@ -3472,11 +3472,11 @@ module.exports.default = {
       },
       '_id': '8f01c68d508c4cc9b0fcf14b',
       'name': 'Blossom Tales: The Sleeping King',
-      'people': [
+      'people': [[
         {
           'name': 'Wiredwicky'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Switch',
         'Category': 'All Bosses',
@@ -3495,11 +3495,11 @@ module.exports.default = {
       },
       '_id': '9d4bcd2f28de42e7850313e1',
       'name': 'Ristar',
-      'people': [
+      'people': [[
         {
           'name': 'TC_Qlex'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Megadrive',
         'Category': 'Any%',
@@ -3518,11 +3518,11 @@ module.exports.default = {
       },
       '_id': 'abe67078a8bb4ef38c2593a1',
       'name': 'Pok\u00e9mon Snap',
-      'people': [
+      'people': [[
         {
           'name': 'DanteDoes'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'N64',
         'Category': '100%',
@@ -3541,11 +3541,11 @@ module.exports.default = {
       },
       '_id': '57bb5018fed94d0d8dec8f13',
       'name': "Dog's Life",
-      'people': [
+      'people': [[
         {
           'name': 'zoton2'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS2',
         'Category': 'No Major Skips',
@@ -3564,11 +3564,11 @@ module.exports.default = {
       },
       '_id': '00a8793c16d44323a56ee984',
       'name': 'Chroma Squad',
-      'people': [
+      'people': [[
         {
           'name': 'Chfou'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% Legacy (Casual)',
@@ -3586,11 +3586,11 @@ module.exports.default = {
       },
       '_id': '55aaf52e189d47a1bf0e205d',
       'name': 'Clumsy Fred',
-      'people': [
+      'people': [[
         {
           'name': 'ZooKetra'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (60 Levels)',
@@ -3609,11 +3609,11 @@ module.exports.default = {
       },
       '_id': 'b808addf9c6a4adc8d7371ac',
       'name': "Dora the Explorer: Dora's World Adventure",
-      'people': [
+      'people': [[
         {
           'name': 'Mr_Brood'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'GBS (Emu)',
         'Category': 'Story mode',
@@ -3632,11 +3632,11 @@ module.exports.default = {
       },
       '_id': 'ec1a9e12d7c445a3840d8c14',
       'name': 'S\u00edtio do Picapau Amarelo',
-      'people': [
+      'people': [[
         {
           'name': 'KrazyRasmus'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Sega Master System',
         'Category': 'Any%',
@@ -3655,11 +3655,11 @@ module.exports.default = {
       },
       '_id': 'c2bc178f0987436bb8f62bb1',
       'name': 'Pingu: Sekai de Ichiban Genki na Penguin',
-      'people': [
+      'people': [[
         {
           'name': 'linkboss'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'GB',
         'Category': 'Any%',
@@ -3678,11 +3678,11 @@ module.exports.default = {
       },
       '_id': 'edff86b9783e4f91887f0bce',
       'name': 'Wild Animal Racing',
-      'people': [
+      'people': [[
         {
           'name': 'Shigan_'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'All Cups',
@@ -3701,11 +3701,11 @@ module.exports.default = {
       },
       '_id': '5d207937dc264eca818dda8f',
       'name': 'Nikita: The Mystery of The Hidden Treasure',
-      'people': [
+      'people': [[
         {
           'name': 'Janmumrik'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3724,11 +3724,11 @@ module.exports.default = {
       },
       '_id': '5567428ab65947cdb2e4481b',
       'name': "Gnomes Vs Fairies: Greckel's Quest",
-      'people': [
+      'people': [[
         {
           'name': 'ZooKetra'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3747,11 +3747,11 @@ module.exports.default = {
       },
       '_id': '83e91d34300d430d95bebedd',
       'name': 'The Land Before Time: Return To The Great Valley',
-      'people': [
+      'people': [[
         {
           'name': 'zazztrain'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS1',
         'Category': 'Any%',
@@ -3770,11 +3770,11 @@ module.exports.default = {
       },
       '_id': '3e2e527e79414ef0bd2cedcb',
       'name': 'Ice Age: Dawn of the Dinosaurs',
-      'people': [
+      'people': [[
         {
           'name': 'Floubz'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3793,11 +3793,11 @@ module.exports.default = {
       },
       '_id': '1a005b0736cf432a812b23f9',
       'name': 'Prince of Persia 3D',
-      'people': [
+      'people': [[
         {
           'name': 'epicdudeguy'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3816,11 +3816,11 @@ module.exports.default = {
       },
       '_id': '282b170f81c9460788a66c34',
       'name': 'XIII',
-      'people': [
+      'people': [[
         {
           'name': 'zoton2'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3839,11 +3839,11 @@ module.exports.default = {
       },
       '_id': 'd84c5f93916e4ddfab2e2c75',
       'name': 'DUSK',
-      'people': [
+      'people': [[
         {
           'name': 'brainfluid'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% Accessible Inbounds',
@@ -3862,11 +3862,11 @@ module.exports.default = {
       },
       '_id': 'cca1c2ea57b44c2b82f3ef47',
       'name': 'Grand Theft Auto: Liberty City Stories',
-      'people': [
+      'people': [[
         {
           'name': 'Nozlar'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PSTV',
         'Category': 'Any%',
@@ -3885,11 +3885,11 @@ module.exports.default = {
       },
       '_id': '606b680172eb4eca9d5d9624',
       'name': 'L.A.Noire',
-      'people': [
+      'people': [[
         {
           'name': 'SeductiveSpatula'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Traffic Desk 5 Stars',
@@ -3908,11 +3908,11 @@ module.exports.default = {
       },
       '_id': '26b6d85e1c5340228df7f360',
       'name': 'Br\u00fctal Legend',
-      'people': [
+      'people': [[
         {
           'name': 'Makkebakke'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3930,11 +3930,11 @@ module.exports.default = {
       },
       '_id': '409de6fe97024d4dbc508239',
       'name': 'Toy Story',
-      'people': [
+      'people': [[
         {
           'name': 'Enmet'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'SNES',
         'Category': 'Any%',
@@ -3953,11 +3953,11 @@ module.exports.default = {
       },
       '_id': '3d827ea2fdbc4114b7bafd6f',
       'name': "Abobo's Big Adventure",
-      'people': [
+      'people': [[
         {
           'name': 'Chfou'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3976,11 +3976,11 @@ module.exports.default = {
       },
       '_id': '06afd0a12af94c46870f2a3a',
       'name': 'The Useful Dead',
-      'people': [
+      'people': [[
         {
           'name': 'KennyMan666'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -3999,11 +3999,11 @@ module.exports.default = {
       },
       '_id': '2bb451f6d73041dcaba79453',
       'name': 'Mushroom 11',
-      'people': [
+      'people': [[
         {
           'name': 'Zet'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -4022,11 +4022,11 @@ module.exports.default = {
       },
       '_id': 'a79924c1615d458d8087ff26',
       'name': 'Rise & Shine',
-      'people': [
+      'people': [[
         {
           'name': 'AEtienneTV'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': '100%',
@@ -4045,11 +4045,11 @@ module.exports.default = {
       },
       '_id': '773cef2911244994a5161b30',
       'name': 'Rabi-Ribi',
-      'people': [
+      'people': [[
         {
           'name': 'MLSTRM'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': '10 Town Members (Casual)',
@@ -4068,11 +4068,11 @@ module.exports.default = {
       },
       '_id': 'e61cc8f06a724144b4eb7d7c',
       'name': 'LISA: The Joyful',
-      'people': [
+      'people': [[
         {
           'name': 'Harpa'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'YADO Epilogue',
@@ -4091,11 +4091,11 @@ module.exports.default = {
       },
       '_id': 'b8584cfc636c4d3fabb79a77',
       'name': 'Knytt Stories (Saving Thalanill)',
-      'people': [
+      'people': [[
         {
           'name': 'DonDoli'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% No Skips',
@@ -4114,11 +4114,11 @@ module.exports.default = {
       },
       '_id': 'f1335d6960ed40b5abd6b92c',
       'name': 'No Time to Explain Remastered',
-      'people': [
+      'people': [[
         {
           'name': 'WarDrumsGaming'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -4137,11 +4137,11 @@ module.exports.default = {
       },
       '_id': 'c0ae3608dc5444f5b3050105',
       'name': 'Sonic 3 & Knuckles',
-      'people': [
+      'people': [[
         {
           'name': 'Oldclov'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Genesis',
         'Category': 'Knuckles',
@@ -4160,11 +4160,11 @@ module.exports.default = {
       },
       '_id': '38d3b53c5243419c8908733f',
       'name': 'Mega Man II',
-      'people': [
+      'people': [[
         {
           'name': 'EndySWE'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'GB',
         'Category': 'Any%',
@@ -4183,11 +4183,11 @@ module.exports.default = {
       },
       '_id': '57b5d07409b148b1b9d34593',
       'name': 'New Super Mario Bros. Wii',
-      'people': [
+      'people': [[
         {
           'name': 'ShadowFrost'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Wii',
         'Category': 'Any%',
@@ -4206,11 +4206,11 @@ module.exports.default = {
       },
       '_id': '757512fb4dfb4b04979f3819',
       'name': 'Wario Land 3',
-      'people': [
+      'people': [[
         {
           'name': 'pr0te'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'GBP',
         'Category': 'Any%',
@@ -4229,11 +4229,11 @@ module.exports.default = {
       },
       '_id': 'dea3ee9f7a1a4f4389c14104',
       'name': 'Pok\u00e9mon XD: Gale of Darkness',
-      'people': [
+      'people': [[
         {
           'name': 'Retrotato'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'GameCube',
         'Category': 'Any%',
@@ -4251,11 +4251,11 @@ module.exports.default = {
       },
       '_id': 'ad9f3c479f074c83a3b13fad',
       'name': 'Mario Party 3',
-      'people': [
+      'people': [[
         {
           'name': '360Chrism'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'N64',
         'Category': 'Story Mode (Easy)',
@@ -4274,11 +4274,11 @@ module.exports.default = {
       },
       '_id': 'b4900be9f3624cf2bc312385',
       'name': 'PaRappa the Rapper 2',
-      'people': [
+      'people': [[
         {
           'name': 'charlottecutts'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS4',
         'Category': 'Any%',
@@ -4297,11 +4297,11 @@ module.exports.default = {
       },
       '_id': 'dc316720209844d0aae1e175',
       'name': 'Hatsune Miku Project Diva Future Tone',
-      'people': [
+      'people': [[
         {
           'name': 'Chfou'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS4',
         'Category': 'Exhibition',
@@ -4320,11 +4320,11 @@ module.exports.default = {
       },
       '_id': 'a4f93fccbf574cdaa54fdaad',
       'name': 'Jazzpunk',
-      'people': [
+      'people': [[
         {
           'name': 'UselessBrit'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -4343,11 +4343,11 @@ module.exports.default = {
       },
       '_id': '880e4327129542da9558fc61',
       'name': 'Hob',
-      'people': [
+      'people': [[
         {
           'name': 'SeductiveSpatula'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (No Clip)',
@@ -4366,11 +4366,11 @@ module.exports.default = {
       },
       '_id': 'eb701b501e684cdd953fdf01',
       'name': 'Blur',
-      'people': [
+      'people': [[
         {
           'name': 'KuruHS'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -4389,11 +4389,11 @@ module.exports.default = {
       },
       '_id': 'b61467ebd33547e4bd1c8067',
       'name': 'Final Fantasy IX',
-      'people': [
+      'people': [[
         {
           'name': 'Metako'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS2',
         'Category': 'Any% Part 2',
@@ -4411,11 +4411,11 @@ module.exports.default = {
       },
       '_id': '9ec8a884ae504e24a7b7d4e6',
       'name': 'Xenoblade Chronicles X',
-      'people': [
+      'people': [[
         {
           'name': 'legrandgrand'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Wii U',
         'Category': 'Any% (Offline)',
@@ -4434,11 +4434,11 @@ module.exports.default = {
       },
       '_id': '9fc0099b30a04851986d59e2',
       'name': 'Lufia II: Rise of the Sinistrals',
-      'people': [
+      'people': [[
         {
           'name': 'Crrool'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'SNES',
         'Category': 'Any% (NMG (US))',
@@ -4457,11 +4457,11 @@ module.exports.default = {
       },
       '_id': '1edfc6e3e8f54953b547eb52',
       'name': "Sherlock Holmes: The Devil's Daughter",
-      'people': [
+      'people': [[
         {
           'name': 'Der_Finger'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -4480,11 +4480,11 @@ module.exports.default = {
       },
       '_id': 'd015989833014cfa9df7fe01',
       'name': 'MEANDERS',
-      'people': [
+      'people': [[
         {
           'name': 'ThatRumme'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Normal)',
@@ -4503,11 +4503,11 @@ module.exports.default = {
       },
       '_id': '9cddca76cf9749f3a19be48b',
       'name': 'RUINER',
-      'people': [
+      'people': [[
         {
           'name': 'Jackintoshh'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Speedrun Mode)',
@@ -4526,11 +4526,11 @@ module.exports.default = {
       },
       '_id': '264ef4540b774c1c8224f398',
       'name': 'Fallout: New Vegas',
-      'people': [
+      'people': [[
         {
           'name': 'kungkobra'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -4549,11 +4549,11 @@ module.exports.default = {
       },
       '_id': '82fedc10b6da40f9be0577d0',
       'name': 'Star Trek: Colony 7',
-      'people': [
+      'people': [[
         {
           'name': 'SphereMJ'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -4572,11 +4572,11 @@ module.exports.default = {
       },
       '_id': 'bb6fe4dcfb5041e3aeef547a',
       'name': 'Rise of the Triad (2013)',
-      'people': [
+      'people': [[
         {
           'name': 'WolfE87'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -4595,11 +4595,11 @@ module.exports.default = {
       },
       '_id': '18816aa2339243439278dfc9',
       'name': "Rock n' Roll Racing",
-      'people': [
+      'people': [[
         {
           'name': 'Enmet'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'SNES',
         'Category': 'Rookie',
@@ -4617,11 +4617,11 @@ module.exports.default = {
       },
       '_id': '150b70cb3aa646bfb8787bb8',
       'name': 'Final Fantasy V',
-      'people': [
+      'people': [[
         {
           'name': 'Boxmeister'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'GBA',
         'Category': 'Any% GBA',
@@ -4640,11 +4640,11 @@ module.exports.default = {
       },
       '_id': 'c2e925e4439946e9a955efe3',
       'name': 'Kuru Kuru Kururin',
-      'people': [
+      'people': [[
         {
           'name': 'mohoc7'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'GBA (Emu)',
         'Category': 'Any% (Normal)',
@@ -4663,11 +4663,11 @@ module.exports.default = {
       },
       '_id': '4ac198b0bff04575b5c65e62',
       'name': 'Nex Machina',
-      'people': [
+      'people': [[
         {
           'name': 'Nekolikegg'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS4',
         'Category': 'Any% (Rookie)',
@@ -4686,11 +4686,11 @@ module.exports.default = {
       },
       '_id': '8faeb474f7b24a27973c6111',
       'name': 'Crash Bandicoot 2: N-Tranced',
-      'people': [
+      'people': [[
         {
           'name': 'CDRomatron'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'GBP',
         'Category': 'Any%',
@@ -4709,11 +4709,11 @@ module.exports.default = {
       },
       '_id': '32349683d50c4a5aa91b7cc9',
       'name': 'Yu-Gi-Oh! GX: Tag Force 2',
-      'people': [
+      'people': [[
         {
           'name': 'Mergy'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PSP',
         'Category': 'Any%',
@@ -4732,11 +4732,11 @@ module.exports.default = {
       },
       '_id': '13d954e63d4e408f9b8d5520',
       'name': 'Puyo Puyo Tetris',
-      'people': [
+      'people': [[
         {
           'name': '360Chrism'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Switch',
         'Category': 'Any%',
@@ -4755,11 +4755,11 @@ module.exports.default = {
       },
       '_id': 'a310c175ccb44b65a4b15dc2',
       'name': 'Dungeons And Dragons: 5th Edition',
-      'people': [
+      'people': [[
         {
           'name': 'Ladaur'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'Paper',
         'Category': 'TPK%',
@@ -4777,11 +4777,11 @@ module.exports.default = {
       },
       '_id': 'a0409789e19f49c5929ddc1e',
       'name': 'Unreal',
-      'people': [
+      'people': [[
         {
           'name': 'Tezur0'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any% (Easy)',
@@ -4800,11 +4800,11 @@ module.exports.default = {
       },
       '_id': '3971ae79184a48ffbd026d48',
       'name': 'Fallout 4',
-      'people': [
+      'people': [[
         {
           'name': 'Brongle'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PC',
         'Category': 'Any%',
@@ -4823,11 +4823,11 @@ module.exports.default = {
       },
       '_id': '97f7abc658764af7a46bc47d',
       'name': 'Resonance of Fate',
-      'people': [
+      'people': [[
         {
           'name': 'Neviutz'
         }
-      ],
+      ]],
       'data': {
         'Platform': 'PS3',
         'Category': 'Any%',

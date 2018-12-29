@@ -1,5 +1,5 @@
 <template>
-  <div class="header">{{ scheduleName }}
+  <div class="header" :style="{ backgroundColor: this.backgroundColor }" :title="hoverText">{{ scheduleName }}
     <span class="icon-top-right">
       <md-button class="md-icon-button" @click="addElement">
         <md-icon>add</md-icon>
@@ -13,6 +13,7 @@
 
 <script>
 import { generateID } from '../backend-api'
+import _ from 'lodash'
 
 export default {
   name: 'ScheduleHeader',
@@ -48,6 +49,25 @@ export default {
     },
     schedule () {
       return this.$store.getters.lookupSchedule(this.scheduleId)
+    },
+    findings () {
+      try {
+        return this.$store.state.constraints.findings.schedule[this.scheduleId]
+      } catch (err) {
+        return undefined
+      }
+    },
+    backgroundColor () {
+      if (_.filter(this.findings, (finding) => finding.class === 'strict').length > 0) {
+        return 'rgb(255, 0, 0, 0.75)'
+      } else if (_.filter(this.findings, (finding) => finding.class === 'weak').length > 0) {
+        return 'rgb(255, 165, 0, 0.75)'
+      } else {
+        return 'rgb(0, 0, 0, 0)'
+      }
+    },
+    hoverText () {
+      return _.join(_.map(this.findings, (finding) => `${finding.class}: ${finding.finding}`), '\n') || undefined
     }
   }
 }

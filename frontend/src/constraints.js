@@ -1,7 +1,7 @@
 import store from './datamodel'
 import _ from 'lodash'
 import moment from 'moment'
-import { sortedIntervals } from './scheduleUtils'
+import { sortedIntervals, usersOfElement, usersOfEvent, mergeWithCustomizerConcatArray } from './scheduleUtils'
 
 // feedback is posted to Vuex periodically on a timer to avoid strain on DOM calculations
 function updateConstraintState (nonce, stack, findings) {
@@ -12,11 +12,6 @@ function updateConstraintState (nonce, stack, findings) {
     store.commit('setConstraintFindings', _.clone(findings))
     setTimeout(updateConstraintState, 500, nonce, stack, findings)
   }
-}
-
-// Findings are arrays that should be extended when merging
-function mergeWithCustomizerConcatArray (objValue, srcValue) {
-  return (_.isArray(objValue) && _.isArray(srcValue)) ? _.concat(objValue, srcValue) : undefined
 }
 
 /* Use a dedicated MessageChannel to queue a function as a MacroTask (i.e. at the end of the event queue)
@@ -87,6 +82,10 @@ async function processConstraint (constraint, stack) {
       return noOverlap(constraint.data.schedule)
     case 'preferedTimeslot':
       return preferedTimeslot(constraint.data.element, constraint.data.timeslot)
+    case 'userAvailable':
+      return userAvailable(constraint.data.element, constraint.data.userId)
+    case 'userNoOverlap':
+      return userNoOverlap(constraint.data.userId, constraint.data.elementIds)
     default:
       console.log(`Unsupported constraint checker ${constraint}`)
       break
@@ -101,6 +100,15 @@ async function processConstraint (constraint, stack) {
  */
 async function populateConstraints (eventId, stack) {
   let event = store.getters.lookup('event', eventId)
+  _.forEach(usersOfEvent(event), (elementIds, userId) => {
+    stack.push({
+      type: 'userNoOverlap',
+      data: {
+        userId: userId,
+        elementIds: elementIds
+      }
+    })
+  })
   // ToDo event specific constraints
   _.forEach(event.schedules, (scheduleId) => {
     let schedule = store.getters.lookup('schedule', scheduleId)
@@ -130,6 +138,15 @@ async function populateConstraints (eventId, stack) {
         data: {
           element: element
         }
+      })
+      _.forEach(usersOfElement(element), (userId) => {
+        stack.push({
+          type: 'userAvailable',
+          data: {
+            element: element,
+            userId: userId
+          }
+        })
       })
       if (_.get(schedule, 'constraints.minimumSetupTime')) {
         stack.push({
@@ -190,7 +207,7 @@ async function minimumSetup (element, setupTime) {
 // Verify that a schedule contains no gaps
 async function noGaps (schedule) {
   let hasGaps = false
-  const sorted = sortedIntervals(schedule)
+  const sorted = sortedIntervals(schedule.elements)
   let lastEnd = null
   for (let i = 0; i < sorted.length; i++) {
     if (lastEnd !== null) {
@@ -220,7 +237,7 @@ async function noGaps (schedule) {
 // Verify that a schedule contains no overlap
 async function noOverlap (schedule) {
   let hasOverlap = false
-  const sorted = sortedIntervals(schedule)
+  const sorted = sortedIntervals(schedule.elements)
   let lastEnd = null
   for (let i = 0; i < sorted.length; i++) {
     if (lastEnd !== null) {
@@ -290,6 +307,64 @@ async function preferedTimeslot (element, timeslot) {
       }]
     }}
   }
+}
+
+async function userAvailable (element, userId) {
+  const user = store.getters.lookup('user', userId)
+  if (user) {
+    const userStart = _.get(user, 'availability.from')
+    const userEnd = _.get(user, 'availability.until')
+    if (userStart === null || userEnd === null || store.getters.getStartTime(element) < userStart || store.getters.getEndTime(element) > userEnd) {
+      return { element: {
+        [element._id]: [{
+          class: 'strict',
+          finding: `The user ${user.name} is not available.`,
+          source: {
+            id: element._id,
+            type: 'element'
+          },
+          id: `${element._id}_userAvailable_${userId}`
+        }]
+      }}
+    }
+  } else {
+    return { element: {
+      [element._id]: [{
+        class: 'strict',
+        finding: `The user with id ${userId} is not known.`,
+        source: {
+          id: element._id,
+          type: 'element'
+        },
+        id: `${element._id}_userNotFound_${userId}`
+      }]
+    }}
+  }
+}
+
+async function userNoOverlap (userId, elementIds) {
+  const ret = {}
+  const sortedElements = sortedIntervals(elementIds)
+  let overlaps
+  _.forEach(sortedElements, (element) => {
+    overlaps = _.filter(sortedElements, (interval) => { return interval.end > element.start && interval.start < element.end })
+    _.forEach(overlaps, (overlap) => {
+      if (overlap.id !== element.id) {
+        _.mergeWith(ret, { element: {
+          [element.id]: [{
+            class: 'strict',
+            finding: `The user ${_.get(store.getters.lookup('user', userId), 'name')} is also planned for overlapping element ${overlap.id}.`,
+            source: {
+              id: element.id,
+              type: 'element'
+            },
+            id: `${element.id}_userNoOverlap_${userId}_${overlap.id}`
+          }]
+        }}, mergeWithCustomizerConcatArray)
+      }
+    })
+  })
+  return ret || undefined
 }
 
 export { checkConstraints }

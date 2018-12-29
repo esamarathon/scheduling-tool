@@ -1,5 +1,5 @@
 <template>
-    <div class="element" @mousedown.stop="startDrag" :style="dynamicStyle" @dblclick="doubleClick">
+    <div class="element" @mousedown.stop="startDrag" :style="dynamicStyle" @dblclick="doubleClick" :title="hoverText">
       <div @mousedown.stop="clickTop" @mouseover="mouseOverTop" @mouseout="mouseOutTop" @dblclick="doubleClickTop" class="resizer top" :style="dynamicStyleResizerTop"></div>
       <md-button class="icon-top-right md-icon-button" @click="deleteMe">
         <md-icon>delete</md-icon>
@@ -12,6 +12,7 @@
 
 <script>
 import { convertToAbsoluteTime } from '@/scheduleUtils'
+import _ from 'lodash'
 
 function roundTimeToNearest (date, duration) {
   if (+duration) {
@@ -76,7 +77,7 @@ export default {
       const style = {
         height: (this.$store.getters.pixelsPerHour * this.duration / 3600000) + 'px',
         top: (this.$store.getters.pixelsPerHour * this.eventOffset / 3600000) + 'px',
-        background: 'linear-gradient(to bottom, rgba(175, 175, 175, 0.75) ' + this.percentSetup + '%, rgb(255, 127, 80, 0.75) ' + this.percentSetup + '%, rgb(255, 127, 80, 0.75) ' + this.percentTeardown + '%, rgba(175, 175, 175, 0.75) ' + this.percentTeardown + '%)',
+        background: 'linear-gradient(to bottom, rgba(175, 175, 175, 0.75) ' + this.percentSetup + `%, ${this.backgroundColor} ` + this.percentSetup + `%, ${this.backgroundColor} ` + this.percentTeardown + '%, rgba(175, 175, 175, 0.75) ' + this.percentTeardown + '%)',
         left: this.relativePosition.position * (100 / this.relativePosition.of) + '%',
         width: (100 / this.relativePosition.of) + '%'
       }
@@ -155,6 +156,25 @@ export default {
     },
     element () {
       return this.$store.getters.lookupElement(this.elementId)
+    },
+    findings () {
+      try {
+        return this.$store.state.constraints.findings.element[this.elementId]
+      } catch (err) {
+        return undefined
+      }
+    },
+    backgroundColor () {
+      if (_.filter(this.findings, (finding) => finding.class === 'strict').length > 0) {
+        return 'rgb(255, 0, 0, 0.75)'
+      } else if (_.filter(this.findings, (finding) => finding.class === 'weak').length > 0) {
+        return 'rgb(255, 165, 0, 0.75)'
+      } else {
+        return 'rgb(255, 127, 80, 0.75)'
+      }
+    },
+    hoverText () {
+      return _.join(_.map(this.findings, (finding) => `${finding.class}: ${finding.finding}`), '\n') || undefined
     }
   },
   methods: {

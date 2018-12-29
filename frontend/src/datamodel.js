@@ -295,6 +295,8 @@ export default new Vuex.Store({
       context.commit('clearUsers')
       let users = await fetchUsers(eventId)
       context.commit('updateUsers', users)
+      // ToDo this belongs elsewhere, but for testing
+      context.dispatch('checkConstraints')
     },
     checkConstraints (context) {
       // First update nonce to stop running checks
@@ -356,6 +358,8 @@ function lookupItem (state, type, id) {
         return state.event
       }
       break
+    case 'user':
+      return state.users[id]
   }
   return undefined
 }

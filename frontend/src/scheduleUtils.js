@@ -40,8 +40,8 @@ function convertReferencingToAbsoluteTime (targets, endType = 'duration', exclud
   return _.flatMap(ret)
 }
 
-function sortedIntervals (schedule) {
-  const intervals = _.map(schedule.elements, (element) => {
+function sortedIntervals (elementList) {
+  const intervals = _.map(elementList, (element) => {
     return {
       id: element,
       start: store.state.lookup.calculatedTimes[element]['start'],
@@ -58,4 +58,32 @@ function sortedIntervals (schedule) {
   return intervals
 }
 
-export { convertToAbsoluteTime, convertReferencingToAbsoluteTime, sortedIntervals }
+// Findings are arrays that should be extended when merging
+function mergeWithCustomizerConcatArray (objValue, srcValue) {
+  return (_.isArray(objValue) && _.isArray(srcValue)) ? _.concat(objValue, srcValue) : undefined
+}
+
+// ToDo this stuff should probably be cached
+
+function usersOfElement (element) {
+  return _.filter(_.map(_.flatMap(element.people), (user) => { return user.userId }))
+}
+
+function usersOfEvent (event) {
+  const ret = {}
+  let schedule
+  let element
+  for (let i = 0; i < event.schedules.length; i++) {
+    schedule = store.state.schedules[event.schedules[i]]
+    for (let j = 0; j < schedule.elements.length; j++) {
+      element = store.state.elements[schedule.elements[j]]
+      _.forEach(usersOfElement(element), (userId) => {
+        _.mergeWith(ret, { [userId]: [element._id] }, mergeWithCustomizerConcatArray)
+      })
+    }
+  }
+  return ret
+}
+
+export { convertToAbsoluteTime, convertReferencingToAbsoluteTime, sortedIntervals, usersOfElement, usersOfEvent,
+  mergeWithCustomizerConcatArray }

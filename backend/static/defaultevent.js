@@ -1,4 +1,4 @@
-module.exports.default = function createDefaultEvent (eventID) {
+export default function createDefaultEvent (eventID) {
   return {
     event: {
       _id: eventID,
@@ -33,7 +33,7 @@ module.exports.default = function createDefaultEvent (eventID) {
     elements: {
       '1000': {
         _id: '1000',
-        people: [{ name: 'llcooldave' }],
+        people: [[{ name: 'llcooldave' }]],
         start: {
           type: 'absolute',
           time: 1535785200000
@@ -46,7 +46,7 @@ module.exports.default = function createDefaultEvent (eventID) {
       },
       '1001': {
         _id: '1001',
-        people: [{ name: 'S.' }, { name: 'Joshimuz' }],
+        people: [[{ name: 'S.' }], [{ userId: 'e3ceed3b54b2727843698daf' }]],
         name: 'GTA V 100%',
         start: {
           type: 'endOf',
@@ -60,7 +60,7 @@ module.exports.default = function createDefaultEvent (eventID) {
       },
       '1002': {
         _id: '1002',
-        people: [{ name: 'Mikwuyama' }],
+        people: [[{ name: 'Mikwuyama' }]],
         name: 'Buying a $5 million villa on Hawaii',
         start: {
           type: 'endOf',
@@ -74,7 +74,7 @@ module.exports.default = function createDefaultEvent (eventID) {
       },
       '2000': {
         _id: '2000',
-        people: [{ name: 'Fatzke' }],
+        people: [[{ userId: 'e3ceed3b54b2727843698daf' }]],
         name: 'Vice City 53%',
         start: {
           type: 'startOf',
@@ -88,7 +88,7 @@ module.exports.default = function createDefaultEvent (eventID) {
       },
       '2001': {
         _id: '2001',
-        people: [{ name: 'Pottoww' }],
+        people: [[{ name: 'Pottoww' }]],
         name: 'Quick & Crash',
         start: {
           type: 'absolute',

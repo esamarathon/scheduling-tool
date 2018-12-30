@@ -1,7 +1,7 @@
 import store from './datamodel'
 import _ from 'lodash'
 import moment from 'moment'
-import { sortedIntervals, usersOfElement, usersOfEvent, mergeWithCustomizerConcatArray } from './scheduleUtils'
+import { sortedIntervals, usersOfElement, usersOfEvent, mergeWithCustomizerConcatArray, getElementName } from './scheduleUtils'
 
 // feedback is posted to Vuex periodically on a timer to avoid strain on DOM calculations
 function updateConstraintState (nonce, stack, findings) {
@@ -353,7 +353,7 @@ async function userNoOverlap (userId, elementIds) {
         _.mergeWith(ret, { element: {
           [element.id]: [{
             class: 'strict',
-            finding: `The user ${_.get(store.getters.lookup('user', userId), 'name')} is also planned for overlapping element ${overlap.id}.`,
+            finding: `The user ${_.get(store.getters.lookup('user', userId), 'name')} is also planned for overlapping element ${getElementName(overlap.id)}.`,
             source: {
               id: element.id,
               type: 'element'

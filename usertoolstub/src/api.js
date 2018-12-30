@@ -28,3 +28,8 @@ export async function getUsers (req, res) {
     return res.json({})
   }
 }
+
+export async function getRun (req, res) {
+  // ToDo
+  return res.json({ name: req.params.runId })
+}

@@ -1,6 +1,6 @@
 <template>
     <div class="editdialog">
-      <md-dialog-title>{{ element.name }}</md-dialog-title>
+      <md-dialog-title>{{ name }}</md-dialog-title>
       <md-dialog-content>
         <div><people :people="element.people"></people></div>
         <div>{{ startTime.format('MMM Do HH:mm') }} - {{ endTime.format('MMM Do HH:mm') }}</div>
@@ -16,6 +16,7 @@
 <script>
 import _ from 'lodash'
 import moment from 'moment'
+import { getElementName } from '../scheduleUtils'
 
 export default {
   name: 'ElementEditDialog',
@@ -61,6 +62,9 @@ export default {
     },
     element () {
       return this.$store.getters.lookupElement(this.elementId)
+    },
+    name () {
+      return getElementName(this.element)
     }
   },
   methods: {

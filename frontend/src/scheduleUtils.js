@@ -85,5 +85,15 @@ function usersOfEvent (event) {
   return ret
 }
 
+function getForeignData (element) {
+  return (element.foreignData && element.foreignDataModel) ? _.get(store.state.foreignData, `${element.foreignDataModel}.${element.foreignData}`) : undefined
+}
+
+function getElementName (element) {
+  if (_.isString(element)) element = store.state.elements[element]
+  const foreignData = getForeignData(element)
+  return foreignData ? foreignData.name : element.name
+}
+
 export { convertToAbsoluteTime, convertReferencingToAbsoluteTime, sortedIntervals, usersOfElement, usersOfEvent,
-  mergeWithCustomizerConcatArray }
+  mergeWithCustomizerConcatArray, getForeignData, getElementName }

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { calculateTimes } from '../../shared/src/calculateSchedule'
 import { validateTransformation } from '../../shared/src/transformation'
-import { fetchEvent, sendTransformation, fetchUsers } from './backend-api.js'
+import { fetchEvent, sendTransformation, fetchUsers, fetchForeignData } from './backend-api.js'
 import { getLoggedInUser } from './auth'
 import { checkConstraints } from './constraints'
 import { convertReferencingToAbsoluteTime } from './scheduleUtils'
@@ -25,6 +25,7 @@ export default new Vuex.Store({
     schedules: {},
     elements: {},
     users: {},
+    foreignData: {},
     history: {
       undo: [],
       redo: []
@@ -150,6 +151,12 @@ export default new Vuex.Store({
     updateUsers (state, newUsers) {
       state.users = _.merge({}, state.users, newUsers)
     },
+    clearForeignData (state) {
+      state.foreignData = {}
+    },
+    updateForeignData (state, newForeignData) {
+      state.foreignData = _.merge({}, state.foreignData, newForeignData)
+    },
     updateConstraintNonce (state) {
       state.constraints.nonce = {}
     },
@@ -171,6 +178,7 @@ export default new Vuex.Store({
       let eventData = await fetchEvent(eventId)
       context.commit('loadEventData', eventData)
       context.dispatch('loadUsers', context.state.event.usertoolRef)
+      context.dispatch('loadForeignData')
       context.commit('recalculateSchedule')
 
       // ToDo this belongs elsewhere, but for testing
@@ -298,6 +306,13 @@ export default new Vuex.Store({
       // ToDo this belongs elsewhere, but for testing
       context.dispatch('checkConstraints')
     },
+    async loadForeignData (context) {
+      context.commit('clearForeignData')
+      let foreignData = await collectForeignData(context)
+      context.commit('updateForeignData', foreignData)
+      // ToDo this belongs elsewhere, but for testing
+      context.dispatch('checkConstraints')
+    },
     checkConstraints (context) {
       // First update nonce to stop running checks
       context.commit('updateConstraintNonce')
@@ -411,4 +426,24 @@ function validTransformation (transformation, context) {
       throw e
     }
   }
+}
+
+async function collectForeignData (context) {
+  let promises = []
+  const event = context.state.event
+  let schedule
+  let element
+  for (let i = 0; i < event.schedules.length; i++) {
+    schedule = context.state.schedules[event.schedules[i]]
+    for (let j = 0; j < schedule.elements.length; j++) {
+      element = context.state.elements[schedule.elements[j]]
+      if (element.foreignDataModel && element.foreignData) {
+        promises.push(fetchForeignData(element.foreignDataModel, element.foreignData))
+      }
+    }
+  }
+  promises = await Promise.all(promises)
+
+  // ToDo there has to be a more efficient way
+  return _.merge({}, ..._.map(promises, (promise) => { return promise ? {[promise.model]: {[promise.id]: promise.data}} : undefined }))
 }

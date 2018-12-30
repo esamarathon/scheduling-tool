@@ -4,14 +4,14 @@
       <md-button class="icon-top-right md-icon-button" @click="deleteMe">
         <md-icon>delete</md-icon>
       </md-button>
-      Name: {{ element.name }}<br>
+      {{ name }}<br>
       <people :people="element.people"></people>
       <div @mousedown.stop="clickBottom" @mouseover="mouseOverBottom" @mouseout="mouseOutBottom" @dblclick="doubleClickBottom" class="resizer bottom" :style="dynamicStyleResizerBottom"></div>
     </div>
 </template>
 
 <script>
-import { convertToAbsoluteTime } from '@/scheduleUtils'
+import { convertToAbsoluteTime, getElementName } from '@/scheduleUtils'
 import _ from 'lodash'
 
 function roundTimeToNearest (date, duration) {
@@ -175,6 +175,9 @@ export default {
     },
     hoverText () {
       return _.join(_.map(this.findings, (finding) => `${finding.class}: ${finding.finding}`), '\n') || undefined
+    },
+    name () {
+      return getElementName(this.element)
     }
   },
   methods: {

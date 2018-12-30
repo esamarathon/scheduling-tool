@@ -1,11 +1,13 @@
 <template>
     <div class="finding" :class="findingclass" @dblclick="doubleClick">
-      <div class="title">{{source.name}}</div>
+      <div class="title">{{sourceName}}</div>
       <div class="body">{{finding.finding}}</div>
     </div>
 </template>
 
 <script>
+import { getElementName } from '../scheduleUtils'
+
 export default {
   name: 'Finding',
   props: {
@@ -22,6 +24,9 @@ export default {
     },
     source () {
       return this.$store.getters.lookup(this.finding.source.type, this.finding.source.id)
+    },
+    sourceName () {
+      return this.finding.source.type === 'element' ? getElementName(this.source) : this.source.name
     }
   },
   methods: {

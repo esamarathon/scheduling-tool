@@ -5,7 +5,8 @@ import bodyParser from 'body-parser'
 
 import settings from './settings'
 import {
-  getUsers
+  getUsers,
+  getRun
 } from './api'
 
 const app = express()
@@ -15,6 +16,7 @@ app.use(bodyParser.json())
 app.use(cors())
 
 app.get('/users/:eventId', getUsers)
+app.get('/run/:runId', getRun)
 
 server.listen(settings.usertool.api.port)
 export { server, app }

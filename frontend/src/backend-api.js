@@ -61,3 +61,16 @@ export function sendTransformation (transformation) {
 export function fetchUsers (eventId) {
   return makeRequest(`${settings.usertool.api.baseurl}users/${eventId}`)
 }
+
+export async function fetchForeignData (foreignDataModel, foreignDataKey) {
+  switch (foreignDataModel) {
+    case 'run':
+      return {
+        model: foreignDataModel,
+        id: foreignDataKey,
+        data: await makeRequest(`${settings.usertool.api.baseurl}run/${foreignDataKey}`)
+      }
+    default:
+      break
+  }
+}

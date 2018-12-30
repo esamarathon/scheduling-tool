@@ -38,6 +38,8 @@ export default function createDefaultEvent (eventID) {
           type: 'absolute',
           time: 1535785200000
         },
+        foreignDataModel: 'run',
+        foreignData: '12345',
         end: {
           type: 'duration',
           duration: 7200000
@@ -48,6 +50,8 @@ export default function createDefaultEvent (eventID) {
         _id: '1001',
         people: [[{ name: 'S.' }], [{ userId: 'e3ceed3b54b2727843698daf' }]],
         name: 'GTA V 100%',
+        foreignDataModel: 'run',
+        foreignData: 'GTA_V',
         start: {
           type: 'endOf',
           ref: '1000',

@@ -1,6 +1,6 @@
 <template>
     <div class="element" @dblclick="doubleClick">
-      <div class="column">Name: {{ element.name }}</div>
+      <div class="column">{{ name }}</div>
       <div class="column"><people :people="element.people"></people></div>
       <div class="column">{{ startTime.format('MMM Do HH:mm') }} - {{ endTime.format('MMM Do HH:mm') }}</div>
     </div>
@@ -8,6 +8,7 @@
 
 <script>
 import moment from 'moment'
+import { getElementName } from '../scheduleUtils'
 
 export default {
   name: 'ListElement',
@@ -41,6 +42,9 @@ export default {
     },
     element () {
       return this.$store.getters.lookupElement(this.elementId)
+    },
+    name () {
+      return getElementName(this.element)
     }
   },
   methods: {

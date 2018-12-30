@@ -10,17 +10,18 @@
       </md-button>
     </div>
     <div class="timetable">
-      <div class="scheduleheader">
-        <div style="width: 10%"></div>
-        <ScheduleHeader :style="{ width: 90 / selectedSchedules.length + '%' }"
-          v-for="schedule in selectedSchedules" :key="schedule.id" :scheduleId="schedule.id"/>
+      <div class="timemarks" id="timemarks">
+        <div class="hourmarker" :style="hourMarkerStyle" v-for="hourmarker in hourmarkers" :key="hourmarker.time">{{ hourmarker.display }}</div>
       </div>
-      <div class="content" :style="timeTableStyle">
-        <div class="timemarks">
-          <div class="hourmarker" :style="hourMarkerStyle" v-for="hourmarker in hourmarkers" :key="hourmarker.time">{{ hourmarker.display }}</div>
+      <div class="content">
+        <div class="scheduleheader" id="scheduleheader">
+          <ScheduleHeader :style="{ width: 100 / selectedSchedules.length + '%', 'min-width': '300px' }"
+            v-for="schedule in selectedSchedules" :key="schedule.id" :scheduleId="schedule.id"/>
         </div>
-        <schedule :style="{ width: 90 / selectedSchedules.length + '%' }"
-          v-for="schedule in selectedSchedules" :key="schedule.id" :scheduleId="schedule.id" :searchText="searchText"/>
+        <div class="schedule" :style="timeTableStyle" @scroll="onScheduleScroll">
+          <schedule :style="{ width: 100 / selectedSchedules.length + '%', 'min-width': '300px' }"
+            v-for="schedule in selectedSchedules" :key="schedule.id" :scheduleId="schedule.id" :searchText="searchText"/>
+        </div>
       </div>
     </div>
   </div>
@@ -59,7 +60,7 @@ export default {
     },
     timeTableStyle () {
       return {
-        'background-size': '91% ' + this.$store.getters.pixelsPerHour + 'px'
+        'background-size': '100% ' + this.$store.getters.pixelsPerHour + 'px'
       }
     },
     hourMarkerStyle () {
@@ -96,6 +97,10 @@ export default {
         elements: []
       }
       this.$store.dispatch('addSchedule', newSchedule)
+    },
+    onScheduleScroll (event) {
+      document.getElementById('scheduleheader').style.transform = 'translateX(-' + event.target.scrollLeft + 'px)'
+      document.getElementById('timemarks').style.transform = 'translateY(-' + event.target.scrollTop + 'px)'
     }
   },
   watch: {
@@ -127,25 +132,32 @@ export default {
   height: 100%;
   flex: 1 1 auto;
   display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+.content {
+  height: 100%;
+  display: flex;
   flex-direction: column;
+  overflow: hidden;
+  flex: 1 1 auto;
 }
 .scheduleheader {
   flex: 0 0 auto;
   display: flex;
   flex-direction: row;
 }
-.content {
+.schedule {
   flex: 1 1 auto;
-  overflow-y: auto;
+  overflow: auto;
   background: linear-gradient(to bottom, black 2%, transparent 2%, transparent 25%, grey 25%, grey 26%, transparent 26%, transparent 50%, grey 50%, grey 51%, transparent 51%, transparent 75%, grey 75%, grey 76%, transparent 76%);
-  background-position: 100% 0px;
-  background-repeat: repeat-y;
   background-attachment: local;
   display: flex;
   flex-direction: row;
 }
 .timemarks {
   width: 10%;
+  margin-top: 32px;
   flex: 0 0 auto;
   overflow: visible;
 }
@@ -153,9 +165,5 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-.hourmarker {
-  margin-top: -8px;
-  margin-bottom: 8px;
 }
 </style>

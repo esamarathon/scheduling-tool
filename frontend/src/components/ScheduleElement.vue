@@ -1,5 +1,5 @@
 <template>
-    <div class="element" :style="dynamicStyle" @dblclick="doubleClick" :title="hoverText" @dragstart="onDrag" draggable="true">
+    <div class="element" :style="dynamicStyle" @dblclick="doubleClick" :title="hoverText" @dragstart="onDrag" @dragover="dropAllowed" @drop="onDrop" draggable="true">
       <div @mousedown.stop="clickTop" @mouseover="mouseOverTop" @mouseout="mouseOutTop" @dblclick="doubleClickTop" class="resizer top" :style="dynamicStyleResizerTop"></div>
       <md-button class="icon-top-right md-icon-button" @click="deleteMe">
         <md-icon>delete</md-icon>
@@ -11,8 +11,9 @@
 </template>
 
 <script>
-import { convertToAbsoluteTime, getElementName, roundTimeToNearest } from '@/scheduleUtils'
+import { convertToAbsoluteTime, getElementName, roundTimeToNearest, getRealOffset, convertReferencingToAbsoluteTime } from '@/scheduleUtils'
 import _ from 'lodash'
+import { generateID } from '@/backend-api'
 
 export default {
   name: 'Element',
@@ -374,6 +375,107 @@ export default {
       ev.dataTransfer.setData('parentSchedule', this.parent)
       ev.dataTransfer.setData('xoffset', ev.offsetX)
       ev.dataTransfer.setData('yoffset', ev.offsetY)
+    },
+    dropAllowed (ev) {
+      if (!ev.ctrlKey) return
+      if (ev.dataTransfer.types.includes('submission') || ev.dataTransfer.types.includes('element')) {
+        ev.preventDefault()
+        ev.stopPropagation()
+      }
+    },
+    onDrop (ev) {
+      if (!ev.ctrlKey) return
+      ev.preventDefault()
+      ev.stopPropagation()
+      const before = (this.$el.offsetHeight / 2) > getRealOffset(ev, this).y
+      if (ev.dataTransfer.types.includes('submission')) {
+        const submission = this.$store.state.foreignData.run[ev.dataTransfer.getData('submission')]
+        let start
+        if (before) {
+          start = {
+            type: this.element.start.type,
+            time: this.element.start.type === 'absolute' ? this.startTime - submission.estimate : undefined,
+            ref: this.element.start.type === 'absolute' ? undefined : this.element.start.ref
+          }
+        } else {
+          start = {
+            type: 'endOf',
+            ref: this.elementId
+          }
+        }
+
+        const newElementId = generateID()
+        const newElement = {
+          _id: newElementId,
+          people: _.map(submission.teams, (team) => { return _.map(team, (runner) => { return {userId: runner} }) }),
+          start: start,
+          end: {
+            type: 'duration',
+            duration: submission.estimate
+          },
+          name: submission.game + ' ' + submission.category,
+          foreignDataModel: 'run',
+          foreignData: ev.dataTransfer.getData('submission')
+        }
+
+        let actions = [{
+          idType: 'element', action: 'addItem', newValue: newElement
+        }, {
+          idType: 'schedule', id: this.parent, path: 'elements', action: 'insert', newValue: newElement._id
+        }]
+
+        if (before) {
+          actions.push({idType: 'element', id: this.element._id, action: 'set', path: 'start.type', oldValue: this.element.start.type, newValue: 'endOf'})
+          actions.push({idType: 'element', id: this.element._id, action: 'set', path: 'start.ref', oldValue: this.element.start.ref, newValue: newElementId})
+        } else {
+          // we push out other referencing elements from the SAME schedule, but not cross schedule
+          const parentSchedule = this.$store.getters.lookup('schedule', this.parent)
+          let iterElement
+          for (let i = 0; i < parentSchedule.elements.length; i++) {
+            iterElement = this.$store.getters.lookup('element', parentSchedule.elements[i])
+            if (iterElement.start.ref === this.elementId) {
+              actions.push({idType: 'element', id: iterElement._id, action: 'set', path: 'start.ref', oldValue: iterElement.start.ref, newValue: newElementId})
+            }
+          }
+        }
+        this.$store.dispatch('apply', {type: 'dragUnscheduled', actions: actions})
+      } else if (ev.dataTransfer.types.includes('element')) {
+        let element = this.$store.getters.lookup('element', ev.dataTransfer.getData('element'))
+        let actions = convertReferencingToAbsoluteTime([element._id])
+
+        // Place the element in the new location
+        if (before) {
+          if (this.element.start.type !== 'absolute') {
+            actions.push({idType: 'element', id: element._id, action: 'set', path: 'start.type', oldValue: element.start.type, newValue: this.element.start.type})
+            actions.push({idType: 'element', id: element._id, action: 'set', path: 'start.ref', oldValue: element.start.ref, newValue: this.element.start.ref})
+          } else {
+            actions.push({idType: 'element', id: element._id, action: 'set', path: 'start.type', oldValue: element.start.type, newValue: 'absolute'})
+            actions.push({idType: 'element', id: element._id, action: 'set', path: 'start.time', oldValue: element.start.time, newValue: this.startTime - this.$store.state.lookup.calculatedTimes[element._id]['duration']})
+          }
+          actions.push({idType: 'element', id: this.element._id, action: 'set', path: 'start.type', oldValue: this.element.start.type, newValue: 'endOf'})
+          actions.push({idType: 'element', id: this.element._id, action: 'set', path: 'start.ref', oldValue: this.element.start.ref, newValue: element._id})
+        } else {
+          actions.push({idType: 'element', id: element._id, action: 'set', path: 'start.type', oldValue: element.start.type, newValue: 'endOf'})
+          actions.push({idType: 'element', id: element._id, action: 'set', path: 'start.ref', oldValue: element.start.ref, newValue: this.element._id})
+          // we push out other referencing elements from the SAME schedule, but not cross schedule
+          const parentSchedule = this.$store.getters.lookup('schedule', this.parent)
+          let iterElement
+          for (let i = 0; i < parentSchedule.elements.length; i++) {
+            iterElement = this.$store.getters.lookup('element', parentSchedule.elements[i])
+            if (iterElement.start.ref === this.elementId) {
+              actions.push({idType: 'element', id: iterElement._id, action: 'set', path: 'start.ref', oldValue: iterElement.start.ref, newValue: element._id})
+            }
+          }
+        }
+
+        if (ev.dataTransfer.getData('parentSchedule') !== this.parent) {
+          // need to move element to other schedule
+          actions.push({ idType: 'schedule', id: ev.dataTransfer.getData('parentSchedule'), path: 'elements', action: 'delete', oldValue: element._id })
+          actions.push({ idType: 'schedule', id: this.parent, path: 'elements', action: 'insert', newValue: element._id })
+        }
+
+        if (actions.length > 0) this.$store.dispatch('apply', { type: 'drag', actions: actions })
+      }
     }
   }
 }

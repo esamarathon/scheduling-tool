@@ -1,6 +1,8 @@
 import store from '@/datamodel'
 import _ from 'lodash'
 
+// ToDo add a function that also collapses relatively positioned elements
+
 function convertToAbsoluteTime (element, timeType, endType = 'duration') {
   if (timeType === 'start') {
     return [

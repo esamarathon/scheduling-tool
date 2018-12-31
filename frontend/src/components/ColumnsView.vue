@@ -10,7 +10,7 @@
       </md-button>
     </div>
     <div class="timetable">
-      <div class="timemarks" id="timemarks">
+      <div class="timemarks" id="timemarks" :style="{ height: columnHeight + 'px'}">
         <div class="hourmarker" :style="hourMarkerStyle" v-for="hourmarker in hourmarkers" :key="hourmarker.time">{{ hourmarker.display }}</div>
       </div>
       <div class="content">
@@ -19,7 +19,7 @@
             v-for="schedule in selectedSchedules" :key="schedule.id" :scheduleId="schedule.id" @moveSchedule="moveSchedule"/>
         </div>
         <div class="schedule" :style="timeTableStyle" @scroll="onScheduleScroll">
-          <schedule :style="{ width: 100 / selectedSchedules.length + '%', 'min-width': '300px' }"
+          <schedule :style="{ width: 100 / selectedSchedules.length + '%', 'min-width': '300px', height: columnHeight + 'px' }"
             v-for="schedule in selectedSchedules" :key="schedule.id" :scheduleId="schedule.id" :searchText="searchText"/>
         </div>
       </div>
@@ -98,6 +98,9 @@ export default {
         }
       }
       return _.filter(this.$store.state.submissions, (submission) => { return !scheduled.includes(submission) })
+    },
+    columnHeight () {
+      return this.$store.getters.pixelsPerHour * this.$store.getters.eventDuration / 3600000
     }
   },
   data () {

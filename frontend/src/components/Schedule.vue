@@ -6,7 +6,7 @@
 
 <script>
 import _ from 'lodash'
-import { sortedIntervals, offsetToTime } from '@/scheduleUtils'
+import { sortedIntervals, offsetToTime, getRealOffset } from '@/scheduleUtils'
 import { generateID } from '../backend-api'
 
 export default {
@@ -53,29 +53,48 @@ export default {
       }
     },
     dropAllowed (ev) {
-      if (ev.dataTransfer.types.includes('submission')) {
+      if (ev.dataTransfer.types.includes('submission') || ev.dataTransfer.types.includes('element')) {
         ev.preventDefault()
+        ev.stopPropagation()
       }
     },
     onDrop (ev) {
       ev.preventDefault()
-      const submission = this.$store.state.foreignData.run[ev.dataTransfer.getData('submission')]
-      const newElement = {
-        _id: generateID(),
-        people: _.map(submission.teams, (team) => { return _.map(team, (runner) => { return {userId: runner} }) }),
-        start: {
-          type: 'absolute',
-          time: offsetToTime(ev.offsetY - parseInt(ev.dataTransfer.getData('yoffset')))
-        },
-        end: {
-          type: 'duration',
-          duration: submission.estimate
-        },
-        name: submission.game + ' ' + submission.category,
-        foreignDataModel: 'run',
-        foreignData: ev.dataTransfer.getData('submission')
+      ev.stopPropagation()
+      const offsets = getRealOffset(ev, this)
+      if (ev.dataTransfer.types.includes('submission')) {
+        const submission = this.$store.state.foreignData.run[ev.dataTransfer.getData('submission')]
+        const newElement = {
+          _id: generateID(),
+          people: _.map(submission.teams, (team) => { return _.map(team, (runner) => { return {userId: runner} }) }),
+          start: {
+            type: 'absolute',
+            time: offsetToTime(offsets.y - parseInt(ev.dataTransfer.getData('yoffset')))
+          },
+          end: {
+            type: 'duration',
+            duration: submission.estimate
+          },
+          name: submission.game + ' ' + submission.category,
+          foreignDataModel: 'run',
+          foreignData: ev.dataTransfer.getData('submission')
+        }
+        this.$store.dispatch('addElement', { parent: this.scheduleId, newElement })
+      } else if (ev.dataTransfer.types.includes('element')) {
+        let element = this.$store.getters.lookup('element', ev.dataTransfer.getData('element'))
+        let actions = []
+        if (element.start.type === 'absolute') {
+          actions.push({idType: 'element', id: element._id, action: 'set', path: 'start.time', oldValue: element.start.time, newValue: offsetToTime(offsets.y - parseInt(ev.dataTransfer.getData('yoffset')))})
+        }
+
+        if (ev.dataTransfer.getData('parentSchedule') !== this.scheduleId) {
+          // need to move element to other schedule
+          actions.push({ idType: 'schedule', id: ev.dataTransfer.getData('parentSchedule'), path: 'elements', action: 'delete', oldValue: element._id })
+          actions.push({ idType: 'schedule', id: this.scheduleId, path: 'elements', action: 'insert', newValue: element._id })
+        }
+
+        if (actions.length > 0) this.$store.dispatch('apply', { type: 'drag', actions: actions })
       }
-      this.$store.dispatch('addElement', { parent: this.scheduleId, newElement })
     }
   },
   computed: {

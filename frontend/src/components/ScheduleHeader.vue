@@ -1,5 +1,5 @@
 <template>
-  <div class="header" :style="{ backgroundColor: this.backgroundColor }" :title="hoverText">{{ scheduleName }}
+  <div class="header" :style="{ backgroundColor: this.backgroundColor }" :title="hoverText" draggable="true" @dragstart="onDrag" @dragover="dropAllowed" @drop="onDrop">{{ scheduleName }}
     <span class="icon-top-right">
       <md-button class="md-icon-button" @click="addElement">
         <md-icon>add</md-icon>
@@ -14,6 +14,7 @@
 <script>
 import { generateID } from '../backend-api'
 import _ from 'lodash'
+import { getRealOffset } from '../scheduleUtils'
 
 export default {
   name: 'ScheduleHeader',
@@ -40,7 +41,29 @@ export default {
       this.$store.dispatch('addElement', { parent: this.scheduleId, newElement })
     },
     deleteMe () {
-      this.$store.dispatch('removeSchedule', this.schedule._id)
+      this.$store.dispatch('removeSchedule', this.scheduleId)
+    },
+    onDrag (ev) {
+      ev.stopPropagation()
+      ev.dataTransfer.setData('scheduleheader', this.scheduleId)
+    },
+    dropAllowed (ev) {
+      if (ev.dataTransfer.types.includes('scheduleheader')) {
+        ev.preventDefault()
+        ev.stopPropagation()
+      }
+    },
+    onDrop (ev) {
+      ev.preventDefault()
+      ev.stopPropagation()
+      const movedSchedule = ev.dataTransfer.getData('scheduleheader')
+      const offsets = getRealOffset(ev, this)
+      if (movedSchedule !== this.scheduleId) {
+        this.$emit('moveSchedule', {
+          source: movedSchedule,
+          target: this.scheduleId,
+          position: (offsets.x > (this.$el.offsetWidth / 2)) ? 'after' : 'before' })
+      }
     }
   },
   computed: {

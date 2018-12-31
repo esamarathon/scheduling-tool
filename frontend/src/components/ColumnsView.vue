@@ -16,7 +16,7 @@
       <div class="content">
         <div class="scheduleheader" id="scheduleheader">
           <ScheduleHeader :style="{ width: 100 / selectedSchedules.length + '%', 'min-width': '300px' }"
-            v-for="schedule in selectedSchedules" :key="schedule.id" :scheduleId="schedule.id"/>
+            v-for="schedule in selectedSchedules" :key="schedule.id" :scheduleId="schedule.id" @moveSchedule="moveSchedule"/>
         </div>
         <div class="schedule" :style="timeTableStyle" @scroll="onScheduleScroll">
           <schedule :style="{ width: 100 / selectedSchedules.length + '%', 'min-width': '300px' }"
@@ -122,6 +122,13 @@ export default {
     },
     toggleExpansion () {
       this.submissionsExpanded = !this.submissionsExpanded
+    },
+    moveSchedule (data) {
+      let source = _.findIndex(this.selectedSchedules, (el) => el.id === data.source)
+      let target = _.findIndex(this.selectedSchedules, (el) => el.id === data.target)
+      if (data.position === 'after' && source > target) target = target + 1
+      if (data.position === 'before' && target > source) target = target - 1
+      if (source !== target) this.selectedSchedules.splice(target, 0, this.selectedSchedules.splice(source, 1)[0])
     }
   },
   watch: {

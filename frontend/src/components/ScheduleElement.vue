@@ -1,5 +1,5 @@
 <template>
-    <div class="element" @mousedown.stop="startDrag" :style="dynamicStyle" @dblclick="doubleClick" :title="hoverText">
+    <div class="element" :style="dynamicStyle" @dblclick="doubleClick" :title="hoverText" @dragstart="onDrag" draggable="true">
       <div @mousedown.stop="clickTop" @mouseover="mouseOverTop" @mouseout="mouseOutTop" @dblclick="doubleClickTop" class="resizer top" :style="dynamicStyleResizerTop"></div>
       <md-button class="icon-top-right md-icon-button" @click="deleteMe">
         <md-icon>delete</md-icon>
@@ -27,7 +27,6 @@ export default {
       temporaryStart: null,
       temporaryEnd: null,
       resizer: null,
-      dragging: null,
       hoverTop: false,
       hoverBottom: false
     }
@@ -71,10 +70,8 @@ export default {
         top: (this.$store.getters.pixelsPerHour * this.eventOffset / 3600000) + 'px',
         background: 'linear-gradient(to bottom, rgba(175, 175, 175, 0.75) ' + this.percentSetup + `%, ${this.backgroundColor} ` + this.percentSetup + `%, ${this.backgroundColor} ` + this.percentTeardown + '%, rgba(175, 175, 175, 0.75) ' + this.percentTeardown + '%)',
         left: this.relativePosition.position * (100 / this.relativePosition.of) + '%',
-        width: (100 / this.relativePosition.of) + '%'
-      }
-      if (this.canDrag) {
-        style['cursor'] = 'move'
+        width: (100 / this.relativePosition.of) + '%',
+        cursor: 'move'
       }
       return style
     },
@@ -129,9 +126,6 @@ export default {
     },
     canMoveEnd () {
       return ['duration', 'absolute'].includes((this.element.end.type || 'duration'))
-    },
-    canDrag () {
-      return ((this.element.start.type || 'absolute') === 'absolute') && ((this.element.end.type || 'duration') === 'duration')
     },
     canAssignTop () {
       // ToDo
@@ -194,7 +188,7 @@ export default {
 
           this.$store.commit('endAssign')
         }
-      } else if (!this.dragging && this.canMoveEnd) {
+      } else if (this.canMoveEnd) {
         event.stopPropagation()
         event.preventDefault()
         this.resizing = true
@@ -268,7 +262,7 @@ export default {
 
           this.$store.commit('endAssign')
         }
-      } else if (!this.dragging && this.canMoveStart) {
+      } else if (this.canMoveStart) {
         event.stopPropagation()
         event.preventDefault()
         this.resizing = true
@@ -311,40 +305,6 @@ export default {
         this.temporaryDuration = newDuration
       }
     },
-    startDrag (event) {
-      if (this.canDrag) {
-        event.stopPropagation()
-        event.preventDefault()
-        this.dragging = true
-        this.originalPosition = event.clientY
-        this.originalStart = this.startTime
-        document.documentElement.addEventListener('mouseup', this.stopDrag, true)
-        document.documentElement.addEventListener('mousemove', this.moveDrag, true)
-      }
-    },
-    stopDrag (event) {
-      event.stopPropagation()
-      event.preventDefault()
-      if (this.temporaryStart) {
-        // we dispatch the change as it has only been temporary for now
-        this.$store.dispatch('apply', { type: 'update', actions: [{idType: 'element', id: this.element._id, action: 'set', path: 'start.time', oldValue: this.element.start.time, newValue: this.temporaryStart}] })
-      }
-      this.dragging = false
-      this.originalPosition = null
-      this.temporaryStart = null
-      this.originalStart = null
-      document.documentElement.removeEventListener('mouseup', this.stopDrag, true)
-      document.documentElement.removeEventListener('mousemove', this.moveDrag, true)
-    },
-    moveDrag (event) {
-      if (this.dragging) {
-        event.stopPropagation()
-        event.preventDefault()
-        const delta = event.clientY - this.originalPosition
-        const newStartTime = roundTimeToNearest(this.originalStart + (delta / this.$store.getters.pixelsPerHour) * 3600000, this.snapToDuration)
-        this.temporaryStart = newStartTime
-      }
-    },
     stopAssign (event) {
       if (event.which === 17) {
         event.stopPropagation()
@@ -377,41 +337,43 @@ export default {
       this.$store.commit('hoverHighlightClear')
     },
     doubleClickTop (event) {
-      if (!this.dragging) {
-        // convert to absolute
-        // ToDo maybe restrict when can happen
-        event.stopPropagation()
-        event.preventDefault()
-        this.$store.dispatch('apply', { type: 'update',
-          actions: convertToAbsoluteTime(this.element, 'start')
-        })
-      }
+      // convert to absolute
+      // ToDo maybe restrict when can happen
+      event.stopPropagation()
+      event.preventDefault()
+      this.$store.dispatch('apply', { type: 'update',
+        actions: convertToAbsoluteTime(this.element, 'start')
+      })
     },
     doubleClickBottom (event) {
-      if (!this.dragging) {
-        // ToDo maybe restrict when can happen
-        event.stopPropagation()
-        event.preventDefault()
-        if (event.ctrlKey) {
-          // convert to absolute
-          this.$store.dispatch('apply', { type: 'update',
-            actions: convertToAbsoluteTime(this.element, 'end', 'absolute')
-          })
-          this.$store.commit('hoverHighlightClear')
-        } else {
-          // convert to duration
-          this.$store.dispatch('apply', { type: 'update',
-            actions: convertToAbsoluteTime(this.element, 'end', 'duration')
-          })
-          this.$store.commit('hoverHighlightClear')
-        }
+      // ToDo maybe restrict when can happen
+      event.stopPropagation()
+      event.preventDefault()
+      if (event.ctrlKey) {
+        // convert to absolute
+        this.$store.dispatch('apply', { type: 'update',
+          actions: convertToAbsoluteTime(this.element, 'end', 'absolute')
+        })
+        this.$store.commit('hoverHighlightClear')
+      } else {
+        // convert to duration
+        this.$store.dispatch('apply', { type: 'update',
+          actions: convertToAbsoluteTime(this.element, 'end', 'duration')
+        })
+        this.$store.commit('hoverHighlightClear')
       }
     },
     doubleClick (event) {
       event.stopPropagation()
       event.preventDefault()
-      this.stopDrag(event)
       this.$store.commit('showEditDialog', { elementID: this.elementId, scheduleID: this.parent })
+    },
+    onDrag (ev) {
+      ev.stopPropagation()
+      ev.dataTransfer.setData('element', this.elementId)
+      ev.dataTransfer.setData('parentSchedule', this.parent)
+      ev.dataTransfer.setData('xoffset', ev.offsetX)
+      ev.dataTransfer.setData('yoffset', ev.offsetY)
     }
   }
 }

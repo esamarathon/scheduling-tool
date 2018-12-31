@@ -107,5 +107,17 @@ function offsetToTime (offset) {
   return roundTimeToNearest(store.state.event.start + (offset / store.getters.pixelsPerHour) * 3600000, store.getters.snapToMinutes * 60000)
 }
 
+function getRealOffset (event, target) {
+  const ret = { x: event.offsetX, y: event.offsetY }
+  if (event.path.includes(target.$el)) {
+    for (let i = 0; i < event.path.length; i++) {
+      if (event.path[i] === target.$el) break
+      ret.x = ret.x + event.path[i].offsetLeft
+      ret.y = ret.y + event.path[i].offsetTop
+    }
+  }
+  return ret
+}
+
 export { convertToAbsoluteTime, convertReferencingToAbsoluteTime, sortedIntervals, usersOfElement, usersOfEvent,
-  mergeWithCustomizerConcatArray, getForeignData, getElementName, roundTimeToNearest, offsetToTime }
+  mergeWithCustomizerConcatArray, getForeignData, getElementName, roundTimeToNearest, offsetToTime, getRealOffset }

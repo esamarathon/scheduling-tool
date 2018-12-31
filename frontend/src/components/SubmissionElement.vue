@@ -22,6 +22,7 @@ export default {
   },
   methods: {
     dragStart (ev) {
+      ev.stopPropagation()
       ev.dataTransfer.setData('submission', this.submissionId)
       ev.dataTransfer.setData('xoffset', ev.offsetX)
       ev.dataTransfer.setData('yoffset', ev.offsetY)

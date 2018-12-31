@@ -23,6 +23,8 @@ import DevView from './components/DevView'
 import ElementEditDialog from './components/ElementEditDialog'
 import DataEditField from './components/DataEditField'
 import Finding from './components/Finding'
+import Submissions from './components/Submissions.vue'
+import SubmissionElement from './components/SubmissionElement.vue'
 import store from './datamodel'
 
 Vue.use(VueMaterial)
@@ -40,6 +42,8 @@ Vue.component('multiselect', Multiselect)
 Vue.component('editdialog', ElementEditDialog)
 Vue.component('data-edit-field', DataEditField)
 Vue.component('finding', Finding)
+Vue.component('submissions', Submissions)
+Vue.component('submissionelement', SubmissionElement)
 
 Vue.config.productionTip = false
 

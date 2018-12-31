@@ -1,12 +1,13 @@
 <template>
-  <div class="elementList">
+  <div class="elementList" @drop="onDrop" @dragover="dropAllowed">
     <scheduleelement v-for="element in filteredRuns" :elementId="element" :parent="scheduleId" :relativePosition="relativePosition(element)" :key="element"></scheduleelement>
   </div>
 </template>
 
 <script>
 import _ from 'lodash'
-import { sortedIntervals } from '@/scheduleUtils'
+import { sortedIntervals, offsetToTime } from '@/scheduleUtils'
+import { generateID } from '../backend-api'
 
 export default {
   name: 'Schedule',
@@ -50,6 +51,31 @@ export default {
         // fallback, should never occur
         return { position: 0, of: 1 }
       }
+    },
+    dropAllowed (ev) {
+      if (ev.dataTransfer.types.includes('submission')) {
+        ev.preventDefault()
+      }
+    },
+    onDrop (ev) {
+      ev.preventDefault()
+      const submission = this.$store.state.foreignData.run[ev.dataTransfer.getData('submission')]
+      const newElement = {
+        _id: generateID(),
+        people: _.map(submission.teams, (team) => { return _.map(team, (runner) => { return {userId: runner} }) }),
+        start: {
+          type: 'absolute',
+          time: offsetToTime(ev.offsetY - parseInt(ev.dataTransfer.getData('yoffset')))
+        },
+        end: {
+          type: 'duration',
+          duration: submission.estimate
+        },
+        name: submission.game + ' ' + submission.category,
+        foreignDataModel: 'run',
+        foreignData: ev.dataTransfer.getData('submission')
+      }
+      this.$store.dispatch('addElement', { parent: this.scheduleId, newElement })
     }
   },
   computed: {

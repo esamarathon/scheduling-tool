@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { calculateTimes } from '../../shared/src/calculateSchedule'
 import { validateTransformation } from '../../shared/src/transformation'
-import { fetchEvent, sendTransformation, fetchUsers, fetchForeignData } from './backend-api.js'
+import { fetchEvent, sendTransformation, fetchUsers, fetchForeignData, fetchSubmissions } from './backend-api.js'
 import { getLoggedInUser } from './auth'
 import { checkConstraints } from './constraints'
 import { convertReferencingToAbsoluteTime } from './scheduleUtils'
@@ -26,6 +26,7 @@ export default new Vuex.Store({
     elements: {},
     users: {},
     foreignData: {},
+    submissions: [],
     history: {
       undo: [],
       redo: []
@@ -157,6 +158,13 @@ export default new Vuex.Store({
     updateForeignData (state, newForeignData) {
       state.foreignData = _.merge({}, state.foreignData, newForeignData)
     },
+    clearSubmissions (state) {
+      state.submissions = []
+    },
+    updateSubmissions (state, newSubmissions) {
+      state.foreignData.run = _.merge({}, state.foreignData.run, newSubmissions)
+      state.submissions = _.uniq(state.submissions.concat(_.keys(newSubmissions)))
+    },
     updateConstraintNonce (state) {
       state.constraints.nonce = {}
     },
@@ -179,6 +187,7 @@ export default new Vuex.Store({
       context.commit('loadEventData', eventData)
       context.dispatch('loadUsers', context.state.event.usertoolRef)
       context.dispatch('loadForeignData')
+      context.dispatch('loadSubmissions', context.state.event.usertoolRef)
       context.commit('recalculateSchedule')
 
       // ToDo this belongs elsewhere, but for testing
@@ -310,6 +319,13 @@ export default new Vuex.Store({
       context.commit('clearForeignData')
       let foreignData = await collectForeignData(context)
       context.commit('updateForeignData', foreignData)
+      // ToDo this belongs elsewhere, but for testing
+      context.dispatch('checkConstraints')
+    },
+    async loadSubmissions (context, eventId) {
+      context.commit('clearSubmissions')
+      let submissions = await fetchSubmissions(eventId)
+      context.commit('updateSubmissions', submissions)
       // ToDo this belongs elsewhere, but for testing
       context.dispatch('checkConstraints')
     },

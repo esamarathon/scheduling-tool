@@ -62,6 +62,10 @@ export function fetchUsers (eventId) {
   return makeRequest(`${settings.usertool.api.baseurl}users/${eventId}`)
 }
 
+export function fetchSubmissions (eventId) {
+  return makeRequest(`${settings.usertool.api.baseurl}submissions/${eventId}`)
+}
+
 export async function fetchForeignData (foreignDataModel, foreignDataKey) {
   switch (foreignDataModel) {
     case 'run':

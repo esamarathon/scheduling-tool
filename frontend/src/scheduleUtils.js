@@ -92,8 +92,20 @@ function getForeignData (element) {
 function getElementName (element) {
   if (_.isString(element)) element = store.state.elements[element]
   const foreignData = getForeignData(element)
-  return foreignData ? foreignData.name : element.name
+  return (foreignData && element.foreignDataModel === 'run') ? (foreignData.game + ' ' + foreignData.category) : element.name
+}
+
+function roundTimeToNearest (date, duration) {
+  if (+duration) {
+    return Math.round((+date) / (+duration)) * (+duration)
+  } else {
+    return date
+  }
+}
+
+function offsetToTime (offset) {
+  return roundTimeToNearest(store.state.event.start + (offset / store.getters.pixelsPerHour) * 3600000, store.getters.snapToMinutes * 60000)
 }
 
 export { convertToAbsoluteTime, convertReferencingToAbsoluteTime, sortedIntervals, usersOfElement, usersOfEvent,
-  mergeWithCustomizerConcatArray, getForeignData, getElementName }
+  mergeWithCustomizerConcatArray, getForeignData, getElementName, roundTimeToNearest, offsetToTime }

@@ -51,7 +51,7 @@ export default function createDefaultEvent (eventID) {
         people: [[{ name: 'S.' }], [{ userId: 'e3ceed3b54b2727843698daf' }]],
         name: 'GTA V 100%',
         foreignDataModel: 'run',
-        foreignData: 'GTA_V',
+        foreignData: '12346',
         start: {
           type: 'endOf',
           ref: '1000',

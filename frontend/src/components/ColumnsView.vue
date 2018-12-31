@@ -23,6 +23,10 @@
             v-for="schedule in selectedSchedules" :key="schedule.id" :scheduleId="schedule.id" :searchText="searchText"/>
         </div>
       </div>
+      <div class="submissions" v-if="filteredSubmissions.length > 0">
+        <div class="expander" @click="toggleExpansion"/>
+        <submissions class="submissionlist" v-if="submissionsExpanded" :filteredSubmissions="filteredSubmissions"/>
+      </div>
     </div>
   </div>
 </template>
@@ -81,12 +85,26 @@ export default {
         startTime.add(1, 'h')
       }
       return ret
+    },
+    filteredSubmissions () {
+      const scheduled = []
+      let schedule
+      let element
+      for (let i = 0; i < this.schedules.length; i++) {
+        schedule = this.$store.state.schedules[this.schedules[i].id]
+        for (let j = 0; j < schedule.elements.length; j++) {
+          element = this.$store.state.elements[schedule.elements[j]]
+          if (element.foreignDataModel === 'run') scheduled.push(element.foreignData)
+        }
+      }
+      return _.filter(this.$store.state.submissions, (submission) => { return !scheduled.includes(submission) })
     }
   },
   data () {
     return {
       searchText: '',
-      selectedSchedules: []
+      selectedSchedules: [],
+      submissionsExpanded: false
     }
   },
   methods: {
@@ -101,6 +119,9 @@ export default {
     onScheduleScroll (event) {
       document.getElementById('scheduleheader').style.transform = 'translateX(-' + event.target.scrollLeft + 'px)'
       document.getElementById('timemarks').style.transform = 'translateY(-' + event.target.scrollTop + 'px)'
+    },
+    toggleExpansion () {
+      this.submissionsExpanded = !this.submissionsExpanded
     }
   },
   watch: {
@@ -165,5 +186,17 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+.submissions {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+}
+.expander {
+  width: 20px;
+  background-color: gray
+}
+.submissionslist {
+  width: 300px;
 }
 </style>

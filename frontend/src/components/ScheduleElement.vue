@@ -11,16 +11,8 @@
 </template>
 
 <script>
-import { convertToAbsoluteTime, getElementName } from '@/scheduleUtils'
+import { convertToAbsoluteTime, getElementName, roundTimeToNearest } from '@/scheduleUtils'
 import _ from 'lodash'
-
-function roundTimeToNearest (date, duration) {
-  if (+duration) {
-    return Math.round((+date) / (+duration)) * (+duration)
-  } else {
-    return date
-  }
-}
 
 export default {
   name: 'Element',

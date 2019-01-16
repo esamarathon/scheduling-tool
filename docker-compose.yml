@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  schedule:
+    build:
+      context: .
+    ports:
+      - 8080:8080
+      - 9229:9229
+    environment:
+      HOST: 0.0.0.0
+    volumes:
+      - .:/home/node
+    command: bash -c "yarn --frozen-lockfile && yarn dev"
+
+  mongo:
+    image: mongo:4.1-xenial
+    ports:
+      - 27017:27017
+    volumes:
+      - db:/data/db
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8083:8081
+
+volumes:
+  db:

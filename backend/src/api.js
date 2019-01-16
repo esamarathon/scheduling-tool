@@ -1,26 +1,36 @@
-import esas18 from '../static/esas18'
-import makeDefaultEvent from '../static/defaultevent'
-import { validateTransformation } from 'shared/transformation'
+import { validateTransformation } from 'shared/transformation';
+import { models } from './model';
 
-export async function getEvents (req, res) {
-  if (!req.jwt) return res.status(401).end('Not authenticated.')
-  // ToDo, dummy
-  return res.json([{ name: 'ESAS18', id: esas18.default.event._id }, { name: 'ESAW19', id: 'e8f8628f0650f04ad3aeea37' }, { name: 'ESAS19', id: '82d0ae30a08e03d2dc2c5e34' }])
+export async function getEvents(req, res) {
+  if (!req.jwt) return res.status(401).end('Not authenticated.');
+
+  const events = await models.Event.find();
+  return res.json(events.map(e => ({ name: e.name, id: e.id })));
 }
 
-export async function getEvent (req, res) {
-  if (!req.jwt) return res.status(401).end('Not authenticated.')
-  // load dummy debug events
-  if (req.params.eventId === esas18.default.event._id) {
-    return res.json(esas18.default)
-  } else {
-    return res.json(makeDefaultEvent.default(req.params.eventId))
-  }
+export async function getEvent(req, res) {
+  if (!req.jwt) return res.status(401).end('Not authenticated.');
+
+  const { eventId } = req.params;
+  if (!eventId) return res.status(404).end('Not found');
+
+  const event = await models.Event.findById(eventId);
+  if (event === null) return res.status(404).end('Not found');
+
+  const schedulesArray = await Promise.all(event.schedules.map(s => models.Schedule.findById(s)));
+  const schedules = schedulesArray.map(s => ({ [s._id.toHexString()]: s.toJSON() }))
+    .reduce((p, c) => ({ ...p, ...c }));
+  const flatElementsArray = schedulesArray.map(s => s.elements).reduce((p, c) => p.concat(c));
+  const elementsArray = await Promise.all(flatElementsArray.map(e => models.Element.findById(e)));
+  const elements = elementsArray.map(e => ({ [e._id.toHexString()]: e.toJSON() }))
+    .reduce((p, c) => ({ ...p, ...c }));
+
+  return res.json({ event, schedules, elements });
 }
 
-export async function handleTransformation (req, res) {
-  if (!req.jwt) return res.status(401).end('Not authenticated.')
+export async function handleTransformation(req, res) {
+  if (!req.jwt) return res.status(401).end('Not authenticated.');
   // ToDo
-  console.log(req.body)
-  return res.json({})
+  console.log(req.body);
+  return res.json({});
 }

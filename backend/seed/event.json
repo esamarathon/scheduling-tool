@@ -1,0 +1,11 @@
+{
+  "_id": "e3ceed3b54b2627843698dae",
+  "usertoolRef": "ec01c36206450f5709c0c891",
+  "name": "ESA Summer 2018",
+  "start": 1532185200000,
+  "end": 1532818800000,
+  "schedules": [
+    "7a4b498a7f035ff0bdee6190",
+    "900fd1c7cb315f196a3765ed"
+  ]
+}

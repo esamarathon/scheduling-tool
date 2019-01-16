@@ -92,12 +92,13 @@ export const schemas = {
 };
 
 export const models = {
-  StartPoint: mongoose.model('startpoint', StartPoint),
-  EndPoint: mongoose.model('endpoint', EndPoint),
-  People: mongoose.model('people', People),
-  Element: mongoose.model('element', Element),
-  Schedule: mongoose.model('schedule', Schedule),
-  Event: mongoose.model('event', Event),
-  UpdateAction: mongoose.model('updateaction', UpdateAction),
-  Transformation: mongoose.model('transformation', Transformation),
+  startPoint: mongoose.model('startpoint', StartPoint),
+  endPoint: mongoose.model('endpoint', EndPoint),
+  people: mongoose.model('people', People),
+  element: mongoose.model('element', Element),
+  schedule: mongoose.model('schedule', Schedule),
+  event: mongoose.model('event', Event),
+  updateAction: mongoose.model('updateaction', UpdateAction),
+  transformation: mongoose.model('transformation', Transformation),
+  createObjectId: id => mongoose.Types.ObjectId.createFromHexString(id),
 };

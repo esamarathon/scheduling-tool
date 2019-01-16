@@ -43,14 +43,15 @@ async function lookupId(type, id) {
 export async function handleTransformation(req, res) {
   if (!req.jwt) return res.status(401).end('Not authenticated.');
 
-  const transformation = req.body;
-  try {
-    const valid = await validateTransformation(transformation, lookupId);
-    if (valid) {
-      console.log(req.body);
-    }
-  } catch (e) {
-    return res.status(400).end('Bad request');
-  }
+  /// TODO (mango): this is still WIP
+  // const transformation = req.body;
+  // try {
+  //   const valid = await validateTransformation(transformation, lookupId);
+  //   if (valid) {
+  //     console.log(req.body);
+  //   }
+  // } catch (e) {
+  //   return res.status(400).end('Bad request');
+  // }
   return res.json({});
 }

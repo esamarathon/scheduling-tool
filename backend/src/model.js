@@ -44,7 +44,7 @@ const Schedule = new mongoose.Schema({
   name: String,
   dataSchema: Object, // Describes the schema applied to the 'data' field of Elements belonging to this schedule
   offset: Number, // Time offset in ms to Event start where this schedule begins.  ToDo do we want this? Useful for validation for constraints?
-  elements: [{ type: mongoose.Schema.Types.ObjectId, ref: 'elements' }],
+  elements: [{ type: mongoose.Schema.Types.ObjectId, ref: 'element' }],
   constraints: {
     minimumRequiredPeople: Number,
     overlap: Boolean,
@@ -64,7 +64,7 @@ const Event = new mongoose.Schema({
   name: String, // Human readable name for the Event to be displayed
   startTime: Number, // Timestamp in ms since epoch # ToDo will be fetched from users tool in future
   endTime: Number, // Timestamp in ms since epoch # ToDo will be fetched from users tool in future
-  schedules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'schedules' }],
+  schedules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'schedule' }],
   constraintSettings: {
     peopleAvailable: Boolean,
     preferredTimeslots: Boolean,
